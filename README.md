@@ -30,7 +30,9 @@ python -m http.server 8080
 
 | Úprava | Popis |
 |---|---|
+| 🌗 Tmavé téma | Výchozí tmavé téma, přepínač 🌙/☀️ vpravo dole s animovaným přechodem |
 | 🎨 Dětský vzhled | Větší dlaždice, zaoblené rohy, barevné menu, hravá hlavička (`theme/kids.css`) |
+| 🔢 Volba obtížnosti | Přehledný kruhový přepínač úrovní 1–5 + nápověda |
 | 🔊 Zvuky | Web Audio efekty pro úspěch/chybu, přepínač zvuku |
 | ⭐ Postup | Pamatování dokončených cvičení (`localStorage`), odznak „⭐ X / 16“ |
 | 🎉 Odměny | Konfety a závěrečné okno po vyřešení |

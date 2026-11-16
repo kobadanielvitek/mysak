@@ -8,6 +8,11 @@
     let soundOn = (localStorage.getItem("mysak_sound") !== "off");
     let audioCtx = null;
 
+    // --- Téma: tmavé je výchozí, světlé na přepínač ---
+    let theme = "dark";
+    try { theme = localStorage.getItem("mysak_theme") === "light" ? "light" : "dark"; } catch (e) {}
+    document.documentElement.setAttribute("data-theme", theme);
+
     function ctx() {
         if (!audioCtx) {
             try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { audioCtx = null; }
@@ -132,6 +137,57 @@
         document.body.appendChild(btn);
     }
 
+    // Theme toggle
+    function setTheme(next) {
+        theme = next;
+        document.documentElement.setAttribute("data-theme", theme);
+        try { localStorage.setItem("mysak_theme", theme); } catch (e) {}
+    }
+
+    function ensureThemeToggle() {
+        if (document.getElementById("kid-theme-toggle")) return;
+        const btn = document.createElement("button");
+        btn.id = "kid-theme-toggle";
+        btn.type = "button";
+        btn.title = "Přepnout světlé / tmavé téma";
+
+        const paint = function () {
+            const light = document.documentElement.getAttribute("data-theme") === "light";
+            btn.textContent = light ? "🌙" : "☀️";
+            btn.setAttribute("aria-label", light ? "Přepnout na tmavé téma" : "Přepnout na světlé téma");
+        };
+        paint();
+
+        btn.addEventListener("click", function () {
+            const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+            const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const root = document.documentElement;
+            const r = btn.getBoundingClientRect();
+
+            // střed tlačítka jako výchozí bod animace
+            root.style.setProperty("--kid-vt-x", ((r.left + r.width / 2) / window.innerWidth * 100).toFixed(2) + "%");
+            root.style.setProperty("--kid-vt-y", ((r.top + r.height / 2) / window.innerHeight * 100).toFixed(2) + "%");
+
+            btn.classList.remove("kid-spin");
+            void btn.offsetWidth;
+            btn.classList.add("kid-spin");
+            setTimeout(function () { btn.classList.remove("kid-spin"); }, 620);
+
+            if (!reduce && typeof document.startViewTransition === "function") {
+                document.startViewTransition(function () { setTheme(next); });
+            } else {
+                root.classList.add("kid-theme-anim");
+                setTheme(next);
+                setTimeout(function () { root.classList.remove("kid-theme-anim"); }, 420);
+            }
+
+            paint();
+            kidSound.ok();
+        });
+
+        document.body.appendChild(btn);
+    }
+
     // Remove broken PHP error footer if present
     function cleanFooter() {
         document.querySelectorAll("body").forEach(function () {});
@@ -194,6 +250,7 @@
     function init() {
         cleanFooter();
         ensureSoundToggle();
+        ensureThemeToggle();
         updateProgressBadge();
         guardNavigation();
     }
