@@ -93,10 +93,11 @@ h1 {
 #tiles li a .num {
     font-size: 2.2rem !important;
     line-height: 1 !important;
-    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent !important;
+    font-weight: 900 !important;
+    background: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    color: #000 !important;
 }
 
 #tiles li a strong {
