@@ -1,0 +1,976 @@
+﻿<!DOCTYPE html>
+<html lang="cs">
+
+
+<!-- Mirrored from https://www.zsvltava.cz/mysak/?cviceni=2 by HTTrack Website Copier/3.x [XR&CO], Mon, 16 Nov 2026 11:28:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Skládanka - Drag & Drop | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaXrENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuTCEjshE7g.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaXrENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuTCKjsg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin */
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/rax9HiuFsdMNOnWPaKtMAQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Shadows Into Light Two';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/4iC86LVlZsRSjQhpWGedwyOoW-0A6_kpsyNmpALHGYNn.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Shadows Into Light Two';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/4iC86LVlZsRSjQhpWGedwyOoW-0A6_kpsyNmpAzHGQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <script>/**
+ *  SKLÁDANKA - Drag & Drop
+ * 
+ *  extras
+ * 
+ *  v 1.0
+ */
+
+
+/**
+ *  Swaps two random images in the puzzle desk.
+ */
+
+function doSwap() {
+
+    if (puzzleDesk.find(".active").length > 0) {
+        return;
+    }
+
+    let rand1 = Math.floor(Math.random() * (rows * cols));
+    let rand2 = Math.floor(Math.random() * (rows * cols));
+
+    if (rand1 == rand2) {
+        rand2++;
+        if (rand2 >= (rows * cols)) {
+            rand2 -= 2;
+        }
+    }
+
+    let sp1 = puzzleDesk.find("span").eq(rand1);
+    let sp2 = puzzleDesk.find("span").eq(rand2);
+    let td1 = sp1.parent();
+    let td2 = sp2.parent();
+
+    if (!td1.length || !td2.length || td1[0] === td2[0]) {
+        return;
+    }
+
+    sp1.detach();
+    sp2.detach();
+
+    sp1.css({
+        "left": "",
+        "top": ""
+    });
+
+    sp2.css({
+        "left": "",
+        "top": ""
+    });
+
+    td1.append(sp2);
+    td2.append(sp1);
+}
+
+/**
+ *  Mirror dragging of puzzle pieces
+ * 
+ *  @param {Object} ui - The jQuery UI draggable object containing position information.
+ */
+
+function applyMirrorDrag(ui) {
+    var deltaLeft = ui.position.left - ui.originalPosition.left;
+    var deltaTop = ui.position.top - ui.originalPosition.top;
+
+    ui.position.left = ui.originalPosition.left - deltaLeft;
+    ui.position.top = ui.originalPosition.top - deltaTop;
+}
+
+/**
+ *  T I L E S  SECTION
+ * 
+ */
+
+function resetPieceOffset(piece) {
+    piece.css({
+        "left": "",
+        "top": ""
+    });
+}
+
+/**
+ *  POZICOVÁNÍ DÍLKŮ - přesnost umístění
+ * 
+ *  @param {Object} piece - The jQuery object representing the puzzle piece.
+ *  @param {Object} cell - The jQuery object representing the target cell.
+ * 
+ *  @returns {number} - The percentage of overlap between the piece and the cell.
+ */
+
+function getOverlapPercent(piece, cell) {
+    var p = piece.offset();
+    var c = cell.offset();
+    var pLeft;
+    var pTop;
+    var pRight;
+    var pBottom;
+    var cLeft;
+    var cTop;
+    var cRight;
+    var cBottom;
+    var overlapWidth;
+    var overlapHeight;
+    var overlapArea;
+    var pieceArea;
+
+    if (!p || !c) {
+        return 0;
+    }
+
+    pLeft = p.left;
+    pTop = p.top;
+    pRight = pLeft + piece.outerWidth();
+    pBottom = pTop + piece.outerHeight();
+
+    cLeft = c.left;
+    cTop = c.top;
+    cRight = cLeft + cell.outerWidth();
+    cBottom = cTop + cell.outerHeight();
+
+    overlapWidth = Math.max(0, Math.min(pRight, cRight) - Math.max(pLeft, cLeft));
+    overlapHeight = Math.max(0, Math.min(pBottom, cBottom) - Math.max(pTop, cTop));
+    overlapArea = overlapWidth * overlapHeight;
+    pieceArea = piece.outerWidth() * piece.outerHeight();
+
+    if (!pieceArea) {
+        return 0;
+    }
+
+    return (overlapArea / pieceArea) * 100;
+}
+
+/**
+ *  Moves a puzzle piece to a target cell, swapping with any existing piece.
+ *
+ *  @param {Object} targetCell - The jQuery object representing the target cell.
+ *  @param {Object} draggedPiece - The jQuery object representing the dragged puzzle piece.
+ * 
+ */
+
+function movePieceToCell(targetCell, draggedPiece) {
+    var sourceCell = draggedPiece.parent();
+    var targetPiece = targetCell.children("span").first();
+
+    if (!sourceCell.length || !targetCell.length || sourceCell[0] === targetCell[0]) {
+        resetPieceOffset(draggedPiece);
+        return;
+    }
+
+    draggedPiece.detach();
+
+    if (targetPiece.length) {
+        targetPiece.detach();
+        sourceCell.append(targetPiece);
+        resetPieceOffset(targetPiece);
+    }
+
+    targetCell.append(draggedPiece);
+    resetPieceOffset(draggedPiece);
+}
+
+/**
+ *  Finds the nearest cell to a given puzzle piece based on its current position.
+ * 
+ *  @param {Object} piece - The jQuery object representing the puzzle piece.
+ * 
+ *  @returns {Object|null} - The jQuery object representing the nearest cell, or null if no cells are found.    
+ * 
+ */
+
+function findNearestCellForPiece(piece) {
+    var pieceOffset = piece.offset();
+    var pieceCenterX;
+    var pieceCenterY;
+    var nearestCell = null;
+    var nearestDistance = Number.POSITIVE_INFINITY;
+
+    if (!pieceOffset) {
+        return null;
+    }
+
+    pieceCenterX = pieceOffset.left + (piece.outerWidth() / 2);
+    pieceCenterY = pieceOffset.top + (piece.outerHeight() / 2);
+
+    puzzleDesk.find("td").each(function () {
+        var cell = $(this);
+        var cellOffset = cell.offset();
+        var cellCenterX;
+        var cellCenterY;
+        var dx;
+        var dy;
+        var distance;
+
+        if (!cellOffset) {
+            return;
+        }
+
+        cellCenterX = cellOffset.left + (cell.outerWidth() / 2);
+        cellCenterY = cellOffset.top + (cell.outerHeight() / 2);
+
+        dx = cellCenterX - pieceCenterX;
+        dy = cellCenterY - pieceCenterY;
+        distance = (dx * dx) + (dy * dy);
+
+        if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestCell = cell;
+        }
+    });
+
+    return nearestCell;
+}</script><style>/**
+ *  Puzzle #1 
+ *
+ */
+
+.whiteSpace {
+    padding-bottom: 1.8em;
+}
+
+#puzzleBox {
+    background: #363636;
+    border: 4px solid #fff;
+    margin-bottom: 2em;
+    position: relative;
+}
+
+#puzzleBoxPreview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    opacity: .1;
+}
+
+#puzzleBoxPreview img {
+    filter: grayscale(1);
+    width: 100%;
+    height: 100%;
+}
+
+/** **/
+
+#tblPuzzle {
+    z-index: 100;
+}
+
+/** **/
+
+#tblPuzzleThumbs {
+    gap: 4px 4px;
+    padding: 2em;
+}
+
+#tblPuzzleThumbs a {
+    height: 6em;
+    transition: all .4s;
+    box-shadow: 0px 4px 1px #000;
+}
+
+#tblPuzzleThumbs a img {
+    max-height: 100%;
+    border: 1px solid #fff;
+}
+
+#tblPuzzleThumbs:has(a:hover) img {
+    opacity: .5;
+}
+
+#tblPuzzleThumbs a:hover {
+    transform: scale(1.4);
+    z-index: 666;
+}
+
+#tblPuzzleThumbs a:hover img {
+    opacity: 1 !important;
+    border: 2px solid #fff;
+}
+
+
+/** **/
+
+.sliders {
+    font-size: 1.1em;
+    flex-wrap: nowrap;
+    height: 70%;
+}
+
+.sliders .slider {
+    margin-left: .8em;
+    margin-right: .8em;
+    height: 80%;
+}
+
+.sliders .label {
+    margin-bottom: .6em;
+}
+
+#lbl_sum,
+span.label {
+    font-size: 2rem;
+}
+
+#lbl_sum {
+    margin-bottom: 1em;
+}
+
+#mainBox {
+    gap: 2.2em;
+}
+
+/*
+#lbl_time {
+    opacity: .4;
+}
+
+/** **/
+
+/*
+#lbl_sum {
+    border: 1px solid #00000036;
+    border-radius: .4em;
+    box-shadow: inset 1px 1px 2px #0000002b;
+    background-color: #ffffff5e;
+    outline: 2px solid #ffffff5e;
+    padding-top: .2em;
+    padding-bottom: .2em;
+}
+*/
+
+/** **/
+
+/*
+#btnNewPuzzle {
+    border-radius: .4em;
+    display: block;
+    width: 100%;
+    height: 2em;
+    width: 2em;
+    margin-top: 1em;
+    background-size: auto 70%;
+    background-position: center;
+    color: transparent;
+}
+*/
+
+/** **/
+
+#tblPuzzle span {
+    z-index: 6;
+}
+
+#tblPuzzle span.active {
+    z-index: 66;
+    box-shadow: 0px 1px 3px 0px #00000091;
+    transform: scale(1.01);
+}
+
+/** **/
+
+#puzzleBoxHelpContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}</style>        <script>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-2470694-19']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    
+<link rel="stylesheet" href="theme/kids.css">
+</head>
+
+<body id="ns__2">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace">
+            <h1>2. Skládanka - Drag &amp; Drop <span id='h1_popis'></span></h1> <div class="flex flex-center gap" id="mainBox">
+     <div>
+         <div class="flex sliders">
+             <div>
+                 <span class="label" id="lbl_hor"></span>
+                 <div class="slider" id="slider"></div>
+             </div>
+
+             <div>
+                 <span class="label" id="lbl_ver"></span>
+                 <div class="slider" id="slider-vertical"></div>
+             </div>
+         </div>
+         <span class="label" id="lbl_sum"></span>
+
+         <div class="flex flex-center size-90">
+             <button class="button-20 reload icon-reload" type="button" id="btnNewPuzzle">
+                 <span class="back"></span>
+                 <span class="front"></span>
+             </button>
+         </div>
+     </div>
+     <div>
+         <div id="puzzleBox" class="shadow">
+             <div id="puzzleBoxPreview"></div>
+             <table id="tblPuzzle" cellspacing="0" cellpadding="0" data-height="60" data-width="66">
+                 <tr>
+                     <td></td>
+                 </tr>
+             </table>
+         </div>
+
+         <div class="flex flex-sides align-center" id="bottom_navi">
+             <div class="stars" data-pocet="6"></div>
+             <span class="stop_watch" id="lbl_time"></span>
+         </div>
+     </div>
+ </div>
+ </div>
+
+ <div class="tblWithImgThumbs flex flex-wrap flex-center" id="tblPuzzleThumbs"></div>
+
+ <div id="puzzleBoxHelp" style="display: none;">
+     <h2 class="center">Nápověda - nastavení obtížnosti</h2>
+     <div id="puzzleBoxHelpContent">
+         <table cellspacing="0" cellpadding="0" id="tblHelp">
+         </table>
+     </div>
+ </div>
+        </div>
+
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPŠÍ</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box">
+                    <canvas id="lbl_fin_time" class="time"></canvas>
+                </div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRAČOVAT</button>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        /**
+ *  Etudy pro klávesnici a myš
+ * 
+ *  Skládanka - Drag & Drop
+ *  v 2.0   {07/2026}
+ * 
+ */
+
+var puzzleDesk;
+var puzzleThumbs;
+
+var pic_width = 1920;
+var pic_height = 1080;
+var slider_max = 12;
+
+var cols = 2;
+var rows = 2;
+var slices = [];
+var evilness = 2000;
+
+var themeIntervalId = null;
+var themeIntervalId2 = null;
+
+var timerIntervals = [];
+
+var table_height;
+var table_width;
+
+var obtiznost = [];
+var autoSwapOnDrop = true;
+
+var placementAccuracyPercent = 90;
+
+// -- Používá se pro stars
+
+obtiznost_titles = [
+    "<strong>Bez nápovědy.</strong> Vzorový obrázek zůstane skrytý.",
+    "<strong>Dílky nejsou magnetické.</strong> Je potřeba je přesně umisťovat.",
+    "<strong>Dílky skládanky mohou být stranově převráceny.</strong> Dílek se otáčí dvojklikem.",
+    "<strong>Skládanka mění téma obrázku.</strong> (Dílky se ale nepřehazují.)",
+    "<strong>Občas se některé dílky skládanky přehodí mezi sebou.</strong>",
+    "<strong>Alenka v říši za zrcadlem.</strong> Pohyb myší je zrcadlový. Doprava je doleva, nahoru je dolů."
+];
+
+var themes = [
+    "cviceni/2/img/2.webp",
+    "cviceni/2/img/3.webp",
+    "cviceni/2/img/4.webp",
+    "cviceni/2/img/5.webp",
+    "cviceni/2/img/6.webp",
+    "cviceni/2/img/7.webp",
+    "cviceni/2/img/8.webp"
+];
+
+function gameReload() {
+    puzzleCreator();
+}
+
+function showHelp() {
+    let helpWindow = $("#puzzleBoxHelp");
+    let helpContent = $("#puzzleBoxHelpContent");
+
+    const c = $("#tblHelp").find("tr");
+
+    if (c.length == 0) {
+        obtiznost_titles.forEach(function (value, i) {
+            let text = obtiznost_titles[i];
+            let status = value ? "on" : "off";
+            let row = $('<tr></tr>');
+
+            let titleCell = $('<th>' + (i + 1) + '</th>');
+            let statusCell = $('<td class="' + status + '">' + text + '</td>');
+            row.append(titleCell).append(statusCell);
+            helpContent.find("#tblHelp").append(row);
+        });
+    }
+
+    popupWindow(helpWindow.html(), 600, 400);
+}
+
+function setTable() {
+
+    // -- Odebrání všech dílků skládanky
+
+    puzzleDesk.find("span").remove();
+    slices = [];
+
+    const pic_koef = pic_width / pic_height;
+
+    // -- nastavení velikosti tabulky podle poměru stran obrázku a velikosti okna
+
+    puzzleDesk.css("height", puzzleDesk.data("height") + "vh");
+    puzzleDesk.css("width", "auto");
+
+    table_height = puzzleDesk.height();
+    table_width = table_height * pic_koef;
+
+    let table_width_max = puzzleDesk.data("width") / 100;
+    let table_to_window = table_width / $(window).width();
+
+    if (table_to_window > table_width_max) {
+
+        // -- nevyhovující poměr stran, nastavíme šířku na max. a výšku podle poměru stran
+
+        puzzleDesk.css("width", puzzleDesk.data("width") + "vw");
+
+        table_width = puzzleDesk.width();
+        table_height = table_width / pic_koef;
+
+        puzzleDesk.css("height", table_height + "px");
+    }
+    else {
+        puzzleDesk.css("width", table_width + "px");
+    }
+
+    puzzleDesk.html('');
+
+    for (var i = 0; i < rows; i++) {
+
+        let t = $('<tr></tr>');
+
+        for (var j = 0; j < cols; j++) {
+            let td = $("<td></td>");
+            td.attr("data-i", ((i * cols) + j));
+
+            td.droppable({
+                drop: function (event, ui) {
+                    if (autoSwapOnDrop) {
+                        movePieceToCell($(this), ui.draggable);
+                        puzzleCheck();
+                    }
+                }
+            })
+
+            td.appendTo(t);
+            slices.push(random_color() + ',' + ((i * cols) + j));
+        }
+
+        puzzleDesk.append(t);
+    }
+
+    $("#lbl_hor").html(cols);
+    $("#lbl_ver").html(rows);
+    $("#lbl_sum").html((rows * cols));
+
+    puzzleCreator();
+}
+
+function puzzleCreator(shuffle) {
+
+    GlobalTimer.reset();
+    stopInnerTimers();
+
+    shuffle = shuffle || true;
+
+    let slice_width = (table_width / cols);
+    let slice_height = (table_height / rows);
+
+    if (shuffle) {
+        slices = Shuffle(slices);
+    }
+
+    puzzleDesk.find("span").remove();
+
+    for (let i = 0; i < slices.length; i++) {
+
+        let tmp = slices[i].split(",");
+
+        let ind = parseInt(tmp[1]);
+        let col = ind % cols;
+        let row = Math.floor(ind / cols);
+
+        let span = $('<span data-id="' + tmp[0] + '" data-pos="' + ind + '"></span>');
+
+        if (STARS.stars("is", 3)) {
+            if (Math.floor(Math.random() * 2) == 1) {
+                span.addClass("th");
+            }
+        }
+
+        span
+            .css('backgroundPosition', '-' + (col * slice_width) + "px -" + (row * slice_height) + "px")
+            .appendTo(puzzleDesk.find("td").eq(i));
+    }
+
+    let mirror = STARS.stars("is", 6);
+    let span = puzzleDesk.find("span");
+
+    span.css({
+        "background-size": (slice_width * cols) + "px " + (slice_height * rows) + "px",
+        'width': slice_width + 'px',
+        "height": slice_height + "px",
+        "display": "block",
+        "cursor": "move",
+    }).draggable({
+        //snap: puzzleSettings.autoSwapOnDrop ? "td" : false,
+        snap: STARS.stars("is", 2) ? false : "td",
+        start: function (event, ui) {
+            if (!GlobalTimer.isRunning()) {
+                GlobalTimer.start();
+            }
+
+            ui.helper.addClass("active");
+            MouseMoves++;
+        },
+        drag: function (event, ui) {
+            if (mirror) {
+                applyMirrorDrag(ui);
+            }
+        },
+        stop: function (event, ui) {
+            ui.helper.removeClass("active");
+            puzzleCheck();
+        }
+    });
+
+    // -- add dbl click event to span
+
+    span.dblclick(function () {
+        if (STARS.stars("is", 3)) {
+            $(this).toggleClass("th");
+            puzzleCheck();
+        }
+    });
+
+    setTheme();
+
+    if (STARS.stars("is", 4)) {
+        timerIntervals.push(setInterval(function () {
+            let rnd = Math.floor(Math.random() * themes.length);
+            setTheme(rnd);
+        }, evilness * 2));
+    }
+
+    if (STARS.stars("is", 5)) {
+        timerIntervals.push(setInterval(function () {
+            doSwap();
+        }, evilness * 3));
+    }
+
+    if (STARS.stars("is", 2)) {
+        autoSwapOnDrop = false;
+    }
+}
+
+/**
+ *  Kontrola, zda je puzzle složeno správně (přepočítává se vždy z aktuálního DOM stavu)
+ * 
+ *  @returns {boolean} 
+ * 
+ */
+
+function checkSolution() {
+
+    let solved = true;
+
+    if (autoSwapOnDrop) {
+        puzzleDesk.find("td").each(function () {
+            let expectedPos = Number($(this).data("i"));
+            let piece = $(this).children("span").first();
+
+            if (!piece.length || Number(piece.data("pos")) !== expectedPos) {
+                solved = false;
+                return false;
+            }
+        });
+    }
+    else {
+        puzzleDesk.find("span").each(function () {
+            let piece = $(this);
+            let expectedPos;
+            let expectedCell;
+            let overlapPercent;
+
+            expectedPos = Number(piece.data("pos"));
+            expectedCell = puzzleDesk.find('td[data-i="' + expectedPos + '"]').first();
+
+            if (!expectedCell.length) {
+                solved = false;
+                return false;
+            }
+
+            overlapPercent = getOverlapPercent(piece, expectedCell);
+
+            if (overlapPercent < placementAccuracyPercent) {
+                solved = false;
+                return false;
+            }
+        });
+    }
+
+    return solved;
+}
+
+function puzzleCheck() {
+    if (checkSolution()) {
+        fin();
+    }
+}
+
+// -- Nastavení obrázku do skládanky
+
+function setTheme(i) {
+
+    i = i || 0;
+
+    const box = $("#puzzleBoxPreview");
+    const prv = box.find("img");
+    const a = puzzleThumbs.find("a");
+
+    a.show();
+
+    if (!obtiznost[0]) {
+        if (prv.length) {
+            prv.attr("src", themes[i]);
+        }
+        else {
+            $("<img src='" + themes[i] + "'>").addClass("no-drag no-select").appendTo(box);
+        }
+    }
+    else {
+        if (prv.length) {
+            prv.remove();
+        }
+
+        a.eq(i).hide();
+    }
+
+    // -- tady se nastaví obrázek na jednotlivé dílky skládanky
+
+    puzzleDesk.find("span").css("background-image", "url(" + themes[i] + ")");
+}
+
+function stopInnerTimers() {
+
+    timerIntervals.forEach(function (intervalId) {
+        clearInterval(intervalId);
+    });
+
+    timerIntervals = [];
+}
+
+function puzzleFinished() {
+    // GlobalTimer.stop();
+    // alert("Puzzle solved in " + GlobalTimer.getStopwatch(true) + " and " + MouseMoves + " moves.");
+    stopInnerTimers();
+    alert("Puzzle solved in " + GlobalTimer.getStopwatch(true) + " and " + MouseMoves + " moves.");
+}
+
+// Go daddy, go!
+
+$(document).ready(function () {
+
+    puzzleDesk = $("#tblPuzzle");
+    puzzleThumbs = $("#tblPuzzleThumbs");
+
+    $("#slider-vertical").slider({
+        orientation: "vertical",
+        range: "max",
+        min: 1,
+        max: slider_max,
+        step: 1,
+        value: slider_max - rows + 1,
+        slide: function (event, ui) {
+            rows = slider_max - ui.value + 1;
+            setTable();
+        }
+    });
+
+    $("#slider").slider({
+        orientation: "vertical",
+        range: "max",
+        min: 1,
+        max: slider_max,
+        step: 1,
+        value: slider_max - cols + 1,
+        slide: function (event, ui) {
+            cols = slider_max - ui.value + 1;
+            setTable();
+        }
+    });
+
+    // -- Další varianty obrázků skládanky
+
+    themes.forEach(function (theme, i) {
+
+        obrazek = theme.replace(".webp", "-thumb.webp");
+
+        let a = $('<a href="javascript: void(0);"></a>');
+        let img = $('<img alt="' + i + '" loading="lazy" src="' + obrazek + '">');
+
+        a.click(function () {
+            setTheme($(this).index());
+        })
+
+        img.appendTo(a);
+
+        a.appendTo(puzzleThumbs);
+    });
+
+    $(window).resize(function () {
+        setTable();
+    });
+
+    setTable();
+});    
+    </script>
+
+<script src="js/kids.js"></script>
+</body>
+
+
+<!-- Mirrored from https://www.zsvltava.cz/mysak/?cviceni=2 by HTTrack Website Copier/3.x [XR&CO], Mon, 16 Nov 2026 11:28:03 GMT -->
+</html>

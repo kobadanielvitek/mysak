@@ -1,0 +1,14 @@
+# HTTrack artefakty (nepotřebné pro běh hry)
+hts-cache/
+hts-log.txt
+backblue.gif
+fade.gif
+
+# Windows / macOS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# dočasné soubory
+*.tmp
+*.log

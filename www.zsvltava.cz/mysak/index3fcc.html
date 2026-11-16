@@ -1,0 +1,767 @@
+﻿<!DOCTYPE html>
+<html lang="cs">
+
+
+<!-- Mirrored from https://www.zsvltava.cz/mysak/?cviceni=14 by HTTrack Website Copier/3.x [XR&CO], Mon, 16 Nov 2026 11:28:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Jak rychle píšeš? | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaXrENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuTCEjshE7g.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaXrENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuTCKjsg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin */
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/rax9HiuFsdMNOnWPaKtMAQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Shadows Into Light Two';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/4iC86LVlZsRSjQhpWGedwyOoW-0A6_kpsyNmpALHGYNn.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Shadows Into Light Two';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/4iC86LVlZsRSjQhpWGedwyOoW-0A6_kpsyNmpAzHGQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <style>/**
+ *  Cvičení 12 - Rychlé znaky
+ */
+
+.whiteSpace {
+    padding-bottom: 3em;
+}
+
+
+.speed-exercise {
+    width: min(90vw, 760px);
+    margin: 0 auto;
+}
+
+.speed-board {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    margin-bottom: 1.5em;
+}
+
+.speed-target,
+.speed-answer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.2em;
+    border: 1px solid #cccfD1;
+    border-radius: 6px;
+    background: #fff;
+    color: #111;
+    font: 6em/1.1 Verdana, sans-serif;
+}
+
+.speed-target.pop-in {
+    animation: target-pop .3s ease;
+}
+
+.speed-answer.is-correct {
+    background: linear-gradient(135deg, #b6f27a, #6bcb77);
+    animation: pop-correct .45s ease;
+}
+
+.speed-answer.is-wrong {
+    background: linear-gradient(135deg, #ff9d96, #f28b82);
+}
+
+@keyframes target-pop {
+    0% {
+        transform: scale(.7) rotate(-6deg);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.12) rotate(2deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes pop-correct {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(107, 203, 119, .6);
+    }
+
+    45% {
+        transform: scale(1.18) rotate(-3deg);
+        box-shadow: 0 0 0 10px rgba(107, 203, 119, 0);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        box-shadow: 0 0 0 0 rgba(107, 203, 119, 0);
+    }
+}
+
+@keyframes shake-wrong {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+}
+
+.speed-board.is-shaking {
+    animation: shake-wrong .4s;
+}
+
+/* -- combo badge */
+
+.combo-badge {
+    position: absolute;
+    top: -.8em;
+    right: -.6em;
+    display: none;
+    align-items: center;
+    gap: .3em;
+    padding: .3em .7em;
+    border-radius: 2em;
+    background: linear-gradient(135deg, #ff9f1c, #ff6b6b);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.1em;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .25);
+    z-index: 40;
+}
+
+.combo-badge.on {
+    display: flex;
+}
+
+.combo-badge.pulse {
+    animation: combo-pop .4s ease-out;
+}
+
+@keyframes combo-pop {
+    0% {
+        transform: scale(.4) rotate(-8deg);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.15) rotate(4deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* -- floating praise text */
+
+.feedback-pop {
+    position: absolute;
+    left: 50%;
+    top: -.4em;
+    transform: translate(-50%, 0);
+    font-size: 1.3em;
+    font-weight: 800;
+    color: #6bcb77;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, .15);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 40;
+    white-space: nowrap;
+}
+
+.feedback-pop.play {
+    animation: float-up-fade 1s ease-out;
+}
+
+@keyframes float-up-fade {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 15px) scale(.6);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translate(-50%, -10px) scale(1.15);
+    }
+
+    70% {
+        opacity: 1;
+        transform: translate(-50%, -25px) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -45px) scale(.9);
+    }
+}
+
+/* -- confetti burst */
+
+.confetti-layer {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.confetti-piece {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--size);
+    height: var(--size);
+    background: var(--color);
+    border-radius: 2px;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: confetti-burst .7s var(--delay, 0s) ease-out forwards;
+}
+
+@keyframes confetti-burst {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(.6);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(280deg) scale(1);
+        opacity: 0;
+    }
+}
+
+/* -- start hint overlay */
+
+.speed-start-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, .85);
+    border-radius: 8px;
+    z-index: 60;
+    pointer-events: none;
+}
+
+.speed-start-hint span {
+    background: linear-gradient(135deg, #4d96ff, #8e6cf0);
+    color: #fff;
+    font-weight: 800;
+    padding: .7em 1.4em;
+    border-radius: 2em;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+    animation: pulse-invite 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-invite {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: .85;
+    }
+
+    50% {
+        transform: scale(1.06);
+        opacity: 1;
+    }
+}
+
+.speed-score {
+    display: flex;
+    justify-content: center;
+    gap: 1.5em;
+    margin-bottom: 1.5em;
+    font-size: 1.2em;
+}
+
+.speed-controls {
+    display: grid;
+    grid-template-columns: 7em minmax(0, 1fr);
+    gap: .7em 1em;
+    align-items: center;
+    max-width: 520px;
+    margin: 0 auto 1.5em;
+}
+
+.speed-controls input {
+    width: 100%;
+}
+
+.speed-controls output {
+    float: right;
+    font-family: monospace;
+}
+
+.speed-exercise>.stars {
+    justify-content: center;
+}
+
+/* -- goal slider (10-50 correct characters), same pattern as other exercises */
+
+#ns__goal {
+    max-width: 520px;
+    margin: 2em auto 0;
+    padding-top: 1em;
+}
+
+.goal {
+    position: relative;
+    gap: 1em;
+    padding-top: 1em;
+}
+
+.goal .label {
+    width: 5em;
+    text-align: right;
+}
+
+.goal .label#lbl_goal {
+    width: 6em;
+    text-align: left;
+}
+
+.goal .slider {
+    width: 8em;
+}
+
+.goal::before {
+    content: "";
+    position: absolute;
+    left: 30%;
+    right: 30%;
+    height: 4px;
+    background-color: blueviolet;
+    top: 0;
+    border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+
+    .speed-target,
+    .speed-answer {
+        font-size: 4em;
+    }
+
+    .speed-score {
+        flex-wrap: wrap;
+        gap: .5em 1em;
+        font-size: 1em;
+    }
+}</style>        <script>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-2470694-19']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    
+<link rel="stylesheet" href="theme/kids.css">
+</head>
+
+<body id="ns__14">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace">
+            <h1>14. Jak rychle píšeš? <span id='h1_popis'></span></h1><div class="speed-exercise">
+    <div class="speed-board" id="speedBoardWrap">
+        <div class="speed-target" id="target_char">?</div>
+        <div class="speed-answer" id="answer_char">?</div>
+
+        <div class="combo-badge" id="comboBadge">🔥 <span id="comboCount">0</span></div>
+        <div class="feedback-pop" id="feedbackPop"></div>
+        <div class="confetti-layer" id="confettiLayer"></div>
+
+        <div class="speed-start-hint" id="speedStartHint">
+            <span>⌨️ Stiskni klávesu a začni hrát!</span>
+        </div>
+    </div>
+
+    <div class="speed-score">
+        <span>Správně: <strong id="correct_count">0</strong></span>
+        <span>Chyby: <strong id="wrong_count">0</strong></span>
+        <span>Úspěšnost: <strong id="accuracy">0 %</strong></span>
+    </div>
+
+    <div class="speed-controls">
+        <label for="speed_slider">Rychlost <output id="speed_value">2</output></label>
+        <input id="speed_slider" type="range" min="1" max="6" value="2">
+    </div>
+
+    <div class="stars" data-pocet="6" data-continous="1"></div>
+
+    <div id="ns__goal">
+        <div class="flex goal flex-center align-center">
+            <span class="label">Cíl:</span>
+            <div class="slider" id="slider_goal"></div>
+            <span class="label" id="lbl_goal">20 znaků</span>
+        </div>
+    </div>
+</div>
+
+<div id="help" style="display:none;">
+    <div class="center">
+        <h2>Nápověda</h2>
+        <p>Stiskni libovolnou klávesu - tím hru spustíš.</p>
+        <p>Pak už jen ťukej klávesu, která se zobrazí v horním poli.</p>
+        <p>Obtížnost určuje, jaké znaky se mohou objevit - hvězdičky se sčítají jako u cvičení Znaky klávesnice.</p>
+        <p>Posuvník nastavuje, jak rychle se znaky střídají.</p>
+        <p>Cílem je správně napsat tolik znaků, kolik určuje posuvník Cíl (10 až 50).</p>
+    </div>
+</div>
+
+        </div>
+
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPŠÍ</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box">
+                    <canvas id="lbl_fin_time" class="time"></canvas>
+                </div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRAČOVAT</button>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        /**
+ *  Etudy pro klávesnici a myš
+ *
+ *  RYCHLÉ ZNAKY
+ */
+
+obtiznost_titles = [
+    'znaky klávesnice',
+    'písmena a čísla',
+    'běžný text',
+    'DIAKRITIKA',
+    'anglická klávesnice',
+    'česká & anglická',
+    'evropské jazyky'
+];
+
+// -- stejné skupiny znaků jako ve cvičení 6 (Znaky klávesnice)
+const characterSets = ['56', '01', '61', '12', '0367', '01367', '234'];
+const speedDelays = [0, 3600, 2800, 2000, 1400, 1000, 700];
+const PRAISE_WORDS = ['JO! 🙌', 'YES! 🎉', 'Hustý! 😎', 'Nejlepší! 🌟', 'Paráda! 🥳', 'Hmm... 🤔', 'Wow! 😮', 'Jooo! 🙌', 'Jupí!! 🎊', 'TOP!! 🔥'];
+const CONFETTI_COLORS = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#c56cf0', '#ff9f1c'];
+
+let currentCharacter = '';
+let correctCount = 0;
+let wrongCount = 0;
+let roundTimer = null;
+let started = false;
+let finished = false;
+let comboCount = 0;
+let targetWords = 20;
+
+function updateScore() {
+    const total = correctCount + wrongCount;
+    const accuracy = total ? Math.round(correctCount / total * 100) : 0;
+
+    $('#correct_count').text(correctCount);
+    $('#wrong_count').text(wrongCount);
+    $('#accuracy').text(accuracy + ' %');
+}
+
+function updateSpeedLabel() {
+    $('#speed_value').text($('#speed_slider').val());
+}
+
+function getDelay() {
+    return speedDelays[Number($('#speed_slider').val())];
+}
+
+function scheduleNextCharacter() {
+    clearTimeout(roundTimer);
+    roundTimer = setTimeout(showNextCharacter, getDelay());
+}
+
+// -- restarts a CSS animation on an element by forcing a reflow between class removal and re-add
+function replayAnimation(el, className) {
+    el.removeClass(className);
+    void el[0].offsetWidth;
+    el.addClass(className);
+}
+
+function showNextCharacter() {
+    if (finished) {
+        return;
+    }
+
+    const difficulty = maxObtiznost();
+    const characterSet = characterSets[difficulty] || characterSets[1];
+
+    currentCharacter = random_word(1, characterSet);
+    $('#target_char').text(currentCharacter).show();
+    $('#answer_char').removeClass('is-correct is-wrong').text('');
+    replayAnimation($('#target_char'), 'pop-in');
+    scheduleNextCharacter();
+}
+
+function pickPraise(combo) {
+    if (combo > 0 && combo % 10 === 0) {
+        return 'COMBO ×' + combo + '! 🚀';
+    }
+
+    if (combo > 0 && combo % 5 === 0) {
+        return 'Šňůra ' + combo + '! 🔥';
+    }
+
+    return PRAISE_WORDS[Math.floor(Math.random() * PRAISE_WORDS.length)];
+}
+
+function spawnConfetti() {
+    const layer = document.getElementById('confettiLayer');
+    const count = 14;
+
+    for (let i = 0; i < count; i++) {
+        const angle = -180 + Math.random() * 180;
+        const distance = 50 + Math.random() * 60;
+        const rad = angle * Math.PI / 180;
+
+        const piece = document.createElement('span');
+        piece.className = 'confetti-piece';
+        piece.style.setProperty('--dx', (Math.cos(rad) * distance) + 'px');
+        piece.style.setProperty('--dy', (Math.sin(rad) * distance) + 'px');
+        piece.style.setProperty('--size', (6 + Math.random() * 6) + 'px');
+        piece.style.setProperty('--color', CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)]);
+        piece.style.setProperty('--delay', (Math.random() * 0.12) + 's');
+
+        layer.appendChild(piece);
+        piece.addEventListener('animationend', function () {
+            piece.remove();
+        }, { once: true });
+    }
+}
+
+function celebrateCorrect() {
+    $('#answer_char').addClass('is-correct');
+    replayAnimation($('#comboBadge'), 'pulse');
+    $('#comboCount').text(comboCount);
+    $('#comboBadge').toggleClass('on', comboCount >= 2);
+
+    const pop = $('#feedbackPop').text(pickPraise(comboCount));
+    replayAnimation(pop, 'play');
+
+    spawnConfetti();
+}
+
+function celebrateWrong() {
+    $('#answer_char').addClass('is-wrong');
+    $('#comboBadge').removeClass('on');
+    replayAnimation($('#speedBoardWrap'), 'is-shaking');
+}
+
+function checkSolution() {
+    return correctCount >= targetWords;
+}
+
+function resetGame() {
+    clearTimeout(roundTimer);
+    GlobalTimer.reset();
+    currentCharacter = '';
+    correctCount = 0;
+    wrongCount = 0;
+    comboCount = 0;
+    started = false;
+    finished = false;
+
+    updateScore();
+    updateSpeedLabel();
+
+    $('#comboBadge').removeClass('on pulse');
+    $('#feedbackPop').removeClass('play').text('');
+    $('#answer_char').removeClass('is-correct is-wrong').text('?');
+    $('#target_char').text('?');
+    $('#speedStartHint').show();
+}
+
+function gameReload() {
+    resetGame();
+}
+
+function showHelp() {
+    popupWindow($('#help').html(), 500, 350);
+}
+
+$(function () {
+    $(document).on('keydown.speedExercise', function (event) {
+        if (event.ctrlKey || event.metaKey || event.altKey) {
+            return;
+        }
+
+        event.preventDefault();
+
+        if (!started) {
+            started = true;
+            $('#speedStartHint').hide();
+            GlobalTimer.start();
+            showNextCharacter();
+            return;
+        }
+
+        if (!currentCharacter) {
+            return;
+        }
+
+        const answer = event.key.length === 1 ? event.key : String.fromCharCode(event.which);
+        $('#answer_char').text(answer);
+
+        if (answer === currentCharacter) {
+            correctCount++;
+            comboCount++;
+            celebrateCorrect();
+        } else {
+            wrongCount++;
+            comboCount = 0;
+            celebrateWrong();
+        }
+
+        updateScore();
+
+        if (checkSolution()) {
+            finished = true;
+            currentCharacter = '';
+            clearTimeout(roundTimer);
+            fin();
+            return;
+        }
+
+        clearTimeout(roundTimer);
+        scheduleNextCharacter();
+    });
+
+    $('#speed_slider').on('input change', function () {
+        updateSpeedLabel();
+
+        if (started && !finished) {
+            scheduleNextCharacter();
+        }
+    });
+
+    $('#slider_goal').slider({
+        range: 'max',
+        min: 10,
+        max: 50,
+        step: 5,
+        value: targetWords,
+        slide: function (event, ui) {
+            targetWords = ui.value;
+            $('#lbl_goal').html(targetWords + ' znaků');
+            gameReload();
+        }
+    });
+
+    $('#lbl_goal').html(targetWords + ' znaků');
+
+    resetGame();
+});
+    </script>
+
+<script src="js/kids.js"></script>
+</body>
+
+
+<!-- Mirrored from https://www.zsvltava.cz/mysak/?cviceni=14 by HTTrack Website Copier/3.x [XR&CO], Mon, 16 Nov 2026 11:28:05 GMT -->
+</html>

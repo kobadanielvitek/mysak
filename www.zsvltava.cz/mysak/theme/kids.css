@@ -1,0 +1,288 @@
+/* ============================================================
+   MYŠÁK KIDS - moderní dětská vrstva (100x lepší pro děti)
+   ============================================================ */
+
+:root {
+    --kid-primary: #6c5ce7;
+    --kid-secondary: #00b894;
+    --kid-accent: #fdcb6e;
+    --kid-danger: #d63031;
+    --kid-bg: #f6f3ff;
+    --kid-card: #ffffff;
+    --kid-radius: 18px;
+    --kid-shadow: 0 10px 30px rgba(108, 92, 231, .18);
+}
+
+html, body {
+    background: linear-gradient(135deg, #f6f3ff 0%, #eef7ff 50%, #fff6e9 100%) !important;
+    font-family: "Google Sans", "Nunito", system-ui, -apple-system, Segoe UI, Roboto, sans-serif !important;
+    color: #2d2d44 !important;
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(90deg, #6c5ce7, #a29bfe) !important;
+    color: #fff !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 0 0 var(--kid-radius) var(--kid-radius) !important;
+    box-shadow: 0 6px 20px rgba(108,92,231,.35) !important;
+    text-align: center !important;
+}
+
+header a, header strong {
+    color: #fff !important;
+    font-size: 1.4rem !important;
+    text-decoration: none !important;
+    font-weight: 800 !important;
+}
+
+main {
+    padding: 1.5rem !important;
+}
+
+h1 {
+    font-size: clamp(1.6rem, 4vw, 2.6rem) !important;
+    font-weight: 900 !important;
+    color: var(--kid-primary) !important;
+    text-shadow: 2px 2px 0 rgba(253,203,110,.6) !important;
+    margin-bottom: .5rem !important;
+}
+
+/* Hub tiles - bigger, rounder, playful */
+#tiles {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)) !important;
+    gap: 1rem !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+}
+
+#tiles li {
+    width: auto !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    min-height: 110px !important;
+}
+
+#tiles li a {
+    border-radius: 22px !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f0ecff 100%) !important;
+    border: 3px solid #dfe6f1 !important;
+    box-shadow: 0 8px 18px rgba(108,92,231,.15), inset 0 2px 0 #fff !important;
+    font-size: 1.1rem !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .3rem !important;
+    transition: transform .15s ease, box-shadow .15s ease, background .2s ease !important;
+}
+
+#tiles li a:hover {
+    transform: translateY(-6px) scale(1.05) !important;
+    background: linear-gradient(180deg, #fff6d6 0%, #ffeaa7 100%) !important;
+    border-color: var(--kid-accent) !important;
+    box-shadow: 0 14px 28px rgba(253,203,110,.45) !important;
+}
+
+#tiles li a:active, #tiles li a.pressed {
+    transform: translateY(2px) scale(.98) !important;
+}
+
+#tiles li a .num {
+    font-size: 2.2rem !important;
+    line-height: 1 !important;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+}
+
+#tiles li a strong {
+    position: static !important;
+    font-size: .85rem !important;
+    color: #444 !important;
+}
+
+/* Buttons */
+button, .button-19 {
+    border-radius: 14px !important;
+    font-weight: 800 !important;
+    font-size: 1rem !important;
+    padding: .6rem 1.2rem !important;
+    border: none !important;
+    cursor: pointer !important;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe) !important;
+    color: #fff !important;
+    box-shadow: 0 6px 14px rgba(108,92,231,.3) !important;
+    transition: transform .12s ease, box-shadow .12s ease !important;
+}
+
+button:hover, .button-19:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 20px rgba(108,92,231,.4) !important;
+}
+
+button:active, .button-19:active {
+    transform: translateY(1px) !important;
+}
+
+button.help {
+    background: linear-gradient(135deg, #00b894, #55efc4) !important;
+}
+
+/* Stars (difficulty) - bigger */
+.stars button.star {
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 1.2rem !important;
+    border-radius: 50% !important;
+    background: #e9e4ff !important;
+    color: #6c5ce7 !important;
+    border: 2px solid #c8bfff !important;
+    margin: 0 4px !important;
+}
+
+.stars button.star.on {
+    background: linear-gradient(135deg, #fdcb6e, #ffeaa7) !important;
+    color: #b8860b !important;
+    border-color: #f39c12 !important;
+    transform: scale(1.1) !important;
+}
+
+/* Stopwatch / timer */
+.stop_watch, #lbl_time {
+    font-size: 1.5rem !important;
+    font-weight: 900 !important;
+    color: var(--kid-primary) !important;
+    background: #fff !important;
+    padding: .4rem 1rem !important;
+    border-radius: 999px !important;
+    box-shadow: var(--kid-shadow) !important;
+}
+
+/* Final window */
+#final {
+    position: fixed !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(30, 20, 60, .75) !important;
+    backdrop-filter: blur(6px) !important;
+    z-index: 9999 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity .3s ease !important;
+}
+
+#final.on {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+#finalContent {
+    background: linear-gradient(135deg, #fff 0%, #f6f3ff 100%) !important;
+    border-radius: 28px !important;
+    padding: 2rem 2.5rem !important;
+    text-align: center !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35) !important;
+    max-width: 90vw !important;
+    transform: scale(.9) !important;
+    transition: transform .3s ease !important;
+}
+
+#final.on #finalContent {
+    transform: scale(1) !important;
+}
+
+#lbl_fin_title {
+    font-size: clamp(1.8rem, 5vw, 3rem) !important;
+    font-weight: 900 !important;
+    color: var(--kid-primary) !important;
+    margin-bottom: 1rem !important;
+}
+
+#fin_stars span {
+    display: inline-block !important;
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0 4px !important;
+    border-radius: 50% !important;
+    background: #e0e0e0 !important;
+}
+
+#fin_stars span.on {
+    background: linear-gradient(135deg, #fdcb6e, #f39c12) !important;
+    box-shadow: 0 0 12px #fdcb6e !important;
+}
+
+/* Game boards - rounder, friendlier */
+#tblPuzzle {
+    border-radius: 24px !important;
+    border: 4px solid #6c5ce7 !important;
+    box-shadow: 0 12px 32px rgba(108,92,231,.35), inset 0 0 20px rgba(0,0,0,.2) !important;
+}
+
+/* Help popup */
+.popup-window {
+    border-radius: 20px !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,.35) !important;
+    background: #fff !important;
+    padding: 1.5rem !important;
+    max-width: 90vw !important;
+}
+
+.popup-window .close-button {
+    margin-top: 1rem !important;
+}
+
+/* Accessibility: bigger touch targets */
+a, button, input, select, textarea {
+    min-height: 44px !important;
+}
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}
+
+/* Sound toggle button */
+#kid-sound-toggle {
+    position: fixed !important;
+    bottom: 16px !important;
+    right: 16px !important;
+    z-index: 10000 !important;
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50% !important;
+    font-size: 1.6rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, #00b894, #55efc4) !important;
+    color: #fff !important;
+    box-shadow: 0 6px 16px rgba(0,184,148,.4) !important;
+}
+
+/* Progress badge */
+#kid-progress {
+    position: fixed !important;
+    top: 16px !important;
+    right: 16px !important;
+    z-index: 10000 !important;
+    background: #fff !important;
+    padding: .4rem .9rem !important;
+    border-radius: 999px !important;
+    box-shadow: var(--kid-shadow) !important;
+    font-weight: 800 !important;
+    color: var(--kid-primary) !important;
+    font-size: .9rem !important;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    #tiles { grid-template-columns: repeat(3, 1fr) !important; }
+    header a, header strong { font-size: 1.1rem !important; }
+}

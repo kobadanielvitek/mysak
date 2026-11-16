@@ -1,0 +1,15 @@
+* text=auto
+*.bat text eol=crlf
+*.html text
+*.css text
+*.js text
+*.md text
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary

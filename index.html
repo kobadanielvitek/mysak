@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Myšák – hry s myší a klávesnicí (pro děti)</title>
+<style>
+  :root { --bg1:#6c5ce7; --bg2:#a29bfe; --acc:#fdcb6e; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; padding: 28px 18px 40px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(160deg, var(--bg1), var(--bg2) 55%, #74b9ff);
+    color: #fff;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 26px; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.6rem); margin: 0 0 .4rem; text-shadow: 0 3px 12px rgba(0,0,0,.25); }
+  .sub { font-size: clamp(.95rem, 2.2vw, 1.15rem); opacity: .95; margin: 0 0 18px; }
+  .start {
+    display: inline-flex; align-items: center; gap: .6rem;
+    padding: 1rem 2.2rem; border-radius: 999px; background: #fff; color: #6c5ce7;
+    font-size: clamp(1.05rem, 2.6vw, 1.4rem); font-weight: 800; text-decoration: none;
+    box-shadow: 0 12px 30px rgba(0,0,0,.28); transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .start:hover, .start:focus-visible { transform: translateY(-3px) scale(1.02); box-shadow: 0 18px 38px rgba(0,0,0,.32); }
+  .grid {
+    display: grid; gap: 14px; margin-top: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  }
+  .tile {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px; border-radius: 18px; text-decoration: none; color: inherit;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+    backdrop-filter: blur(6px); transition: transform .12s ease, background .12s ease;
+    min-height: 64px;
+  }
+  .tile:hover, .tile:focus-visible { transform: translateY(-3px); background: rgba(255,255,255,.3); }
+  .num {
+    flex: 0 0 auto; width: 38px; height: 38px; border-radius: 12px;
+    display: grid; place-items: center; font-weight: 800; font-size: 1.1rem;
+    background: var(--acc); color: #4b3a00; box-shadow: inset 0 -2px 0 rgba(0,0,0,.12);
+  }
+  .name { font-weight: 700; font-size: 1.02rem; line-height: 1.15; }
+  footer { text-align: center; margin-top: 30px; font-size: .8rem; opacity: .7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>⭐ Myšák – hry s myší a klávesnicí ⭐</h1>
+    <p class="sub">Malé etudy pro myš a klávesnici II. — zabav se s klikáním, psaním, barvami i šipkami.</p>
+    <a class="start" href="www.zsvltava.cz/mysak/index.html">Spustit hry ▶</a>
+  </header>
+
+  <nav class="grid">
+    <a class="tile" href="www.zsvltava.cz/mysak/index808f.html?cviceni=1"><span class="num">1</span><span class="name">Klik a dvojklik</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/index63fe.html?cviceni=2"><span class="num">2</span><span class="name">Skládanka</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/indexa9be.html?cviceni=3"><span class="num">3</span><span class="name">Barevné dvojice</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/indexebc4.html?cviceni=4"><span class="num">4</span><span class="name">RGB</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/index14b1.html?cviceni=5"><span class="num">5</span><span class="name">Šipky</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/indexf7b4.html?cviceni=6"><span class="num">6</span><span class="name">Čísla</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/indexdad6.html?cviceni=7"><span class="num">7</span><span class="name">Znaky</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/index5ea7.html?cviceni=8"><span class="num">8</span><span class="name">Symboly</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/index0537.html?cviceni=9"><span class="num">9</span><span class="name">Mozaika</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/indexcf9a.html?cviceni=10"><span class="num">10</span><span class="name">Řazení</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/index0eb3.html?cviceni=11"><span class="num">11</span><span class="name">Letopočty</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/indexd138.html?cviceni=12"><span class="num">12</span><span class="name">Matrix</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/index5573.html?cviceni=13"><span class="num">13</span><span class="name">Psaní</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/index3fcc.html?cviceni=14"><span class="num">14</span><span class="name">Závod</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/index42bb.html?cviceni=15"><span class="num">15</span><span class="name">ASCII Art</span></a>
+    <a class="tile" href="www.zsvltava.cz/mysak/index26c0.html?cviceni=16"><span class="num">16</span><span class="name">Typografie</span></a>
+  </nav>
+
+  <footer>Funguje i bez internetu. 🐭</footer>
+</div>
+</body>
+</html>

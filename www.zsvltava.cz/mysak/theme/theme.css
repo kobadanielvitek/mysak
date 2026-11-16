@@ -1,0 +1,338 @@
+body {
+
+    background-color: #21262B;
+    background-image: linear-gradient(80deg,
+            hsl(210deg 13% 15%) 0%,
+            hsl(228deg 9% 13%) 7%,
+            hsl(265deg 6% 11%) 15%,
+            hsl(312deg 6% 9%) 23%,
+            hsl(340deg 10% 6%) 31%,
+            hsl(340deg 5% 8%) 40%,
+            hsl(341deg 2% 9%) 48%,
+            hsl(341deg 1% 10%) 57%,
+            hsl(0deg 0% 12%) 66%,
+            hsl(211deg 4% 13%) 74%,
+            hsl(211deg 7% 13%) 83%,
+            hsl(210deg 10% 14%) 92%,
+            hsl(210deg 13% 15%) 100%);
+}
+
+p {
+    letter-spacing: 1px;
+}
+
+header {
+    text-align: center;
+    font-family: "Shadows Into Light Two", cursive;
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-style: normal;
+    font-size: 1.2em;
+}
+
+header a {
+    display: block;
+    color: var(--color-light);
+    font-size: 1.6em;
+    padding: .6em;
+    text-decoration: none;
+    background-image: url(ico/menu.svg);
+    background-size: auto 50%;
+    background-position: left 1em center;
+}
+
+#ns__0 header a {
+    background-image: none;
+}
+
+.whiteSpace {
+    background-color: var(--color-light);
+    background-image: radial-gradient(rgb(33 38 43 / 10%) 1px, #f7f7f7 1px);
+    background-size: 10px 10px;
+    background-repeat: repeat;
+    background-attachment: fixed;
+
+}
+
+/** **/
+
+.label {
+    display: block;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+/** **/
+
+.stop_watch {
+    font-family: iceland, verdana, arial;
+    font-size: 1.4em;
+    font-weight: 500;
+    background: #000;
+    color: #fff;
+    padding: .1em .6em;
+    border-radius: 5px;
+}
+
+/** **/
+
+.stars button {
+    font-family: iceland, verdana, arial;
+}
+
+.stars,
+.stars_wrap {
+    display: flex;
+    align-items: center;
+}
+
+.stars {
+    gap: 1em;
+}
+
+.stars_wrap {
+    border: 1px solid #dadada;
+    outline: 2px solid #ffffffde;
+    box-shadow: inset -1px 3px 3px 0px #0000003d;
+    border-radius: 1em;
+    overflow: hidden;
+    background: linear-gradient(90deg, #df3000 0.000%, #ff9125 16.667%, #dad99a 33.333%, #72e0e8 50.000%, #14a3d6 66.667%, #004373 83.333%);
+    /* https://grabient.com/_gL2gGwgMuf0JgQVf5Gf8Sf-HgE-f26f0Ff-M */
+
+    background: linear-gradient(300deg, #ff847b 0.000%, #ffc65f 33.333%, #cdff73 66.667%, #6fffae 100.000%);
+}
+
+.stars button {
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: .2em .6em;
+    color: #3f4851;
+    background-color: #f7f7f7;
+}
+
+.stars_wrap button {
+
+    border: 0;
+    border-right: 1px solid #dadada;
+    outline: 0;
+    transition: all .2s;
+}
+
+.stars_wrap button:hover {
+    background-color: #ffffffaa;
+}
+
+.stars_wrap button.on {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.stars button.help {
+    border-radius: 1em;
+    border: 1px solid #dadada;
+}
+
+/** **/
+
+.popup-window {
+    /* https://grabient.com/_gKPgMegK2gDigB7gC1gKZgLlgKhhTdhYXhdR */
+
+    background: conic-gradient(from 45deg, #88bade 0.000deg, #88bade 27.692deg, #79c5df calc(27.692deg + 0.1deg), #79c5df 55.385deg, #70d1d9 calc(55.385deg + 0.1deg), #70d1d9 83.077deg, #6ddccf calc(83.077deg + 0.1deg), #6ddccf 110.769deg, #72e5c1 calc(110.769deg + 0.1deg), #72e5c1 138.462deg, #7deab1 calc(138.462deg + 0.1deg), #7deab1 166.154deg, #8ceaa1 calc(166.154deg + 0.1deg), #8ceaa1 193.846deg, #9fe693 calc(193.846deg + 0.1deg), #9fe693 221.538deg, #b3de89 calc(221.538deg + 0.1deg), #b3de89 249.231deg, #c6d383 calc(249.231deg + 0.1deg), #c6d383 276.923deg, #d5c784 calc(276.923deg + 0.1deg), #d5c784 304.615deg, #debc89 calc(304.615deg + 0.1deg), #debc89 332.308deg, #e1b394 calc(332.308deg + 0.1deg) 360.000deg);
+    box-shadow: 1px 1px 1px #000;
+    padding: 5px;
+    border-radius: 1.1em;
+}
+
+.popup-pad {
+    background-color: #fff;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.close-button {
+
+    display: block;
+    width: 100%;
+    border-radius: 1em;
+    background-color: transparent;
+    border: 0;
+    padding: .4em;
+    margin-top: 5px;
+    font-family: "Google Sans", sans-serif;
+    font-weight: 600;
+
+}
+
+/** **/
+
+* {
+    --border-radius: .375rem;
+    --border: .0625rem solid #d1d9e0;
+    --color-font-nav: #1f2328;
+}
+
+.font-setting nav {
+    margin-bottom: 1em;
+    color: var(--color-font-nav);
+    font-weight: 600;
+}
+
+.font-setting strong {
+    display: block;
+    padding: .6em;
+}
+
+.font-setting select {
+    font-size: 1.2em;
+    padding: .4em .2em;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    font-weight: 600;
+}
+
+.font-setting label {
+    display: block;
+    border-right: var(--border);
+    padding: .6em 1em;
+}
+
+.font-setting label:hover {
+    background-color: #e0e6eb;
+}
+
+.font-setting label:has(input:checked) {
+    background-color: #fff;
+}
+
+.font-setting label:last-child {
+    border-right: 0;
+}
+
+.font-setting .grp {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: #e6eaef;
+}
+
+.font-setting-0 {
+    gap: 1em 1em;
+}
+
+/** **/
+
+.textStats {
+    font-size: .9em;
+    font-weight: 600;
+    margin-top: .6em;
+    opacity: .6;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.textStats .flex {
+    gap: 4px;
+}
+
+.textStats .flex div {
+    padding: 0 8px;
+    border-right: var(--border);
+    border-width: 3px;
+}
+
+.textStats .flex div:last-child {
+    border-right: none;
+}
+
+/** **/
+
+/* BTN-KEY - gray 3D keyboard-like button (shared); .pressed = visual key press */
+
+.btn-key {
+    font-weight: 600;
+    background-color: #efefef;
+    border: .0625rem solid #a6adb4;
+    box-shadow: inset 1px 2px 1px #fff, 1px 2px 1px #636363;
+    border-radius: 5px;
+    outline: 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.btn-key:hover {
+    background-color: #f5f5f5;
+}
+
+.btn-key:active,
+.btn-key.pressed {
+    background-color: #e2e2e2;
+    box-shadow: inset 1px 2px 1px #636363;
+}
+
+/* SCORE (right | wrong) - values are drawn into canvases by drawCanvasText().
+   Markup (shared by all exercises):
+   <div class="score-board">
+     <div class="score-right"><canvas id="right"></canvas></div>
+     <div class="score-wrong"><canvas id="wrong"></canvas></div>
+   </div> */
+
+.score-board {
+    display: flex;
+    padding: 2px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #1c1c1c;
+    font-family: iceland, verdana, arial;
+}
+
+.score-board>div {
+    /*
+    padding: 0.1em .6em 0 .6em;
+    font-weight: 900;
+    */
+    font-weight: 500;
+    padding: 0 1em;
+    font-size: 1.4em;
+}
+
+.score-board canvas {
+    display: block;
+}
+
+.score-board .score-right {
+    background-color: #fff;
+    color: #000;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.score-board .score-wrong {
+    color: #fff;
+}
+
+
+/** **/
+
+.goal {
+    position: relative;
+    padding-top: 1em;
+}
+
+.goal .label {
+    width: 4em;
+    text-align: right;
+}
+
+.goal .label#lbl_goal {
+    text-align: left;
+}
+
+.goal::before {
+    content: "";
+    position: absolute;
+    left: 30%;
+    right: 30%;
+    height: 4px;
+    background-color: blueviolet;
+    top: 0;
+    border-radius: 4px;
+}

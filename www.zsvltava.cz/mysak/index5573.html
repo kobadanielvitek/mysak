@@ -1,0 +1,1089 @@
+﻿<!DOCTYPE html>
+<html lang="cs">
+
+
+<!-- Mirrored from https://www.zsvltava.cz/mysak/?cviceni=13 by HTTrack Website Copier/3.x [XR&CO], Mon, 16 Nov 2026 11:28:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Psaní všemi deseti | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaXrENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuTCEjshE7g.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaXrENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuTCKjsg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin */
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/rax9HiuFsdMNOnWPaKtMAQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Shadows Into Light Two';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/4iC86LVlZsRSjQhpWGedwyOoW-0A6_kpsyNmpALHGYNn.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Shadows Into Light Two';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/4iC86LVlZsRSjQhpWGedwyOoW-0A6_kpsyNmpAzHGQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <style>/**
+ *  Cvičení 13 - Skákání přes znaky
+ *  (herní prvky záměrně shodné se sousedním cvičením 12)
+ */
+
+.whiteSpace {
+    padding-bottom: 3em;
+}
+
+.speed-exercise {
+    width: min(94vw, 760px);
+    margin: 0 auto;
+}
+
+.speed-board {
+    position: relative;
+    margin-bottom: 1.2em;
+}
+
+#runCanvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 760 / 250;
+    border: 1px solid #cccfd1;
+    border-radius: 6px;
+    background: #fff;
+}
+
+@keyframes shake-wrong {
+
+    10%,
+    90% {
+        transform: translateX(-1px);
+    }
+
+    20%,
+    80% {
+        transform: translateX(2px);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translateX(-4px);
+    }
+
+    40%,
+    60% {
+        transform: translateX(4px);
+    }
+}
+
+.speed-board.is-shaking {
+    animation: shake-wrong .4s;
+}
+
+/* -- combo badge */
+
+.combo-badge {
+    position: absolute;
+    top: -.8em;
+    right: -.6em;
+    display: none;
+    align-items: center;
+    gap: .3em;
+    padding: .3em .7em;
+    border-radius: 2em;
+    background: linear-gradient(135deg, #ff9f1c, #ff6b6b);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.1em;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .25);
+    z-index: 40;
+}
+
+.combo-badge.on {
+    display: flex;
+}
+
+.combo-badge.pulse {
+    animation: combo-pop .4s ease-out;
+}
+
+@keyframes combo-pop {
+    0% {
+        transform: scale(.4) rotate(-8deg);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.15) rotate(4deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* -- floating praise text */
+
+.feedback-pop {
+    position: absolute;
+    left: 50%;
+    top: -.4em;
+    transform: translate(-50%, 0);
+    font-size: 1.3em;
+    font-weight: 800;
+    color: #6bcb77;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, .15);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 40;
+    white-space: nowrap;
+}
+
+.feedback-pop.play {
+    animation: float-up-fade 1s ease-out;
+}
+
+@keyframes float-up-fade {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 15px) scale(.6);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translate(-50%, -10px) scale(1.15);
+    }
+
+    70% {
+        opacity: 1;
+        transform: translate(-50%, -25px) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -45px) scale(.9);
+    }
+}
+
+/* -- confetti burst, vychází z místa, kde stojí postavička */
+
+.confetti-layer {
+    position: absolute;
+    left: 13%;
+    top: 35%;
+    width: 0;
+    height: 0;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.confetti-piece {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--size);
+    height: var(--size);
+    background: var(--color);
+    border-radius: 2px;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: confetti-burst .7s var(--delay, 0s) ease-out forwards;
+}
+
+@keyframes confetti-burst {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(.6);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(280deg) scale(1);
+        opacity: 0;
+    }
+}
+
+/* -- start hint overlay */
+
+.speed-start-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, .85);
+    border-radius: 6px;
+    z-index: 60;
+    pointer-events: none;
+}
+
+.speed-start-hint span {
+    background: linear-gradient(135deg, #4d96ff, #8e6cf0);
+    color: #fff;
+    font-weight: 800;
+    padding: .7em 1.4em;
+    border-radius: 2em;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+    animation: pulse-invite 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-invite {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: .85;
+    }
+
+    50% {
+        transform: scale(1.06);
+        opacity: 1;
+    }
+}
+
+/* -- ovládání */
+
+#bottom_navi {
+    padding: .4em 0 1em;
+    gap: 1em;
+}
+
+.speed-controls {
+    display: grid;
+    grid-template-columns: 7em minmax(0, 1fr);
+    gap: .7em 1em;
+    align-items: center;
+    max-width: 520px;
+    margin: 0 auto 1.5em;
+}
+
+.speed-controls input {
+    width: 100%;
+}
+
+.speed-controls output {
+    float: right;
+    font-family: monospace;
+}
+
+/* -- cíl (stejně jako ve cvičení 12) */
+
+#ns__goal {
+    max-width: 520px;
+    margin: 2em auto 0;
+    padding-top: 1em;
+}
+
+.goal {
+    position: relative;
+    gap: 1em;
+    padding-top: 1em;
+}
+
+.goal .label {
+    width: 5em;
+    text-align: right;
+}
+
+.goal .label#lbl_goal {
+    width: 6em;
+    text-align: left;
+}
+
+.goal .slider {
+    width: 8em;
+}
+
+.goal::before {
+    content: "";
+    position: absolute;
+    left: 30%;
+    right: 30%;
+    height: 4px;
+    background-color: blueviolet;
+    top: 0;
+    border-radius: 4px;
+}
+
+.ui-widget-content {
+    background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
+}
+
+.ui-widget-header {
+    background: #fff;
+}
+
+.ui-slider-horizontal {
+    height: .6em;
+}
+
+@media (max-width: 600px) {
+    #bottom_navi {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+</style>        <script>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-2470694-19']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    
+<link rel="stylesheet" href="theme/kids.css">
+</head>
+
+<body id="ns__13">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace">
+            <h1>13. Psaní všemi deseti <span id='h1_popis'></span></h1><div class="speed-exercise">
+    <div class="speed-board" id="speedBoardWrap">
+        <canvas id="runCanvas" width="760" height="250" aria-label="Hrací plocha - dinosaurus skáče přes kaktusy"></canvas>
+
+        <div class="combo-badge" id="comboBadge">🔥 <span id="comboCount">0</span></div>
+        <div class="feedback-pop" id="feedbackPop"></div>
+        <div class="confetti-layer" id="confettiLayer"></div>
+
+        <div class="speed-start-hint" id="speedStartHint">
+            <span>⌨️ Stiskni klávesu a vyraz!</span>
+        </div>
+    </div>
+
+    <div class="flex flex-sides align-center" id="bottom_navi">
+        <div class="stars" data-pocet="10"></div>
+
+        <div class="flex flex-center gap">
+            <div class="score-board">
+                <div class="score-right"><canvas id="right"></canvas></div>
+                <div class="score-wrong"><canvas id="wrong"></canvas></div>
+            </div>
+            <span class="stop_watch" id="lbl_time"></span>
+        </div>
+    </div>
+
+    <div class="speed-controls">
+        <label for="speed_slider">Rychlost <output id="speed_value">2</output></label>
+        <input id="speed_slider" type="range" min="1" max="6" value="2">
+    </div>
+
+    <div id="ns__goal">
+        <div class="flex goal flex-center align-center">
+            <span class="label">Cíl:</span>
+            <div class="slider" id="slider_goal"></div>
+            <span class="label" id="lbl_goal">10 skoků</span>
+        </div>
+    </div>
+</div>
+
+<div id="help" style="display:none;">
+    <div class="center">
+        <h2>Nápověda</h2>
+        <p>Stiskni libovolnou klávesu - tím hru spustíš.</p>
+        <p>Na cestě se objevují kaktusy a pod každým z nich <strong>písmeno</strong>. Označené je to nejbližší.</p>
+        <p>Stiskni písmeno nejbližšího kaktusu a dinosaurus ho ve správnou chvíli přeskočí. Můžeš psát i dopředu.</p>
+        <p>Špatná klávesa nebo náraz se počítá jako chyba a hra začne znovu.</p>
+        <p>Hvězdičky zapínáš jednotlivě. Každá je malá skupina kláves (bez opakování) a objeví se klávesy ze všech zapnutých skupin. Číslice 1-0 fungují z horní řady i z numerické klávesnice. Bez hvězdiček se hraje se skupinou 1.</p>
+        <p><strong>Skupiny kláves podle hvězdiček:</strong></p>
+        <ol style="display:inline-block;text-align:left;">
+            <li>F J D K - základní řada, ukazováčky a prostředníky</li>
+            <li>S L A G H - základní řada, zbytek</li>
+            <li>E R I - horní řada</li>
+            <li>U O P - horní řada</li>
+            <li>Q W T - horní řada</li>
+            <li>V B N M - spodní řada</li>
+            <li>X C Y Z - spodní řada</li>
+            <li>1 2 3 - číslice</li>
+            <li>4 5 6 - číslice</li>
+            <li>7 8 9 0 - číslice</li>
+        </ol>
+        <p>Posuvník Rychlost mění, jak rychle kaktusy jedou. Cíl nastavuje počet skoků.</p>
+    </div>
+</div>
+
+        </div>
+
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPŠÍ</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box">
+                    <canvas id="lbl_fin_time" class="time"></canvas>
+                </div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRAČOVAT</button>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        /**
+ *  Etudy pro klávesnici a myš
+ *
+ *  SKÁKÁNÍ PŘES ZNAKY - dinosaurus přeskakuje kaktusy, pod každým je klávesa
+ */
+
+// -- skupiny kláves pro hvězdičky 1-10; hvězdičky se zapínají jednotlivě, skupiny se nepřekrývají
+const LEVEL_GROUPS = [
+    { keys: 'fjdk', title: 'základní řada - ukazováčky a prostředníky' },
+    { keys: 'slagh', title: 'základní řada - zbytek' },
+    { keys: 'eri', title: 'horní řada - E R I' },
+    { keys: 'uop', title: 'horní řada - U O P' },
+    { keys: 'qwt', title: 'horní řada - Q W T' },
+    { keys: 'vbnm', title: 'spodní řada - V B N M' },
+    { keys: 'xcyz', title: 'spodní řada - X C Y Z' },
+    { keys: '123', title: 'číslice 1 2 3' },
+    { keys: '456', title: 'číslice 4 5 6' },
+    { keys: '7890', title: 'číslice 7 8 9 0' }
+];
+
+obtiznost_titles = LEVEL_GROUPS.map(function (g) { return g.title; });
+// -- rychlost pohybu v px/s dle posuvníku (1-6)
+const SPEEDS = [0, 160, 208, 264, 328, 400, 480];
+const PRAISE_WORDS = ['JO! 🙌', 'YES! 🎉', 'Hustý! 😎', 'Nejlepší! 🌟', 'Paráda! 🥳', 'Wow! 😮', 'Jupí!! 🎊', 'TOP!! 🔥'];
+const CONFETTI_COLORS = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#c56cf0', '#ff9f1c'];
+
+// -- herní plocha (logické souřadnice canvasu)
+const W = 760;
+const H = 250;
+const GROUND_Y = 170;
+const DINO_X = 70;
+const PX = 3;
+const JUMP_TIME = 0.7;
+const JUMP_HEIGHT = 100;
+const COLOR = '#535353';
+
+// -- vlastní pixelová postavička (1 = vyplněný pixel)
+const DINO = [
+    '.........#########.',
+    '........###########',
+    '........##.########',
+    '........###########',
+    '........###########',
+    '........######.....',
+    '........#########..',
+    '#.......#####......',
+    '#......######......',
+    '##.....######.#....',
+    '##....#######.##...',
+    '###..###########...',
+    '#################..',
+    '.################..',
+    '..##############...',
+    '...#############...',
+    '....###########....',
+    '.....#########.....'
+];
+
+const DINO_LEGS = [
+    ['......###..###....', '......###..##.....', '......##...###....'],
+    ['......###..###....', '......##...###....', '......###..##.....']
+];
+
+const DINO_W = 20 * PX;
+const DINO_H = (DINO.length + 3) * PX;
+
+let canvas;
+let ctx;
+let obstacles = [];
+let clouds = [];
+let phase = 'idle'; // idle | run | crash | done
+let correctCount = 0;
+let wrongCount = 0;
+let comboCount = 0;
+let targetJumps = 10;
+let jumpT = -1;
+let legTimer = 0;
+let spawnCooldown = 0;
+let crashTimer = 0;
+let groundOffset = 0;
+let lastKey = '';
+let lastTs = 0;
+
+function updateScore() {
+    drawCanvasText(document.getElementById('right'), String(correctCount));
+    drawCanvasText(document.getElementById('wrong'), String(wrongCount));
+}
+
+function checkSolution() {
+    return correctCount >= targetJumps;
+}
+
+function currentSpeed() {
+    return SPEEDS[Number($('#speed_slider').val())];
+}
+
+function updateSpeedLabel() {
+    $('#speed_value').text($('#speed_slider').val());
+}
+
+function goalText(count) {
+    return count + (count <= 4 ? ' skoky' : ' skoků');
+}
+
+function activeGroups() {
+    const on = [];
+
+    $('.stars').stars('list').forEach(function (isOn, i) {
+        if (isOn && LEVEL_GROUPS[i]) {
+            on.push(LEVEL_GROUPS[i]);
+        }
+    });
+
+    return on.length ? on : [LEVEL_GROUPS[0]];
+}
+
+function levelKeys() {
+    return activeGroups().map(function (g) { return g.keys; }).join('');
+}
+
+function updatePopis() {
+    const on = $('.stars').stars('list').filter(Boolean).length;
+    $('#h1_popis').html(on ? ' - ' + activeGroups().map(function (g) { return g.keys.toUpperCase(); }).join(' ') : '');
+}
+
+// -- restarts a CSS animation by forcing a reflow between class removal and re-add
+function replayAnimation(el, className) {
+    el.removeClass(className);
+    void el[0].offsetWidth;
+    el.addClass(className);
+}
+
+function nextKey() {
+    const keys = levelKeys();
+    let key;
+
+    do {
+        key = keys.charAt(Math.floor(Math.random() * keys.length));
+    } while (key === lastKey && keys.length > 1);
+
+    lastKey = key;
+    return key;
+}
+
+function spawnObstacle() {
+    obstacles.push({
+        x: W + 10,
+        w: 32,
+        h: 40 + Math.floor(Math.random() * 17),
+        key: nextKey(),
+        armed: false,
+        jumpStarted: false,
+        counted: false,
+        flash: 0
+    });
+
+    // -- odstup v čase, aby se dva skoky nikdy nepřekrývaly
+    spawnCooldown = JUMP_TIME * 1.15 + Math.random() * 0.9;
+}
+
+function nextTarget() {
+    return obstacles.find(function (o) {
+        return !o.armed;
+    });
+}
+
+function restartRun() {
+    obstacles = [];
+    correctCount = 0;
+    comboCount = 0;
+    jumpT = -1;
+    spawnCooldown = 0.6;
+    phase = 'run';
+
+    $('#comboBadge').removeClass('on');
+    updateScore();
+}
+
+function pickPraise(combo) {
+    if (combo > 0 && combo % 10 === 0) {
+        return 'COMBO ×' + combo + '! 🚀';
+    }
+
+    if (combo > 0 && combo % 5 === 0) {
+        return 'Šňůra ' + combo + '! 🔥';
+    }
+
+    return PRAISE_WORDS[Math.floor(Math.random() * PRAISE_WORDS.length)];
+}
+
+function spawnConfetti() {
+    const layer = document.getElementById('confettiLayer');
+
+    for (let i = 0; i < 14; i++) {
+        const rad = (-180 + Math.random() * 180) * Math.PI / 180;
+        const distance = 50 + Math.random() * 60;
+
+        const piece = document.createElement('span');
+        piece.className = 'confetti-piece';
+        piece.style.setProperty('--dx', (Math.cos(rad) * distance) + 'px');
+        piece.style.setProperty('--dy', (Math.sin(rad) * distance) + 'px');
+        piece.style.setProperty('--size', (6 + Math.random() * 6) + 'px');
+        piece.style.setProperty('--color', CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)]);
+        piece.style.setProperty('--delay', (Math.random() * 0.12) + 's');
+
+        layer.appendChild(piece);
+        piece.addEventListener('animationend', function () {
+            piece.remove();
+        }, { once: true });
+    }
+}
+
+function celebrateCorrect() {
+    $('#comboCount').text(comboCount);
+    $('#comboBadge').toggleClass('on', comboCount >= 2);
+    replayAnimation($('#comboBadge'), 'pulse');
+    replayAnimation($('#feedbackPop').text(pickPraise(comboCount)), 'play');
+    spawnConfetti();
+}
+
+function crash() {
+    wrongCount++;
+    comboCount = 0;
+    phase = 'crash';
+    crashTimer = 0.9;
+
+    $('#comboBadge').removeClass('on');
+    replayAnimation($('#speedBoardWrap'), 'is-shaking');
+    updateScore();
+}
+
+function finish() {
+    phase = 'done';
+    updateScore();
+    fin();
+}
+
+function pressKey(keyChar) {
+    if (phase === 'idle') {
+        $('#speedStartHint').hide();
+        GlobalTimer.start();
+        restartRun();
+        return;
+    }
+
+    if (phase !== 'run') {
+        return;
+    }
+
+    const target = nextTarget();
+
+    if (!target) {
+        return;
+    }
+
+    if (target.key !== keyChar) {
+        crash();
+        return;
+    }
+
+    target.armed = true;
+    target.flash = 1;
+}
+
+function update(dt) {
+    legTimer += dt;
+
+    if (phase === 'crash') {
+        crashTimer -= dt;
+
+        if (crashTimer <= 0) {
+            restartRun();
+        }
+
+        return;
+    }
+
+    if (phase !== 'run') {
+        return;
+    }
+
+    const speed = currentSpeed();
+    const dinoCenter = DINO_X + DINO_W / 2;
+
+    groundOffset += speed * dt;
+    clouds.forEach(function (cloud) {
+        cloud.x -= speed * 0.15 * dt;
+
+        if (cloud.x < -80) {
+            cloud.x = W + 40;
+            cloud.y = 20 + Math.random() * 60;
+        }
+    });
+
+    spawnCooldown -= dt;
+
+    if (spawnCooldown <= 0) {
+        spawnObstacle();
+    }
+
+    if (jumpT >= 0) {
+        jumpT += dt;
+
+        if (jumpT >= JUMP_TIME) {
+            jumpT = -1;
+        }
+    }
+
+    for (let i = 0; i < obstacles.length; i++) {
+        const o = obstacles[i];
+        const center = o.x + o.w / 2;
+
+        o.x -= speed * dt;
+        o.flash = Math.max(0, o.flash - dt * 4);
+
+        // -- skok začne tak, aby kaktus míjel postavu ve vrcholu skoku
+        if (o.armed && !o.jumpStarted && jumpT < 0 && center - dinoCenter <= speed * JUMP_TIME / 2) {
+            o.jumpStarted = true;
+            jumpT = 0;
+        }
+
+        if (o.jumpStarted && !o.counted && center <= dinoCenter) {
+            o.counted = true;
+            correctCount++;
+            comboCount++;
+            updateScore();
+            celebrateCorrect();
+
+            if (checkSolution()) {
+                finish();
+                return;
+            }
+        }
+
+        if (collides(o)) {
+            crash();
+            return;
+        }
+    }
+
+    obstacles = obstacles.filter(function (o) {
+        return o.x + o.w > -60;
+    });
+}
+
+function jumpOffset() {
+    if (jumpT < 0) {
+        return 0;
+    }
+
+    const t = jumpT / JUMP_TIME;
+    return JUMP_HEIGHT * 4 * t * (1 - t);
+}
+
+function collides(o) {
+    const bottom = GROUND_Y - jumpOffset();
+    const dinoLeft = DINO_X + 12;
+    const dinoRight = DINO_X + DINO_W - 8;
+    const dinoTop = bottom - DINO_H + 10;
+
+    return o.x + 6 < dinoRight
+        && o.x + o.w - 6 > dinoLeft
+        && bottom > GROUND_Y - o.h + 4
+        && dinoTop < GROUND_Y;
+}
+
+/* ---------- kreslení ---------- */
+
+function roundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+}
+
+function drawCloud(cloud) {
+    ctx.fillStyle = '#e8e8e8';
+    roundRect(cloud.x, cloud.y, 60, 16, 8);
+    ctx.fill();
+    roundRect(cloud.x + 14, cloud.y - 8, 28, 16, 8);
+    ctx.fill();
+}
+
+function drawGround() {
+    ctx.fillStyle = COLOR;
+    ctx.fillRect(0, GROUND_Y, W, 2);
+
+    for (let i = 0; i < 28; i++) {
+        const span = W + 120;
+        const x = ((i * 59 - groundOffset) % span + span) % span - 40;
+        ctx.fillRect(x, GROUND_Y + 5 + (i % 3) * 4, 3 + (i % 4) * 2, 2);
+    }
+}
+
+function drawCactus(o) {
+    const x = o.x;
+    const top = GROUND_Y - o.h;
+    const armY = GROUND_Y - o.h * 0.55;
+
+    ctx.fillStyle = COLOR;
+    ctx.fillRect(x + 10, top, 12, o.h);
+    ctx.fillRect(x, armY, 10, 6);
+    ctx.fillRect(x, armY - 14, 6, 20);
+    ctx.fillRect(x + 22, armY - 8, 10, 6);
+    ctx.fillRect(x + 26, armY - 22, 6, 20);
+}
+
+// -- klávesa pod kaktusem; nejbližší cíl je zvýrazněn, zapsaný zezelená
+function drawKeyCap(o, isTarget) {
+    const size = isTarget ? 42 : 36;
+    const x = o.x + o.w / 2 - size / 2;
+    const y = GROUND_Y + 16 + (isTarget ? -3 : 0);
+
+    ctx.fillStyle = '#8f959c';
+    roundRect(x, y + 4, size, size, 6);
+    ctx.fill();
+
+    ctx.fillStyle = o.armed ? '#9be37f' : (isTarget ? '#fff6a8' : '#efefef');
+    ctx.strokeStyle = isTarget ? '#5b3fa0' : '#a6adb4';
+    ctx.lineWidth = isTarget ? 3 : 1;
+    roundRect(x, y, size, size, 6);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#222';
+    ctx.font = '700 ' + (isTarget ? 26 : 22) + 'px Verdana, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(o.key.toUpperCase(), x + size / 2, y + size / 2 + 1);
+}
+
+function drawDino(color) {
+    const bottom = GROUND_Y - jumpOffset();
+    const top = bottom - DINO_H;
+    const legs = DINO_LEGS[jumpT < 0 && phase === 'run' && Math.floor(legTimer / 0.1) % 2 ? 1 : 0];
+    const rows = DINO.concat(legs);
+
+    ctx.fillStyle = color;
+
+    rows.forEach(function (row, r) {
+        for (let c = 0; c < row.length; c++) {
+            if (row.charAt(c) === '#') {
+                ctx.fillRect(DINO_X + c * PX, top + r * PX, PX, PX);
+            }
+        }
+    });
+}
+
+function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    clouds.forEach(drawCloud);
+    drawGround();
+
+    const target = nextTarget();
+
+    obstacles.forEach(function (o) {
+        drawCactus(o);
+        drawKeyCap(o, o === target);
+    });
+
+    drawDino(phase === 'crash' ? '#d9534f' : COLOR);
+}
+
+function frame(ts) {
+    const dt = Math.min(0.05, (ts - lastTs) / 1000 || 0);
+
+    lastTs = ts;
+    update(dt);
+    draw();
+    requestAnimationFrame(frame);
+}
+
+function setupCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function resetGame() {
+    GlobalTimer.reset();
+    phase = 'idle';
+    obstacles = [];
+    correctCount = 0;
+    wrongCount = 0;
+    comboCount = 0;
+    jumpT = -1;
+    lastKey = '';
+
+    updatePopis();
+    updateScore();
+    updateSpeedLabel();
+
+    $('#comboBadge').removeClass('on pulse');
+    $('#feedbackPop').removeClass('play').text('');
+    $('#speedStartHint').show();
+}
+
+function gameReload() {
+    resetGame();
+}
+
+function showHelp() {
+    popupWindow($('#help').html(), 500, 450);
+}
+
+// -- číslice berem z fyzické klávesy, aby fungovaly i na české klávesnici bez Shiftu
+function keyFromEvent(event) {
+    if (/^Digit\d$/.test(event.code)) {
+        return event.code.slice(5);
+    }
+
+    if (/^Numpad\d$/.test(event.code)) {
+        return event.code.slice(6);
+    }
+
+    return event.key.length === 1 ? event.key.toLowerCase() : '';
+}
+
+$(function () {
+    canvas = document.getElementById('runCanvas');
+    ctx = canvas.getContext('2d');
+    setupCanvas();
+
+    clouds = [{ x: 120, y: 40 }, { x: 420, y: 70 }, { x: 640, y: 30 }];
+
+    $(window).on('resize', setupCanvas);
+
+    $(document).on('keydown.jumpExercise', function (event) {
+        if (event.ctrlKey || event.metaKey || event.altKey || phase === 'done') {
+            return;
+        }
+
+        const keyChar = keyFromEvent(event);
+
+        if (!keyChar) {
+            return;
+        }
+
+        event.preventDefault();
+
+        if (!event.repeat) {
+            pressKey(keyChar);
+        }
+    });
+
+    $('#speed_slider').on('input change', updateSpeedLabel);
+
+    $('#slider_goal').slider({
+        range: 'max',
+        min: 10,
+        max: 50,
+        step: 5,
+        value: targetJumps,
+        slide: function (event, ui) {
+            targetJumps = ui.value;
+            $('#lbl_goal').text(goalText(targetJumps));
+            gameReload();
+        }
+    });
+
+    resetGame();
+    requestAnimationFrame(frame);
+});
+    </script>
+
+<script src="js/kids.js"></script>
+</body>
+
+
+<!-- Mirrored from https://www.zsvltava.cz/mysak/?cviceni=13 by HTTrack Website Copier/3.x [XR&CO], Mon, 16 Nov 2026 11:28:05 GMT -->
+</html>

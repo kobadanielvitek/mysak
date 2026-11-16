@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="700" height="300"
+     viewBox="0 0 700 300">
+
+  <path id="motionPath"
+        d="M 40 240 C 150 20, 480 20, 660 240"
+        fill="none"
+        stroke="#999"
+        stroke-width="3"
+        stroke-dasharray="8 6"/>
+
+</svg>

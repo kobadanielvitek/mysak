@@ -1,0 +1,190 @@
+/**
+ *  Hejný
+ */
+
+.ns__hejneho-metoda .article {
+    text-align: center;
+}
+
+.ns__hejneho-metoda .article ul {
+    text-align: left;
+}
+
+.ns__hejneho-metoda iframe {
+    margin: 2em 0;
+}
+
+/**
+ *  Rozvrh
+ */
+
+#theme-rozvrh {
+    text-align: center;
+}
+
+#ns__rozvrhGrid {
+    grid-template-columns: 1fr 1fr;
+}
+
+#ns__rozvrhGrid .row {
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-bottom: 1em;
+    position: relative;
+}
+
+#ns__rozvrhGrid .row:before {
+    content: "";
+    height: 1px;
+    position: absolute;
+    width: 2em;
+    background-color: grey;
+    top: 50%;
+}
+
+
+#ns__rozvrhGrid #pSide,
+#ns__rozvrhGrid #lSide {
+    position: relative;
+}
+
+#ns__rozvrhGrid #lSide:before {
+    position: absolute;
+    content: "";
+    width: 1px;
+    background-color: grey;
+    top: 0;
+    bottom: 0;
+}
+
+#ns__rozvrhGrid #pSide:before {
+    left: 0;
+}
+
+#ns__rozvrhGrid #lSide:before {
+    right: 0;
+}
+
+#ns__rozvrhGrid #pSide {
+    /* border-left: 1px solid grey; */
+    padding-top: 3.6em;
+}
+
+#ns__rozvrhGrid #lSide {
+    /* border-right: 1px solid grey; */
+    padding-top: .8em;
+}
+
+#ns__rozvrhGrid #pSide .row {
+    padding-left: 2em;
+}
+
+#ns__rozvrhGrid #lSide .row {
+    padding-right: 2em;
+}
+
+#ns__rozvrhGrid #lSide .row:before {
+    right: 0;
+}
+
+#ns__rozvrhGrid a {
+    display: block;
+    background-color: #f5f5f5;
+    font-size: 2em;
+    padding: .4em 0;
+    text-decoration: none;
+    color: #000;
+    border-radius: 4px;
+    transition: transform .2s;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+#ns__rozvrhGrid a:hover {
+    background-image: linear-gradient(to right top, #ffdb5c, #f0de49, #dce336, #c5e723, #a8eb12);
+    transform: scale(1.05);
+}
+
+/**
+ *  Základní údaje
+ */
+
+.ns__zakladni-udaje .tbl_MD {
+    width: 100%;
+    font-weight: bold;
+}
+
+.ns__zakladni-udaje .tbl_MD tr td:first-child {
+    text-align: right;
+    opacity: 0.7;
+    font-weight: normal;
+}
+
+
+/**
+ * Zaměstnanci
+ */
+
+.ns__zamestnanci-provozni table,
+.ns__zamestnanci-druzina table,
+.ns__zamestnanci-zus table,
+.ns__zamestnanci-zs table {
+
+    width: 100%;
+}
+
+.ns__zamestnanci-provozni .article table tbody tr:nth-child(odd),
+.ns__zamestnanci-druzina .article table tbody tr:nth-child(odd),
+.ns__zamestnanci-zus .article table tbody tr:nth-child(odd),
+.ns__zamestnanci-zs .article table tbody tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+
+.ns__zamestnanci-provozni .article table tbody tr:nth-child(1),
+.ns__zamestnanci-druzina .article table tbody tr:nth-child(1),
+.ns__zamestnanci-zus .article table tbody tr:nth-child(1),
+.ns__zamestnanci-zs .article table tbody tr:nth-child(1) {
+    background-color: #edf3fc;
+    color: #3b4459;
+}
+
+/**
+ *  Organizace výuky
+ */
+
+#oicnt h2 {
+    margin-top: 2em;
+    padding-bottom: .8em;
+    text-align: center;
+    border-bottom: 2px solid #23bebf;
+}
+
+#oicnt table tbody tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+
+#oinav ul {
+    display: inline-block;
+    border: 1px solid #151a5447;
+    border-radius: 4px;
+    padding: 1em;
+    position: relative;
+    margin-bottom: 6px;
+    padding-left: 3.6em;
+    background-image: linear-gradient(to right top, #fff, #fcfcff, #f9faff, #f5f7ff, #f0f5ff);
+    font-size: 1.2em;
+    list-style: square;
+    line-height: 160%;
+    margin-left: 0;
+}
+
+#oinav a {
+    text-decoration: none;
+}
+
+#oinav a:hover {
+
+    text-decoration: underline;
+}
