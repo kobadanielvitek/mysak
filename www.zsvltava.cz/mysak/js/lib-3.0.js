@@ -314,25 +314,70 @@ function fin() {
         gameReload();
     });
 
-    // -- check if STAR is object
-
-    if (typeof STARS !== "object") {
-        return;
-    }
-    
-    // -- Create stars for the final popup
+    // -- Star rating based on performance (time + mistakes)
 
     const starsContainer = $("#fin_stars");
 
     starsContainer.empty();
         
-    $.each(STARS.stars("list"), function (index, value) {
+    // -- rate performance: 1-5 stars from time (normalised per task) + mistakes
+    let myRating = 3;
+
+    try {
+        const totalMs = (typeof GlobalTimer !== "undefined" && GlobalTimer.getValue) ? GlobalTimer.getValue() : 0;
+        const seconds = totalMs / 1000;
+        const wrong = (typeof window.MYSAK_WRONG === "number") ? window.MYSAK_WRONG : 0;
+
+        // difficulty: number of activated difficulty stars (at least 1)
+        let difficulty = 1;
+        try {
+            if (typeof STARS === "object" && STARS.stars) {
+                difficulty = Math.max(1, STARS.stars("max"));
+            }
+        } catch (e) {}
+
+        // number of tasks/cells to normalise the time against
+        let units = document.querySelectorAll("#tblPuzzle td, #grid td, .cell").length;
+        if (!units) {
+            units = document.querySelectorAll("[data-pos]").length;
+        }
+
+        if (units >= 2) {
+            const perUnit = seconds / units;
+            if (perUnit <= 2) { myRating = 5; }
+            else if (perUnit <= 4) { myRating = 4; }
+            else if (perUnit <= 7) { myRating = 3; }
+            else if (perUnit <= 12) { myRating = 2; }
+            else { myRating = 1; }
+        } else {
+            // time-only fallback, more time allowed at higher difficulty
+            const par = 30 * difficulty;
+            const ratio = seconds / par;
+            if (ratio <= 0.4) { myRating = 5; }
+            else if (ratio <= 0.8) { myRating = 4; }
+            else if (ratio <= 1.3) { myRating = 3; }
+            else if (ratio <= 2) { myRating = 2; }
+            else { myRating = 1; }
+        }
+
+        // mistakes: 1-2 -> -1, 3-4 -> -2, 5+ -> -3 stars
+        if (wrong > 0) {
+            myRating -= Math.min(3, Math.floor((wrong + 1) / 2));
+        }
+    } catch (e) {
+        myRating = 3;
+    }
+
+    myRating = Math.max(1, Math.min(5, myRating));
+    starsContainer.data("rating", myRating);
+
+    for (let s = 0; s < 5; s++) {
         let star = $("<span></span>");
 
-        if (value) {
+        if (s < myRating) {
             star.addClass("on");
         }
 
         starsContainer.append(star);
-    });
+    }
 }

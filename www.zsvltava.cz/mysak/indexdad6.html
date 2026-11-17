@@ -21,7 +21,7 @@
     <script src="js/stars-1.0.js"></script>
 
     <script src="js/lib-2.0.js"></script>
-    <script src="js/lib-3.0.js"></script>
+    <script src="js/lib-3.0.js?v=2"></script>
 
     <style>
         /* latin-ext */
@@ -355,7 +355,7 @@ let finished = false;
 
 function updateScore() {
     drawCanvasText(document.getElementById('right'), String(rightCount));
-    drawCanvasText(document.getElementById('wrong'), String(wrongCount));
+    window.MYSAK_WRONG = wrongCount; drawCanvasText(document.getElementById('wrong'), String(wrongCount));
 }
 
 // -- společná kontrola pro fin(): cíl je splněn, jakmile je opsaných slov dost
