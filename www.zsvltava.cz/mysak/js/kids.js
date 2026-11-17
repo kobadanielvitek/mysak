@@ -119,6 +119,19 @@
         let done = [];
         try { done = JSON.parse(localStorage.getItem("mysak_done") || "[]"); } catch (e) {}
         badge.textContent = "⭐ " + done.length + " / 16";
+
+        // kliknutím na odznak vymažeš postup (s potvrzením)
+        if (!badge.dataset.resetBound) {
+            badge.dataset.resetBound = "1";
+            badge.title = "Kliknutím vymažeš postup";
+            badge.style.cursor = "pointer";
+            badge.addEventListener("click", function () {
+                if (confirm("Vymazat postup? Všechna splněná cvičení se vrátí na 0.")) {
+                    try { localStorage.removeItem("mysak_done"); } catch (e) {}
+                    updateProgressBadge();
+                }
+            });
+        }
     }
 
     // Sound toggle
