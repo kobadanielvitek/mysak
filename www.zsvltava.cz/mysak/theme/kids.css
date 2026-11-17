@@ -343,18 +343,48 @@ button.help {
     margin-bottom: 1rem !important;
 }
 
+/* Final rating stars - real star shape with golden glow */
+#fin_stars {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: .9rem 0 !important;
+    padding: 0 !important;
+}
+
 #fin_stars span {
     display: inline-block !important;
-    width: 32px !important;
-    height: 32px !important;
-    margin: 0 4px !important;
-    border-radius: 50% !important;
-    background: var(--k-card-border) !important;
+    width: 42px !important;
+    height: 42px !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    background: rgba(160, 160, 185, .38) !important;
+    box-shadow: none !important;
+    -webkit-clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%) !important;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%) !important;
+    transform: scale(.86) !important;
+    transition: transform .2s ease !important;
 }
 
 #fin_stars span.on {
-    background: linear-gradient(135deg, #ffd166, #f39c12) !important;
-    box-shadow: 0 0 12px #ffd166 !important;
+    background: linear-gradient(150deg, #fff6bd 0%, #ffd166 42%, #f39c12 100%) !important;
+    filter: drop-shadow(0 0 5px rgba(255, 209, 102, .95)) drop-shadow(0 0 13px rgba(243, 156, 18, .65)) !important;
+    box-shadow: none !important;
+    transform: scale(1) !important;
+    animation: kid-star-pop .5s cubic-bezier(.2, 1.5, .45, 1) both !important;
+}
+
+#fin_stars span.on:nth-child(1) { animation-delay: .04s !important; }
+#fin_stars span.on:nth-child(2) { animation-delay: .12s !important; }
+#fin_stars span.on:nth-child(3) { animation-delay: .20s !important; }
+#fin_stars span.on:nth-child(4) { animation-delay: .28s !important; }
+#fin_stars span.on:nth-child(5) { animation-delay: .36s !important; }
+
+@keyframes kid-star-pop {
+    0%   { transform: scale(0) rotate(-70deg); opacity: 0; }
+    60%  { transform: scale(1.28) rotate(10deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 
 /* Game boards */
