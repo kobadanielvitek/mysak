@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="cs">
 
 
@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Klik na tecku | MYSAK na Vltave</title>
+    <title>Klik na tečku | MYŠÁK na Vltavě</title>
     <meta name="description" content="">
 
     <script src="jquery/jquery-4.0.0.min.js"></script>
@@ -295,6 +295,132 @@
 }</style>        
     
 <link rel="stylesheet" href="theme/kids.css?v=7">
+    <style>
+        /* ==========================================================
+           17. Klik na tečku - velká hrací plocha + přehled nahoře
+           ========================================================== */
+
+        #tecka h1 {
+            padding-bottom: .2rem;
+        }
+
+        .kid-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 .6rem 1.2rem;
+        }
+
+        /* --- horní přehled: pilulka + dvě políčka --- */
+        .kid-hud {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .8rem;
+            flex-wrap: wrap;
+            margin: 0 auto .9rem;
+        }
+
+        .kid-hud-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: .7rem;
+            padding: .5rem 1.1rem;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .07);
+            font-weight: 700;
+            font-size: clamp(.95rem, 2vw, 1.12rem);
+            letter-spacing: .015em;
+            color: var(--k-text);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .kid-hud-item b {
+            font-size: 1.2em;
+            font-weight: 900;
+        }
+
+        #lbl_hits { color: var(--kid-secondary); }
+        #lbl_miss { color: var(--kid-danger); }
+
+        .kid-hud-total { opacity: .55; font-weight: 700; }
+
+        .kid-hud-sep {
+            width: 1px;
+            height: 1.35em;
+            background: var(--k-card-border);
+        }
+
+        .kid-hud-boxes {
+            display: inline-flex;
+            gap: .45rem;
+        }
+
+        .kid-hud-box {
+            min-width: 2.9rem;
+            height: 2.6rem;
+            padding: 0 .55rem;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .07);
+            font-weight: 900;
+            font-size: 1.3rem;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .kid-hud-box.ok { color: var(--kid-secondary); }
+        .kid-hud-box.bad { color: var(--kid-danger); }
+
+        /* --- hrací plocha: roste s oknem --- */
+        .kid-board {
+            width: 100%;
+            max-width: min(96vw, max(320px, calc(100vh - 200px)), 920px);
+            margin: 0 auto;
+            aspect-ratio: 1 / 1;
+        }
+
+        .kid-board canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 22px;
+            background: #0b0b14;
+            box-shadow: 0 20px 55px rgba(0, 0, 0, .62), 0 0 0 1px var(--k-card-border);
+            cursor: crosshair;
+            outline: none;
+            touch-action: manipulation;
+        }
+
+        .kid-board canvas:focus-visible {
+            box-shadow: 0 0 0 3px var(--kid-primary), 0 20px 55px rgba(0, 0, 0, .62);
+        }
+
+        .kid-tip {
+            margin: 1rem 0 .4rem;
+            text-align: center;
+            color: var(--k-muted);
+            font-weight: 700;
+            font-size: clamp(.9rem, 1.9vw, 1.05rem);
+        }
+
+        #bottom_navi {
+            margin-top: .3rem;
+            gap: .8rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 620px) {
+            .kid-hud-bar { padding: .45rem .85rem; gap: .5rem; }
+            .kid-hud-box { min-width: 2.5rem; height: 2.3rem; font-size: 1.15rem; }
+            .kid-board canvas { border-radius: 18px; }
+        }
+    </style>
 </head>
 <body id="ns__17">
     <header>
@@ -303,22 +429,39 @@
         </a>
     </header>
     <main>
-        <div class="whiteSpace">
+        <div class="whiteSpace" id="tecka">
             <h1>17. Klik na tečku <span id='h1_popis'></span></h1>
-            <div class="width">
-                <div id="mainBox" style="display:flex;justify-content:center;">
-                    <canvas id="game" width="400" height="400" tabindex="0" style="border-radius:16px; background:#0f0f1a; box-shadow:0 8px 24px rgba(0,0,0,.5); cursor:pointer; outline:none; max-width:100%;"></canvas>
+
+            <div class="kid-wrap">
+
+                <div class="kid-hud">
+                    <div class="kid-hud-bar" aria-live="polite">
+                        <span class="kid-hud-item">Kliky: <b id="lbl_hits">0</b> <span class="kid-hud-total">/ 10</span></span>
+                        <span class="kid-hud-sep" aria-hidden="true"></span>
+                        <span class="kid-hud-item">Chyby: <b id="lbl_miss">0</b></span>
+                    </div>
+                    <div class="kid-hud-boxes" aria-hidden="true">
+                        <div class="kid-hud-box ok"><span id="box_ok">0</span></div>
+                        <div class="kid-hud-box bad"><span id="box_bad">0</span></div>
+                    </div>
                 </div>
-                <p class="center" id="lbl_status" style="margin:.6rem 0; font-weight:700;">Klikni na červenou tečku, jakmile se objeví. Cíl: 10 kliků.</p>
-                <div class="flex flex-center align-center" id="bottom_navi" style="margin-top:.6rem; gap:.6rem; flex-wrap:wrap;">
+
+                <div class="kid-board" id="board">
+                    <canvas id="game" width="600" height="600" tabindex="0" aria-label="Hrací plocha – klikni na červenou tečku"></canvas>
+                </div>
+
+                <p class="kid-tip" id="lbl_status">Klikni na červenou tečku, jakmile se objeví. Cíl: 10 kliků.</p>
+
+                <div class="flex flex-center align-center" id="bottom_navi">
                     <div class="stars" data-pocet="5" data-continous="1"></div>
                     <span class="stop_watch" id="lbl_time"></span>
                 </div>
+
                 <div id="help" style="display:none;">
                     <div class="center">
                         <h2>Nápověda</h2>
                         <p>Na hrací ploše se objeví <strong>červená tečka</strong>.</p>
-                        <p>Klikni na ni co nejrychleji. Pokud nestihneš, ztratíš bod.</p>
+                        <p>Klikni na ni co nejrychleji. Když nestihneš, nebo klikneš mimo, přibude chyba.</p>
                         <p>Cíl: <strong>10 úspěšných kliků</strong>.</p>
                     </div>
                 </div>
@@ -346,107 +489,212 @@
     <script>
     (function () {
         "use strict";
+
+        var board = document.getElementById("board");
         var canvas = document.getElementById("game");
         var ctx = canvas.getContext("2d");
-        var statusEl = document.getElementById("lbl_status");
+
+        var elHits = document.getElementById("lbl_hits");
+        var elMiss = document.getElementById("lbl_miss");
+        var elOk = document.getElementById("box_ok");
+        var elBad = document.getElementById("box_bad");
 
         var TARGET = 10;
+
         var score = 0;
         var wrong = 0;
         var dot = { x: 0, y: 0, r: 22 };
+        var W = 600;
+        var H = 600;
+        var DPR = 1;
         var timeoutId = null;
         var started = false;
         var won = false;
-        var speed = 1600; // ms per dot
+
+        /* ---------- obtiznost (hvezdicky) ---------- */
+
+        function difficulty() {
+            try {
+                if (typeof STARS === "object" && STARS && STARS.stars) {
+                    return Math.max(1, STARS.stars("max"));
+                }
+            } catch (e) {}
+            return 1;
+        }
+
+        function dotRadius() {
+            var base = Math.min(W, H);
+            var t = Math.min(1, score / TARGET);
+            var diff = difficulty();
+            var r = base * (0.055 - 0.023 * t) * (1 - (diff - 1) * 0.04);
+            return Math.max(13, r);
+        }
+
+        function currentSpeed() {
+            var diff = difficulty();
+            return Math.max(650, 1600 - score * 85 - (diff - 1) * 140);
+        }
+
+        /* ---------- rozmery plochy ---------- */
+
+        function resize() {
+            var rect = board.getBoundingClientRect();
+            var cssW = Math.round(rect.width);
+            var cssH = Math.round(rect.height);
+
+            if (!cssW || !cssH) {
+                cssW = Math.round(window.innerWidth - 80) || 600;
+                cssH = cssW;
+            }
+
+            W = Math.max(260, cssW);
+            H = Math.max(260, cssH);
+
+            DPR = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = Math.round(W * DPR);
+            canvas.height = Math.round(H * DPR);
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+            clampDot();
+            draw();
+        }
+
+        function clampDot() {
+            dot.r = dotRadius();
+            var m = dot.r + 6;
+            if (dot.x < m) dot.x = m;
+            if (dot.y < m) dot.y = m;
+            if (dot.x > W - m) dot.x = W - m;
+            if (dot.y > H - m) dot.y = H - m;
+        }
 
         function placeDot() {
-            var margin = dot.r + 8;
-            dot.x = margin + Math.random() * (canvas.width - 2 * margin);
-            dot.y = margin + Math.random() * (canvas.height - 2 * margin);
+            dot.r = dotRadius();
+            var m = dot.r + 12;
+            dot.x = m + Math.random() * Math.max(1, W - 2 * m);
+            dot.y = m + Math.random() * Math.max(1, H - 2 * m);
         }
 
-        function updateStatus() {
-            statusEl.textContent = "Kliky: " + score + " / " + TARGET + "   Chyby: " + wrong;
-            window.MYSAK_WRONG = wrong;
-        }
+        /* ---------- kresleni ---------- */
 
         function draw() {
-            ctx.fillStyle = "#0f0f1a";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            // dot (red)
-            ctx.fillStyle = "#ff3b3b";
+            var size = Math.min(W, H);
+
+            var bg = ctx.createRadialGradient(W / 2, H / 2, size * 0.08, W / 2, H / 2, Math.max(W, H) * 0.8);
+            bg.addColorStop(0, "#16162a");
+            bg.addColorStop(1, "#07070e");
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, W, H);
+
+            /* jemna mrizka */
+            ctx.strokeStyle = "rgba(255,255,255,.035)";
+            ctx.lineWidth = 1;
+            var step = Math.max(28, Math.round(size / 18));
+            for (var gx = step; gx < W; gx += step) {
+                ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+            }
+            for (var gy = step; gy < H; gy += step) {
+                ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+            }
+
+            /* cervena tecka + zarive kolem dokola */
+            var halo = ctx.createRadialGradient(dot.x, dot.y, dot.r * 0.4, dot.x, dot.y, dot.r * 2.4);
+            halo.addColorStop(0, "rgba(255,59,59,.40)");
+            halo.addColorStop(1, "rgba(255,59,59,0)");
+            ctx.fillStyle = halo;
+            ctx.beginPath();
+            ctx.arc(dot.x, dot.y, dot.r * 2.4, 0, Math.PI * 2);
+            ctx.fill();
+
+            var ball = ctx.createRadialGradient(
+                dot.x - dot.r * 0.35, dot.y - dot.r * 0.35, dot.r * 0.12,
+                dot.x, dot.y, dot.r
+            );
+            ball.addColorStop(0, "#ff9a9a");
+            ball.addColorStop(0.55, "#ff4141");
+            ball.addColorStop(1, "#e01313");
+            ctx.fillStyle = ball;
             ctx.beginPath();
             ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2);
             ctx.fill();
-            ctx.fillStyle = "rgba(255,255,255,.45)";
+
+            ctx.fillStyle = "rgba(255,255,255,.6)";
             ctx.beginPath();
-            ctx.arc(dot.x - 4, dot.y - 4, 5, 0, Math.PI * 2);
+            ctx.arc(dot.x - dot.r * 0.34, dot.y - dot.r * 0.34, dot.r * 0.2, 0, Math.PI * 2);
             ctx.fill();
+        }
+
+        /* ---------- HUD ---------- */
+
+        function updateHud() {
+            elHits.textContent = score;
+            elMiss.textContent = wrong;
+            elOk.textContent = score;
+            elBad.textContent = wrong;
+            window.MYSAK_WRONG = wrong;
+        }
+
+        /* ---------- hra ---------- */
+
+        function showDot() {
+            if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; }
+            placeDot();
+            draw();
+            timeoutId = setTimeout(miss, currentSpeed());
         }
 
         function miss() {
             if (won) return;
             wrong++;
-            window.MYSAK_WRONG = wrong;
-            updateStatus();
+            updateHud();
+            if (window.kidSound) { window.kidSound.bad(); }
             showDot();
-        }
-
-        function showDot() {
-            if (timeoutId) clearTimeout(timeoutId);
-            placeDot();
-            draw();
-            timeoutId = setTimeout(miss, speed);
         }
 
         function startGame() {
             if (started) return;
             started = true;
-            GlobalTimer.start();
-            if (!timeoutId && !won) timeoutId = setTimeout(miss, speed);
+            try { GlobalTimer.start(); } catch (e) {}
+            if (!timeoutId && !won) { timeoutId = setTimeout(miss, currentSpeed()); }
+        }
+
+        function win() {
+            won = true;
+            if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; }
+            updateHud();
+            draw();
+            if (window.kidSound) { window.kidSound.win(); }
+            if (typeof fin === "function") { fin(); }
         }
 
         canvas.addEventListener("click", function (e) {
             startGame();
             if (won) return;
+
             var rect = canvas.getBoundingClientRect();
-            var cx = e.clientX - rect.left;
-            var cy = e.clientY - rect.top;
-            // scale to canvas coords
-            cx = cx * (canvas.width / rect.width);
-            cy = cy * (canvas.height / rect.height);
-            var px = Math.floor(cx), py = Math.floor(cy);
-            if (px < 0 || py < 0 || px >= canvas.width || py >= canvas.height) {
-                wrong++; window.MYSAK_WRONG = wrong; updateStatus(); return;
-            }
-            // hit = klikl na cerveny pixel (tecku), s malou toleranci 3x3
-            var hit = false;
-            for (var oy = -1; oy <= 1 && !hit; oy++) {
-                for (var ox = -1; ox <= 1 && !hit; ox++) {
-                    var nx = px + ox, ny = py + oy;
-                    if (nx < 0 || ny < 0 || nx >= canvas.width || ny >= canvas.height) continue;
-                    var dd = ctx.getImageData(nx, ny, 1, 1).data;
-                    if (dd[0] > 200 && dd[1] < 80 && dd[2] < 80) hit = true;
-                }
-            }
-            if (hit) {
+            if (!rect.width || !rect.height) return;
+
+            var x = (e.clientX - rect.left) * (W / rect.width);
+            var y = (e.clientY - rect.top) * (H / rect.height);
+
+            var dx = x - dot.x;
+            var dy = y - dot.y;
+            var tolerance = dot.r + Math.max(3, dot.r * 0.18);
+
+            if (Math.sqrt(dx * dx + dy * dy) <= tolerance) {
                 score++;
-                speed = Math.max(600, speed - 60);
-                dot.r = Math.max(12, dot.r - 0.6);
-                updateStatus();
-                if (score >= TARGET && !won) {
-                    won = true;
-                    if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; }
-                    fin();
-                    return;
-                }
+                updateHud();
+                if (window.kidSound) { window.kidSound.ok(); }
+                if (score >= TARGET) { win(); return; }
                 showDot();
             } else {
                 wrong++;
-                window.MYSAK_WRONG = wrong;
-                updateStatus();
+                updateHud();
+                if (window.kidSound) { window.kidSound.bad(); }
             }
         });
+
+        /* ---------- napojeni na spolecne knihovny ---------- */
 
         function checkSolution() {
             return score >= TARGET;
@@ -456,26 +704,41 @@
             if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; }
             score = 0;
             wrong = 0;
-            window.MYSAK_WRONG = 0;
-            speed = 1600;
-            dot.r = 22;
             won = false;
             started = false;
+            window.MYSAK_WRONG = 0;
+            updateHud();
+            try { GlobalTimer.reset(); } catch (e) {}
+            resize();
             placeDot();
-            GlobalTimer.reset();
-            updateStatus();
             draw();
         }
 
         function showHelp() {
             if (typeof popupWindow === "function") {
-                popupWindow(document.getElementById("help").innerHTML, 420, 300);
+                popupWindow(document.getElementById("help").innerHTML, 430, 300);
             }
         }
 
+        window.checkSolution = checkSolution;
+        window.gameReload = gameReload;
+        window.showHelp = showHelp;
+
+        /* ---------- start ---------- */
+
+        resize();
         placeDot();
-        updateStatus();
+        updateHud();
         draw();
+
+        window.addEventListener("resize", resize);
+        window.addEventListener("orientationchange", function () {
+            setTimeout(function () { resize(); placeDot(); }, 150);
+        });
+
+        if (window.ResizeObserver) {
+            try { new ResizeObserver(function () { resize(); }).observe(board); } catch (e) {}
+        }
     })();
     </script>
 </body>
