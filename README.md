@@ -81,7 +81,11 @@ www.zsvltava.cz/mysak/
 
 ---
 
-## 📜 Licence
+## 📜 Původ a použití
 
-Projekt je volně k použití (MIT). Herní obsah je určen pro vzdělávací účely.
-Vylepšení (vzhled, zvuky, postup, opravy) jsou volně k použití.
+Herní obsah je určen pro **vzdělávací, nekomerční účely**. Vychází z původního webu
+**zsvltava.cz/mysak** („Malé etudy pro myš a klávesnici II.“). Vylepšení (vzhled,
+zvuky, postup, opravy, nové hry) jsou volně k použití.
+
+Pokud jsi autorem původního obsahu a chceš obsah upravit nebo odstranit,
+otevři issue nebo napiš na GitHub — reaguji obratem.
