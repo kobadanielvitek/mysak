@@ -403,6 +403,13 @@
         updateProgressBadge();
         guardNavigation();
         ensureTeacherHotzone();
+        // Auto-open teacher panel via URL param ?ucitel or #ucitel
+        try {
+            const params = new URLSearchParams(location.search);
+            if (params.has("ucitel") || location.hash.indexOf("ucitel") > -1) {
+                setTimeout(openTeacherPanel, 400);
+            }
+        } catch (e) {}
     }
 
     if (document.readyState === "loading") {
