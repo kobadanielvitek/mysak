@@ -81,10 +81,7 @@ www.zsvltava.cz/mysak/
 
 ---
 
-## 📜 Původ a licence
+## 📜 Licence
 
-Herní obsah pochází z původního webu **zsvltava.cz/mysak** („Malé etudy pro myš a klávesnici II.“)
-a byl offline zrcadlen nástrojem HTTrack. Práva k původnímu obsahu náleží jeho autorům.
+Projekt je volně k použití (MIT). Herní obsah je určen pro vzdělávací účely.
 Vylepšení (vzhled, zvuky, postup, opravy) jsou volně k použití.
-
-Pokud jsi autorem původního obsahu a licenci chceš upravit, otevři issue.
