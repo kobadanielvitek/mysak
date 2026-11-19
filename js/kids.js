@@ -271,7 +271,9 @@
         if (document.getElementById("kid-teacher-hotzone")) return;
         const hz = document.createElement("div");
         hz.id = "kid-teacher-hotzone";
-        hz.style.cssText = "position:fixed;top:0;right:0;width:30px;height:30px;z-index:99998;cursor:default;opacity:0;";
+        hz.style.cssText = "position:fixed;top:0;right:0;width:60px;height:60px;z-index:99998;cursor:pointer;opacity:1;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,.25);user-select:none;";
+        hz.textContent = "⚙";
+        hz.title = "Učitel (5× klik)";
         hz.title = "";
         document.body.appendChild(hz);
 
@@ -284,6 +286,20 @@
             if (teacherClickCount >= 5) {
                 teacherClickCount = 0;
                 openTeacherPanel();
+            }
+        }, true);
+
+        // Klavesova zkratka: 5x "u" behem 3 s
+        let keyCount = 0, keyTimer = null;
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "u" || e.key === "U") {
+                keyCount++;
+                if (keyTimer) clearTimeout(keyTimer);
+                keyTimer = setTimeout(function () { keyCount = 0; }, 3000);
+                if (keyCount >= 5) {
+                    keyCount = 0;
+                    openTeacherPanel();
+                }
             }
         }, true);
     }
