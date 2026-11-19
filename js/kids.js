@@ -267,7 +267,26 @@
     let teacherClickCount = 0;
     let teacherClickTimer = null;
 
-    function ensureTeacherHotzone() {
+    function ensurePcCode() {
+        let code = null;
+        try { code = localStorage.getItem("mysak_pc_code"); } catch (e) {}
+        if (!code) {
+            code = "PC-" + Math.floor(1000 + Math.random() * 9000);
+            try { localStorage.setItem("mysak_pc_code", code); } catch (e) {}
+        }
+        return code;
+    }
+
+    function ensurePcCodeBadge() {
+        if (document.getElementById("kid-pc-code-badge")) return;
+        const code = ensurePcCode();
+        const badge = document.createElement("div");
+        badge.id = "kid-pc-code-badge";
+        badge.style.cssText = "position:fixed;top:8px;left:8px;z-index:99997;background:rgba(0,0,0,.55);color:#fff;font-weight:800;font-size:.85rem;padding:.3rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(4px);user-select:all;cursor:text;";
+        badge.textContent = code;
+        badge.title = "Kód tohoto počítače (pro učitele)";
+        document.body.appendChild(badge);
+    }
         if (document.getElementById("kid-teacher-hotzone")) return;
         const hz = document.createElement("div");
         hz.id = "kid-teacher-hotzone";
@@ -333,7 +352,7 @@
         document.body.appendChild(panel);
 
         const pcInput = document.getElementById("kid-teacher-pcname");
-        try { pcInput.value = localStorage.getItem("mysak_pc_name") || ""; } catch (e) {}
+        try { pcInput.value = localStorage.getItem("mysak_pc_code") || localStorage.getItem("mysak_pc_name") || ""; } catch (e) {}
 
         function refresh() {
             const stats = document.getElementById("kid-teacher-stats");
@@ -403,6 +422,7 @@
         updateProgressBadge();
         guardNavigation();
         ensureTeacherHotzone();
+        ensurePcCodeBadge();
         // Auto-open teacher panel via URL param ?ucitel or #ucitel
         try {
             const params = new URLSearchParams(location.search);
