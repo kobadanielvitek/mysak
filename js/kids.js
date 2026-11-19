@@ -280,26 +280,14 @@
         hz.addEventListener("click", function (e) {
             e.preventDefault();
             e.stopPropagation();
-            teacherClickCount++;
-            if (teacherClickTimer) clearTimeout(teacherClickTimer);
-            teacherClickTimer = setTimeout(function () { teacherClickCount = 0; }, 3000);
-            if (teacherClickCount >= 5) {
-                teacherClickCount = 0;
-                openTeacherPanel();
-            }
+            openTeacherPanel();
         }, true);
 
-        // Klavesova zkratka: 5x "u" behem 3 s
-        let keyCount = 0, keyTimer = null;
+        // Klavesova zkratka: Ctrl+Shift+T
         document.addEventListener("keydown", function (e) {
-            if (e.key === "u" || e.key === "U") {
-                keyCount++;
-                if (keyTimer) clearTimeout(keyTimer);
-                keyTimer = setTimeout(function () { keyCount = 0; }, 3000);
-                if (keyCount >= 5) {
-                    keyCount = 0;
-                    openTeacherPanel();
-                }
+            if (e.ctrlKey && e.shiftKey && (e.key === "T" || e.key === "t")) {
+                e.preventDefault();
+                openTeacherPanel();
             }
         }, true);
     }
