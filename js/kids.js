@@ -278,42 +278,41 @@
     }
 
     function ensurePcCodeBadge() {
-        if (document.getElementById("kid-pc-code-badge")) return;
+        if (document.getElementById('kid-pc-code-badge')) return;
         const code = ensurePcCode();
-        const badge = document.createElement("div");
-        badge.id = "kid-pc-code-badge";
-        badge.style.cssText = "position:fixed;top:8px;left:8px;z-index:99997;background:rgba(0,0,0,.55);color:#fff;font-weight:800;font-size:.85rem;padding:.3rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(4px);user-select:all;cursor:text;";
+        const badge = document.createElement('div');
+        badge.id = 'kid-pc-code-badge';
+        badge.style.cssText = 'position:fixed;top:8px;left:8px;z-index:99997;background:rgba(0,0,0,.55);color:#fff;font-weight:800;font-size:.85rem;padding:.3rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(4px);user-select:all;cursor:text;';
         badge.textContent = code;
-        badge.title = "Kód tohoto počítače (pro učitele)";
+        badge.title = 'Kod tohoto pocitace (pro ucitele)';
         document.body.appendChild(badge);
     }
-        if (document.getElementById("kid-teacher-hotzone")) return;
-        const hz = document.createElement("div");
-        hz.id = "kid-teacher-hotzone";
-        hz.style.cssText = "position:fixed;top:0;right:0;width:60px;height:60px;z-index:99998;cursor:pointer;opacity:1;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,.25);user-select:none;";
-        hz.textContent = "⚙";
-        hz.title = "Učitel (5× klik)";
-        hz.title = "";
+
+    function ensureTeacherHotzone() {
+        if (document.getElementById('kid-teacher-hotzone')) return;
+        const hz = document.createElement('div');
+        hz.id = 'kid-teacher-hotzone';
+        hz.style.cssText = 'position:fixed;top:0;right:0;width:60px;height:60px;z-index:99998;cursor:pointer;opacity:1;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,.25);user-select:none;';
+        hz.textContent = 'GEAR';
+        hz.title = 'Ucitel (klikni)';
         document.body.appendChild(hz);
 
-        hz.addEventListener("click", function (e) {
+        hz.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
             openTeacherPanel();
         }, true);
 
-        // Klavesova zkratka: Ctrl+Shift+T
-        document.addEventListener("keydown", function (e) {
-            if (e.ctrlKey && e.shiftKey && (e.key === "T" || e.key === "t")) {
+        document.addEventListener('keydown', function (e) {
+            if (e.ctrlKey && e.shiftKey && (e.key === 'T' || e.key === 't')) {
                 e.preventDefault();
                 openTeacherPanel();
             }
         }, true);
     }
 
-    // Global click counter (for teacher stats)
-    if (typeof window.MYSAK_CLICKS !== "number") window.MYSAK_CLICKS = 0;
-    document.addEventListener("click", function () {
+    if (typeof window.MYSAK_CLICKS !== 'number') window.MYSAK_CLICKS = 0;
+    document.addEventListener('click', function () {
         window.MYSAK_CLICKS = (window.MYSAK_CLICKS || 0) + 1;
     }, true);
 
