@@ -260,62 +260,6 @@
         }, true);
     }
 
-    /* ============================================================
-       REZIM UCITELE - 5 kliku v pravem hornim rohu otevre panel
-       ============================================================ */
-
-    let teacherClickCount = 0;
-    let teacherClickTimer = null;
-
-    function ensurePcCode() {
-        let code = null;
-        try { code = localStorage.getItem("mysak_pc_code"); } catch (e) {}
-        if (!code) {
-            code = "PC-" + Math.floor(1000 + Math.random() * 9000);
-            try { localStorage.setItem("mysak_pc_code", code); } catch (e) {}
-        }
-        return code;
-    }
-
-    function ensurePcCodeBadge() {
-        if (document.getElementById('kid-pc-code-badge')) return;
-        const code = ensurePcCode();
-        const badge = document.createElement('div');
-        badge.id = 'kid-pc-code-badge';
-        badge.style.cssText = 'position:fixed;top:8px;left:8px;z-index:99997;background:rgba(0,0,0,.55);color:#fff;font-weight:800;font-size:.85rem;padding:.3rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(4px);user-select:all;cursor:text;';
-        badge.textContent = code;
-        badge.title = 'Kod tohoto pocitace (pro ucitele)';
-        document.body.appendChild(badge);
-    }
-
-    function ensureTeacherHotzone() {
-        if (document.getElementById('kid-teacher-hotzone')) return;
-        const hz = document.createElement('div');
-        hz.id = 'kid-teacher-hotzone';
-        hz.style.cssText = 'position:fixed;top:0;right:0;width:60px;height:60px;z-index:99998;cursor:pointer;opacity:1;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,.25);user-select:none;';
-        hz.textContent = '⚙';
-        hz.title = 'Ucitel (klikni)';
-        document.body.appendChild(hz);
-
-        hz.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            openTeacherPanel();
-        }, true);
-
-        document.addEventListener('keydown', function (e) {
-            if (e.ctrlKey && e.shiftKey && (e.key === 'T' || e.key === 't')) {
-                e.preventDefault();
-                openTeacherPanel();
-            }
-        }, true);
-    }
-
-    if (typeof window.MYSAK_CLICKS !== 'number') window.MYSAK_CLICKS = 0;
-    document.addEventListener('click', function () {
-        window.MYSAK_CLICKS = (window.MYSAK_CLICKS || 0) + 1;
-    }, true);
-
     function getCurrentGameName() {
         try {
             const t = document.title || "";
@@ -324,111 +268,12 @@
         } catch (e) { return "hra"; }
     }
 
-    function openTeacherPanel() {
-        let panel = document.getElementById("kid-teacher-panel");
-        if (panel) { panel.style.display = "flex"; refreshTeacherPanel(); return; }
-
-        panel = document.createElement("div");
-        panel.id = "kid-teacher-panel";
-        panel.style.cssText = "position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);font-family:inherit;";
-
-        const box = document.createElement("div");
-        box.style.cssText = "background:var(--k-card-1,#1a1a26);color:var(--k-text,#e9e9f4);border:1px solid var(--k-card-border,#2e2e44);border-radius:18px;padding:1.2rem 1.4rem;max-width:420px;width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.6);";
-        box.innerHTML = `
-            <h2 style="margin:0 0 .8rem;font-size:1.3rem;">Učitel – přehled PC</h2>
-            <label style="display:block;font-weight:700;margin-bottom:.3rem;">Název tohoto PC:</label>
-            <input id="kid-teacher-pcname" type="text" placeholder="např. pc1" style="width:100%;padding:.5rem .7rem;border-radius:10px;border:1px solid var(--k-card-border,#2e2e44);background:var(--k-surface,#0f0f16);color:var(--k-text,#e9e9f4);font-size:1rem;margin-bottom:.8rem;">
-            <div id="kid-teacher-stats" style="background:var(--k-surface,#0f0f16);border-radius:12px;padding:.7rem .9rem;margin-bottom:.8rem;font-variant-numeric:tabular-nums;line-height:1.6;"></div>
-            <canvas id="kid-teacher-preview" style="width:100%;height:120px;border-radius:10px;background:#000;margin-bottom:.8rem;"></canvas>
-            <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-                <button id="kid-teacher-save" class="button-19" type="button" style="flex:1;">Uložit stav</button>
-                <button id="kid-teacher-dashboard" class="button-19" type="button" style="flex:1;">Dashboard</button>
-                <button id="kid-teacher-close" class="button-19" type="button" style="flex:1;">Zavřít</button>
-            </div>
-            <p style="font-size:.78rem;opacity:.7;margin:.8rem 0 0;">Tip: Dashboard ukazuje všechny PC uložené v tomto prohlížeči. Pro sdílení mezi počítači je potřeba Firebase (viz README).</p>
-        `;
-        panel.appendChild(box);
-        document.body.appendChild(panel);
-
-        const pcInput = document.getElementById("kid-teacher-pcname");
-        try { pcInput.value = localStorage.getItem("mysak_pc_code") || localStorage.getItem("mysak_pc_name") || ""; } catch (e) {}
-
-        function refresh() {
-            const stats = document.getElementById("kid-teacher-stats");
-            const wrong = (typeof window.MYSAK_WRONG === "number") ? window.MYSAK_WRONG : 0;
-            const score = (typeof window.MYSAK_SCORE === "number") ? window.MYSAK_SCORE : 0;
-            const clicks = window.MYSAK_CLICKS || 0;
-            stats.innerHTML =
-                "Hra: <b>" + getCurrentGameName() + "</b><br>" +
-                "Kliky: <b>" + clicks + "</b><br>" +
-                "Úspěchy: <b style='color:#2ee6b0'>" + score + "</b> &nbsp; Chyby: <b style='color:#ff6b6b'>" + wrong + "</b><br>" +
-                "Čas: <b>" + (typeof GlobalTimer !== "undefined" && GlobalTimer.getStopwatch ? GlobalTimer.getStopwatch() : "—") + "</b>";
-            // canvas preview
-            const preview = document.getElementById("kid-teacher-preview");
-            const src = document.querySelector("canvas#game") || document.querySelector("canvas");
-            if (preview && src) {
-                const pctx = preview.getContext("2d");
-                preview.width = preview.clientWidth * (window.devicePixelRatio || 1);
-                preview.height = preview.clientHeight * (window.devicePixelRatio || 1);
-                pctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
-                try { pctx.drawImage(src, 0, 0, preview.clientWidth, preview.clientHeight); } catch (e) {}
-            }
-        }
-        refresh();
-        const refreshInterval = setInterval(function () {
-            if (!document.getElementById("kid-teacher-panel")) { clearInterval(refreshInterval); return; }
-            if (document.getElementById("kid-teacher-panel").style.display !== "none") refresh();
-        }, 1000);
-
-        document.getElementById("kid-teacher-save").addEventListener("click", function () {
-            const name = (pcInput.value || "").trim() || "pc";
-            try { localStorage.setItem("mysak_pc_name", name); } catch (e) {}
-            const record = {
-                pc: name,
-                game: getCurrentGameName(),
-                clicks: window.MYSAK_CLICKS || 0,
-                score: (typeof window.MYSAK_SCORE === "number") ? window.MYSAK_SCORE : 0,
-                wrong: (typeof window.MYSAK_WRONG === "number") ? window.MYSAK_WRONG : 0,
-                time: (typeof GlobalTimer !== "undefined" && GlobalTimer.getStopwatch) ? GlobalTimer.getStopwatch() : "—",
-                updated: new Date().toLocaleTimeString()
-            };
-            try { localStorage.setItem("mysak_pc_" + name, JSON.stringify(record)); } catch (e) {}
-            toast("Uloženo: " + name);
-        });
-
-        document.getElementById("kid-teacher-dashboard").addEventListener("click", function () {
-            window.open("ucitel.html", "_blank");
-        });
-
-        document.getElementById("kid-teacher-close").addEventListener("click", function () {
-            panel.style.display = "none";
-        });
-
-        panel.addEventListener("click", function (e) {
-            if (e.target === panel) panel.style.display = "none";
-        });
-    }
-
-    function refreshTeacherPanel() {
-        const ev = new Event("kid-teacher-refresh");
-        document.dispatchEvent(ev);
-    }
-
     function init() {
         cleanFooter();
         ensureSoundToggle();
         ensureThemeToggle();
         updateProgressBadge();
         guardNavigation();
-        ensureTeacherHotzone();
-        ensurePcCodeBadge();
-        // Auto-open teacher panel via URL param ?ucitel or #ucitel
-        try {
-            const params = new URLSearchParams(location.search);
-            if (params.has("ucitel") || location.hash.indexOf("ucitel") > -1) {
-                setTimeout(openTeacherPanel, 400);
-            }
-        } catch (e) {}
     }
 
     if (document.readyState === "loading") {
@@ -437,6 +282,3 @@
         init();
     }
 })();
-
-// Expose for teacher dashboard
-window.openTeacherPanel = function(){ try { if (typeof openTeacherPanel === "function") openTeacherPanel(); } catch(e){} };
