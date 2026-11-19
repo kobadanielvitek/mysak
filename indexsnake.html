@@ -375,37 +375,29 @@
         .kid-hud-box.ok { color: var(--kid-secondary); }
         .kid-hud-box.bad { color: var(--kid-danger); }
 
-        /* --- nastaveni: kliky a velikost plochy --- */
+        /* --- nastaveni: kliky a velikost plochy (slidery) --- */
         .kid-settings {
             display: flex; align-items: center; justify-content: center;
-            gap: .6rem; flex-wrap: wrap;
+            gap: 1.2rem; flex-wrap: wrap;
             margin: 0 auto .9rem;
-            padding: .5rem .8rem;
-            border-radius: 999px;
+            padding: .6rem 1rem;
+            border-radius: 18px;
             background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
             border: 1px solid var(--k-card-border);
             box-shadow: 0 6px 16px rgba(0,0,0,.35);
             font-size: clamp(.85rem, 1.8vw, 1rem);
         }
-        .kid-settings-label { font-weight: 700; color: var(--k-muted); }
-        .kid-settings-group { display: inline-flex; gap: .3rem; }
-        .kid-set-btn {
-            padding: .3rem .7rem; border-radius: 999px;
-            border: 1px solid var(--k-card-border);
-            background: var(--k-surface); color: var(--k-text);
-            font-weight: 700; cursor: pointer; font-family: inherit;
-            font-size: inherit; transition: all .15s;
-        }
-        .kid-set-btn:hover { background: var(--k-surface-2); }
-        .kid-set-btn.active {
-            background: var(--kid-primary); color: #fff;
-            border-color: var(--kid-primary);
-            box-shadow: 0 4px 12px rgba(139,124,255,.4);
-        }
+        .kid-setting { display: flex; flex-direction: column; align-items: center; gap: .35rem; min-width: 150px; flex: 1; max-width: 260px; }
+        .kid-settings-label { font-weight: 700; color: var(--k-text); }
+        .kid-settings-label b { color: var(--kid-primary); }
+        .kid-settings .slider { width: 100%; margin: .2rem 0; }
 
         /* --- hrací plocha: roste s oknem --- */
         .kid-board.kid-board-big {
             max-width: min(99vw, max(400px, calc(100vh - 120px)), 1600px);
+        }
+        .kid-board.kid-board-small {
+            max-width: min(96vw, max(260px, calc(100vh - 200px)), 480px);
         }
         .kid-board {
             width: 100%;
@@ -476,16 +468,13 @@
                 </div>
 
                 <div class="kid-settings">
-                    <span class="kid-settings-label">Kliky k výhře:</span>
-                    <div class="kid-settings-group" id="grp-target">
-                        <button class="kid-set-btn active" data-target="10">10</button>
-                        <button class="kid-set-btn" data-target="20">20</button>
-                        <button class="kid-set-btn" data-target="50">50</button>
+                    <div class="kid-setting">
+                        <span class="kid-settings-label">Kliky k výhře: <b id="lbl_target_val">10</b></span>
+                        <div class="slider" id="slider_target"></div>
                     </div>
-                    <span class="kid-settings-label">Plocha:</span>
-                    <div class="kid-settings-group" id="grp-size">
-                        <button class="kid-set-btn active" data-size="auto">Auto</button>
-                        <button class="kid-set-btn" data-size="big">Velká</button>
+                    <div class="kid-setting">
+                        <span class="kid-settings-label">Plocha: <b id="lbl_size_val">Auto</b></span>
+                        <div class="slider" id="slider_size"></div>
                     </div>
                 </div>
 
@@ -769,34 +758,50 @@
         window.gameReload = gameReload;
         window.showHelp = showHelp;
 
-        /* ---------- nastaveni: kliky a velikost plochy ---------- */
+        /* ---------- nastaveni: kliky a velikost plochy (slidery) ---------- */
+
+        const sizeLabels = ["Malá", "Auto", "Velká"];
+        const sizeModes = ["small", "auto", "big"];
 
         function applySize(mode) {
+            board.classList.remove("kid-board-big", "kid-board-small");
             if (mode === "big") board.classList.add("kid-board-big");
-            else board.classList.remove("kid-board-big");
+            if (mode === "small") board.classList.add("kid-board-small");
             resize();
             placeDot();
             draw();
         }
 
-        document.querySelectorAll("#grp-target .kid-set-btn").forEach(function (btn) {
-            btn.addEventListener("click", function () {
-                const v = parseInt(btn.getAttribute("data-target"), 10);
-                if (!v || v === TARGET) return;
-                TARGET = v;
-                document.querySelectorAll("#grp-target .kid-set-btn").forEach(function (b) { b.classList.remove("active"); });
-                btn.classList.add("active");
+        // slider clicks
+        $("#slider_target").slider({
+            range: "max",
+            min: 5,
+            max: 100,
+            step: 5,
+            value: TARGET,
+            slide: function (event, ui) {
+                TARGET = ui.value;
+                document.getElementById("lbl_target_val").textContent = ui.value;
+                document.getElementById("lbl_total").textContent = "/ " + ui.value;
+            },
+            stop: function (event, ui) {
                 gameReload();
-            });
+            }
         });
 
-        document.querySelectorAll("#grp-size .kid-set-btn").forEach(function (btn) {
-            btn.addEventListener("click", function () {
-                const mode = btn.getAttribute("data-size");
-                document.querySelectorAll("#grp-size .kid-set-btn").forEach(function (b) { b.classList.remove("active"); });
-                btn.classList.add("active");
-                applySize(mode);
-            });
+        // slider size
+        $("#slider_size").slider({
+            range: "max",
+            min: 1,
+            max: 3,
+            step: 1,
+            value: 2,
+            slide: function (event, ui) {
+                document.getElementById("lbl_size_val").textContent = sizeLabels[ui.value - 1];
+            },
+            stop: function (event, ui) {
+                applySize(sizeModes[ui.value - 1]);
+            }
         });
 
         /* ---------- start ---------- */
