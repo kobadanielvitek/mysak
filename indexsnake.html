@@ -375,7 +375,38 @@
         .kid-hud-box.ok { color: var(--kid-secondary); }
         .kid-hud-box.bad { color: var(--kid-danger); }
 
+        /* --- nastaveni: kliky a velikost plochy --- */
+        .kid-settings {
+            display: flex; align-items: center; justify-content: center;
+            gap: .6rem; flex-wrap: wrap;
+            margin: 0 auto .9rem;
+            padding: .5rem .8rem;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 6px 16px rgba(0,0,0,.35);
+            font-size: clamp(.85rem, 1.8vw, 1rem);
+        }
+        .kid-settings-label { font-weight: 700; color: var(--k-muted); }
+        .kid-settings-group { display: inline-flex; gap: .3rem; }
+        .kid-set-btn {
+            padding: .3rem .7rem; border-radius: 999px;
+            border: 1px solid var(--k-card-border);
+            background: var(--k-surface); color: var(--k-text);
+            font-weight: 700; cursor: pointer; font-family: inherit;
+            font-size: inherit; transition: all .15s;
+        }
+        .kid-set-btn:hover { background: var(--k-surface-2); }
+        .kid-set-btn.active {
+            background: var(--kid-primary); color: #fff;
+            border-color: var(--kid-primary);
+            box-shadow: 0 4px 12px rgba(139,124,255,.4);
+        }
+
         /* --- hrací plocha: roste s oknem --- */
+        .kid-board.kid-board-big {
+            max-width: min(99vw, max(400px, calc(100vh - 120px)), 1600px);
+        }
         .kid-board {
             width: 100%;
             max-width: min(96vw, max(320px, calc(100vh - 200px)), 920px);
@@ -434,13 +465,27 @@
 
                 <div class="kid-hud">
                     <div class="kid-hud-bar" aria-live="polite">
-                        <span class="kid-hud-item">Kliky: <b id="lbl_hits">0</b> <span class="kid-hud-total">/ 10</span></span>
+                        <span class="kid-hud-item">Kliky: <b id="lbl_hits">0</b> <span class="kid-hud-total" id="lbl_total">/ 10</span></span>
                         <span class="kid-hud-sep" aria-hidden="true"></span>
                         <span class="kid-hud-item">Chyby: <b id="lbl_miss">0</b></span>
                     </div>
                     <div class="kid-hud-boxes" aria-hidden="true">
                         <div class="kid-hud-box ok"><span id="box_ok">0</span></div>
                         <div class="kid-hud-box bad"><span id="box_bad">0</span></div>
+                    </div>
+                </div>
+
+                <div class="kid-settings">
+                    <span class="kid-settings-label">Kliky k výhře:</span>
+                    <div class="kid-settings-group" id="grp-target">
+                        <button class="kid-set-btn active" data-target="10">10</button>
+                        <button class="kid-set-btn" data-target="20">20</button>
+                        <button class="kid-set-btn" data-target="50">50</button>
+                    </div>
+                    <span class="kid-settings-label">Plocha:</span>
+                    <div class="kid-settings-group" id="grp-size">
+                        <button class="kid-set-btn active" data-size="auto">Auto</button>
+                        <button class="kid-set-btn" data-size="big">Velká</button>
                     </div>
                 </div>
 
@@ -496,6 +541,7 @@
         var elMiss = document.getElementById("lbl_miss");
         var elOk = document.getElementById("box_ok");
         var elBad = document.getElementById("box_bad");
+        var elTotal = document.getElementById("lbl_total");
 
         var TARGET = 10;
 
@@ -629,6 +675,7 @@
             elMiss.textContent = wrong;
             elOk.textContent = score;
             elBad.textContent = wrong;
+            if (elTotal) elTotal.textContent = "/ " + TARGET;
             window.MYSAK_WRONG = wrong;
         }
 
@@ -721,6 +768,36 @@
         window.checkSolution = checkSolution;
         window.gameReload = gameReload;
         window.showHelp = showHelp;
+
+        /* ---------- nastaveni: kliky a velikost plochy ---------- */
+
+        function applySize(mode) {
+            if (mode === "big") board.classList.add("kid-board-big");
+            else board.classList.remove("kid-board-big");
+            resize();
+            placeDot();
+            draw();
+        }
+
+        document.querySelectorAll("#grp-target .kid-set-btn").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                const v = parseInt(btn.getAttribute("data-target"), 10);
+                if (!v || v === TARGET) return;
+                TARGET = v;
+                document.querySelectorAll("#grp-target .kid-set-btn").forEach(function (b) { b.classList.remove("active"); });
+                btn.classList.add("active");
+                gameReload();
+            });
+        });
+
+        document.querySelectorAll("#grp-size .kid-set-btn").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                const mode = btn.getAttribute("data-size");
+                document.querySelectorAll("#grp-size .kid-set-btn").forEach(function (b) { b.classList.remove("active"); });
+                btn.classList.add("active");
+                applySize(mode);
+            });
+        });
 
         /* ---------- start ---------- */
 
