@@ -30,6 +30,8 @@
         <h1>Učitel – přehled PC</h1>
         <p class="sub">Stav počítačů uložených v tomto prohlížeči. Pro sdílení mezi počítači je potřeba Firebase (viz README).</p>
         <div class="toolbar">
+            <input id="add-pc-input" type="text" placeholder="Kód PC (např. PC-1234)" style="padding:.55rem .7rem;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:700;min-width:200px;">
+            <button id="btn-add-pc">Přidat PC</button>
             <button id="btn-refresh">Obnovit</button>
             <button id="btn-clear">Smazat vše</button>
             <a href="index.html" style="text-decoration:none;"><button type="button">Zpět do her</button></a>
@@ -37,7 +39,7 @@
         <table id="tbl">
             <thead>
                 <tr>
-                    <th>PC</th><th>Hra</th><th>Kliky</th><th>Úspěchy</th><th>Chyby</th><th>Čas</th><th>Aktualizováno</th>
+                    <th>PC</th><th>Hra</th><th>Kliky</th><th>Úspěchy</th><th>Chyby</th><th>Čas</th><th>Aktualizováno</th><th></th>
                 </tr>
             </thead>
             <tbody id="tbody"></tbody>
@@ -63,19 +65,43 @@
             keys.forEach(function (k) {
                 let rec = null;
                 try { rec = JSON.parse(localStorage.getItem(k)); } catch (e) {}
-                if (!rec) return;
+                if (!rec) rec = { pc: k.replace("mysak_pc_","") };
+                const pc = rec.pc || k.replace("mysak_pc_","");
                 const tr = document.createElement("tr");
                 tr.innerHTML =
-                    "<td><b>" + (rec.pc || k.replace("mysak_pc_","")) + "</b></td>" +
+                    "<td><b>" + pc + "</b></td>" +
                     "<td>" + (rec.game || "—") + "</td>" +
                     "<td>" + (rec.clicks != null ? rec.clicks : "—") + "</td>" +
                     "<td class='ok'>" + (rec.score != null ? rec.score : "—") + "</td>" +
                     "<td class='bad'>" + (rec.wrong != null ? rec.wrong : "—") + "</td>" +
                     "<td>" + (rec.time || "—") + "</td>" +
-                    "<td>" + (rec.updated || "—") + "</td>";
+                    "<td>" + (rec.updated || "—") + "</td>" +
+                    "<td><button class='del-btn' data-pc='" + pc + "' style='padding:.25rem .5rem;font-size:.8rem;'>✕</button></td>";
                 tbody.appendChild(tr);
             });
+            tbody.querySelectorAll(".del-btn").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    const pc = btn.getAttribute("data-pc");
+                    if (!confirm("Smazat " + pc + "?")) return;
+                    localStorage.removeItem("mysak_pc_" + pc);
+                    load();
+                });
+            });
         }
+        document.getElementById("btn-add-pc").addEventListener("click", function () {
+            const input = document.getElementById("add-pc-input");
+            const code = (input.value || "").trim();
+            if (!code) { alert("Zadej kód PC (např. PC-1234)"); return; }
+            const key = "mysak_pc_" + code;
+            if (!localStorage.getItem(key)) {
+                localStorage.setItem(key, JSON.stringify({ pc: code, game: "—", clicks: 0, score: 0, wrong: 0, time: "—", updated: "přidáno" }));
+            }
+            input.value = "";
+            load();
+        });
+        document.getElementById("add-pc-input").addEventListener("keydown", function (e) {
+            if (e.key === "Enter") document.getElementById("btn-add-pc").click();
+        });
         document.getElementById("btn-refresh").addEventListener("click", load);
         document.getElementById("btn-clear").addEventListener("click", function () {
             if (!confirm("Smazat všechny uložené PC?")) return;
