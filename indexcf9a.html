@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Řazení | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js?v=2"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaXrENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuTCEjshE7g.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaXrENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuTCKjsg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin */
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/rax9HiuFsdMNOnWPaKtMAQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Shadows Into Light Two';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/4iC86LVlZsRSjQhpWGedwyOoW-0A6_kpsyNmpALHGYNn.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Shadows Into Light Two';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/4iC86LVlZsRSjQhpWGedwyOoW-0A6_kpsyNmpAzHGQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <style>/**
+ *  Cvičení 7 - Řazení písmen a čísel
+ */
+
+.letter-sort-exercise {
+    width: min(94vw, 900px);
+    margin: 0 auto;
+}
+
+#letter_list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    min-height: 9em;
+    gap: .35em;
+    margin: 0;
+    padding: 1em;
+    list-style: none;
+    border: 2px solid #1c1c1c;
+    border-radius: 8px;
+    background: #E8F2D6;
+    background: radial-gradient(at 43% 87%, #D6E6F2, transparent 70%), radial-gradient(at 21% 26%, #F2D6E8, transparent 70%), radial-gradient(at 86% 37%, #E8F2D6, transparent 70%), #E8F2D6;
+}
+
+#letter_list li {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.3em;
+    padding: .2em .3em;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    cursor: grab;
+    border: 1px solid #1c1c1c;
+    border-radius: 4px;
+    background: #fff;
+    color: #111;
+    font: 2.6em/1 Verdana, sans-serif;
+    user-select: none;
+    vertical-align: middle;
+}
+
+#letter_list li:active {
+    cursor: grabbing;
+}
+
+#letter_list .letter-sort-placeholder {
+    display: inline-flex;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    border: 1px dashed #888;
+}
+
+#letter_list .ui-sortable-helper {
+    box-shadow: 0 4px 12px #0005;
+}
+
+.letter-sort-navigation {
+    gap: 1em;
+    padding: 1em 0;
+}
+
+.moves-summary {
+    margin: 0 0 1em;
+    text-align: center;
+}
+
+.moves-summary>span {
+    margin: 0 .6em;
+    color: #777;
+}
+
+/*
+.letter-sort-actions {
+    display: flex;
+    align-items: center;
+    gap: .7em;
+}
+*/
+
+.text-button {
+    padding: .45em .8em;
+    border: 1px solid #888;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.letter-sort-exercise>.stars {
+    justify-content: center;
+}
+
+.goal {
+    gap: 1em;
+    margin: 1em 0 2em;
+    padding: 1em 0 4em 0;
+}
+
+.goal .slider {
+    width: 8em;
+}
+
+.goal .label {
+    width: 4em;
+}
+
+@media (max-width: 700px) {
+    #letter_list {
+        gap: .1em;
+        padding: .5em;
+    }
+
+    #letter_list li {
+        font-size: 2em;
+    }
+
+    .letter-sort-navigation {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}</style>        
+    
+<link rel="stylesheet" href="theme/kids.css?v=7">
+</head>
+
+<body id="ns__10">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace">
+            <h1>10. Řazení <span id='h1_popis'></span></h1><div class="letter-sort-exercise">
+    <ul id="letter_list" aria-label="Písmena nebo čísla k seřazení"></ul>
+
+    <div class="letter-sort-navigation flex flex-sides align-center">
+        <div class="flex gap">
+            <button class="button-20 reload icon-reload" type="button" id="btnNewLetters" title="Nové zadání">
+                <span class="back"></span>
+                <span class="front"></span>
+            </button>
+            <div></div>
+
+            <div class="stars" data-pocet="5" data-continous="1"></div>
+        </div>
+        <div class="flex align-center gap">
+            <div class="score-board">
+                <div class="score-right"><canvas id="right"></canvas></div>
+                <div class="score-wrong"><canvas id="wrong"></canvas></div>
+            </div>
+
+            <span class="stop_watch" id="lbl_time"></span>
+        </div>
+    </div>
+
+    <div class="moves-summary flex flex-center gap">
+        <div>Nejméně tahů: <strong id="minimum_moves">0</strong></div>
+        <div>Tvé tahy: <strong id="current_moves">0</strong></div>
+    </div>
+
+    <div class="flex goal flex-center align-center">
+        <span class="label">Cíl:</span>
+        <div class="slider" id="slider_goal"></div>
+        <span class="label" id="lbl_goal">1</span>
+    </div>
+</div>
+
+<div id="help" style="display:none;">
+    <div class="center">
+        <h2>Nápověda</h2>
+        <p>Přetahuj položky tak, aby byly seřazené od nejmenší po největší (čísla před písmeny, písmena podle abecedy).</p>
+        <p>0 hvězd: číslice, 1: čísla do 99, 2: písmena. Od 3 hvězd je počet tahů omezený, na 5 hvězdách musíš řadit na nejmenší možný počet tahů.</p>
+    </div>
+</div>
+        </div>
+
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPŠÍ</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box">
+                    <canvas id="lbl_fin_time" class="time"></canvas>
+                </div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRAČOVAT</button>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        /**
+ *  Etudy pro klávesnici a myš
+ *
+ *  ŘAZENÍ PÍSMEN A ČÍSEL
+ */
+
+obtiznost_titles = [
+    'Čísla do 99',
+    'Písmena',
+    'Více písmen, omezený počet tahů',
+    'Písmena a číslice, málo tahů',
+    'Mistr - jen nejmenší počet tahů'
+];
+
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const digits = '0123456789';
+
+// Level 0 = no star. slack = extra moves allowed above the minimum (null = unlimited)
+const levels = [
+    { pool: 'digits', count: 8, slack: null },
+    { pool: 'numbers', count: 10, slack: null },
+    { pool: 'letters', count: 10, slack: null },
+    { pool: 'letters', count: 14, slack: 0 },
+    { pool: 'mixed', count: 18, slack: 0 },
+    { pool: 'mixed', count: 22, slack: 0 }
+];
+
+function currentLevel() {
+    return levels[Math.min(maxObtiznost(), levels.length - 1)];
+}
+
+function poolValues(pool) {
+    switch (pool) {
+        case 'digits':
+            return digits.split('');
+        case 'numbers':
+            return Array.from({ length: 100 }, function (_, i) { return String(i); });
+        case 'letters':
+            return alphabet.split('');
+        default:
+            return (digits + alphabet).split('');
+    }
+}
+
+let currentItems = [];
+let correctCount = 0;
+let wrongCount = 0;
+let targetSolved = 1;
+let currentMinimumMoves = 0;
+let currentMoves = 0;
+let solved = false;
+
+function gameReload() {
+    newGame();
+}
+
+function updateScore() {
+    drawCanvasText(document.getElementById('right'), String(correctCount));
+    window.MYSAK_WRONG = wrongCount; drawCanvasText(document.getElementById('wrong'), String(wrongCount));
+}
+
+function createItems() {
+    const level = currentLevel();
+    const values = poolValues(level.pool);
+
+    // Unique items, shuffled; reshuffle if already sorted
+    let items;
+    do {
+        for (let i = values.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [values[i], values[j]] = [values[j], values[i]];
+        }
+        items = values.slice(0, level.count);
+    } while (minimumMoves(items) === 0);
+
+    return items;
+}
+
+function compareItems(left, right) {
+    const leftNum = /^\d+$/.test(left);
+    const rightNum = /^\d+$/.test(right);
+
+    if (leftNum && rightNum) {
+        return Number(left) - Number(right);
+    }
+
+    if (leftNum !== rightNum) {
+        return leftNum ? -1 : 1;
+    }
+
+    return left.localeCompare(right);
+}
+
+function sortItems(items) {
+    return items.slice().sort(compareItems);
+}
+
+function moveLimit() {
+    const slack = currentLevel().slack;
+    return slack === null ? null : currentMinimumMoves + slack;
+}
+
+function minimumMoves(items) {
+    const expected = sortItems(items);
+    const rows = items.length + 1;
+    const columns = expected.length + 1;
+    const lcs = Array.from({ length: rows }, function () {
+        return Array(columns).fill(0);
+    });
+
+    for (let row = 1; row < rows; row++) {
+        for (let column = 1; column < columns; column++) {
+            if (items[row - 1] === expected[column - 1]) {
+                lcs[row][column] = lcs[row - 1][column - 1] + 1;
+            } else {
+                lcs[row][column] = Math.max(lcs[row - 1][column], lcs[row][column - 1]);
+            }
+        }
+    }
+
+    return items.length - lcs[rows - 1][columns - 1];
+}
+
+function renderItems() {
+    const letterList = $('#letter_list');
+
+    if (letterList.hasClass('ui-sortable')) {
+        letterList.sortable('destroy');
+    }
+
+    letterList.empty();
+
+    currentItems.forEach(function (item) {
+        $('<li></li>')
+            .text(item)
+            .attr('aria-label', item)
+            .appendTo(letterList);
+    });
+
+    letterList.sortable({
+        items: '> li',
+        float: true,
+        placeholder: 'letter-sort-placeholder',
+        forcePlaceholderSize: true,
+        tolerance: 'pointer',
+        revert: false,
+        stop: handleSortStop
+    });
+}
+
+function checkSolution() {
+    const actual = $('#letter_list li').map(function () {
+        return $(this).text();
+    }).get();
+    const expected = sortItems(actual);
+
+    if (actual.join('') !== expected.join('')) {
+        return false;
+    }
+
+    return true;
+}
+
+function handleSortStop() {
+    if (solved) {
+        return;
+    }
+
+    currentMoves++;
+    $('#current_moves').text(currentMoves);
+
+    const correct = checkSolution();
+    const limit = moveLimit();
+
+    if (!correct && limit !== null && currentMoves >= limit) {
+        wrongCount++;
+        updateScore();
+        newGame();
+        return;
+    }
+
+    if (!correct) {
+        return;
+    }
+
+    solved = true;
+    correctCount++;
+    updateScore();
+
+    if (correctCount >= targetSolved) {
+        fin();
+        return;
+    }
+
+    newGame();
+}
+
+function newGame() {
+    GlobalTimer.reset();
+    solved = false;
+    currentItems = createItems();
+    currentMinimumMoves = minimumMoves(currentItems);
+    currentMoves = 0;
+    $('#minimum_moves').text(currentMinimumMoves);
+    $('#move_limit').text(moveLimit() === null ? '' : ' (limit: ' + moveLimit() + ')');
+    $('#current_moves').text(currentMoves);
+    renderItems();
+}
+
+function skipGame() {
+    wrongCount++;
+    updateScore();
+    newGame();
+}
+
+function showHelp() {
+    popupWindow($('#help').html(), 500, 350);
+}
+
+$(function () {
+    $('#letter_list').on('sortstart', function () {
+        if (!GlobalTimer.isRunning()) {
+            GlobalTimer.start();
+        }
+    });
+
+    $('#btnNewLetters').click(newGame);
+    $('#btnSkip').click(skipGame);
+    $('#btnHint').click(showHelp);
+
+    $('#slider_goal').slider({
+        range: 'max',
+        min: 3,
+        max: 10,
+        step: 1,
+        value: targetSolved,
+        slide: function (event, ui) {
+            targetSolved = ui.value;
+            $('#lbl_goal').text(targetSolved);
+            newGame();
+        }
+    });
+
+    updateScore();
+    newGame();
+});
+    </script>
+
+<script src="js/kids.js?v=7"></script>
+</body>
+
+
+</html>

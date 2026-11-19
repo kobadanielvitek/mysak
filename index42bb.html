@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Umění ASCII | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js?v=2"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaXrENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuTCEjshE7g.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaXrENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuTCKjsg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin */
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/rax9HiuFsdMNOnWPaKtMAQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Shadows Into Light Two';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/4iC86LVlZsRSjQhpWGedwyOoW-0A6_kpsyNmpALHGYNn.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Shadows Into Light Two';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(theme/fonts/4iC86LVlZsRSjQhpWGedwyOoW-0A6_kpsyNmpAzHGQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <style>/**
+ *  Cvičení 9 - Umění ASCII II.
+ */
+
+.ascii2 {
+    width: min(96vw, 1200px);
+    margin: 0 auto;
+}
+
+/* -- nahoře psaní, dole vzor; výšky nastavuje skript pevně */
+.ascii2-boards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.ascii2-board {
+    border-radius: .6em;
+    padding: 1em;
+    box-shadow: 0 .3em 1em rgba(0, 0, 0, .25);
+    max-width: 100%;
+    box-sizing: content-box;
+}
+
+.ascii2-target {
+    background: #1c1c1c linear-gradient(45deg, #1c1c1c 0%, #262626 50%, #0a0a0a 100%);
+    color: #f5f5f5;
+}
+
+.ascii2-input {
+    background: #f5f5f5 linear-gradient(45deg, #e3e3e3 0%, #fff 100%);
+    color: #1c1c1c;
+}
+
+#asciiTarget,
+#asciiInput {
+    display: block;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: "Courier New", Consolas, monospace;
+    white-space: pre;
+    color: inherit;
+    background: transparent;
+    overflow: hidden;
+}
+
+#asciiTarget {
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: not-allowed;
+}
+
+#asciiInput {
+    resize: none;
+    overflow: auto;
+    caret-color: currentColor;
+}
+
+#asciiInput:focus {
+    outline: 0;
+}
+
+#asciiInput:disabled {
+    opacity: .6;
+}
+
+.ascii2-lines {
+    font-size: 1.1em;
+    color: #555;
+    min-width: 7em;
+    text-align: right;
+}
+
+.ascii2-browse .slider {
+    width: min(40vw, 18em);
+}
+
+.ascii2-browse .label#lbl_art {
+    min-width: 4.5em;
+}
+
+#asciref {
+    text-align: center;
+    font-size: .8em;
+    opacity: .7;
+}
+
+.stop_watch {
+    font-size: 1.85em;
+    background-color: transparent;
+    color: #000;
+    min-width: 3.5em;
+    display: inline-block;
+}
+
+.ui-widget-content {
+    background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
+}
+
+.ui-widget-header {
+    background: #fff;
+}
+
+.ui-slider-horizontal {
+    height: .6em;
+}
+</style>        
+    
+<link rel="stylesheet" href="theme/kids.css?v=7">
+</head>
+
+<body id="ns__15">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace">
+            <h1>15. Umění ASCII <span id='h1_popis'></span></h1><div class="ascii2">
+    <div class="ascii2-boards" id="asciiBoards">
+        <div class="ascii2-board ascii2-input">
+            <textarea id="asciiInput" wrap="off" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Pole pro přepsání obrázku"></textarea>
+        </div>
+        <div class="ascii2-board ascii2-target" id="asciiTargetBoard">
+            <pre id="asciiTarget" aria-label="Obrázek k opsání"></pre>
+        </div>
+    </div>
+
+    <div id="bottom_navi" class="flex flex-sides align-center">
+        <div class="flex gap align-center ascii2-browse">
+            <span class="label">Obrázek:</span>
+            <div class="slider" id="slider_art"></div>
+            <span class="label" id="lbl_art"></span>
+        </div>
+
+        <div class="flex flex-center gap align-center">
+            <span class="ascii2-lines" id="lbl_lines"></span>
+            <span class="stop_watch" id="lbl_time"></span>
+        </div>
+    </div>
+
+    <div id="asciref">
+        <p>Autor obrázků: Joan G. Stark &lt;<a href="http://www.ascii-art.com/" target="_blank" rel="noopener">www.ascii-art.com</a>&gt;</p>
+    </div>
+</div>
+
+<div id="help" style="display:none;">
+    <div class="center">
+        <h2>Nápověda</h2>
+        <p>Dole je vzor z písmen a znaků. Přepiš ho přesně do pole nahoře - včetně mezer a řádků.</p>
+        <p>Posuvníkem listuješ mezi obrázky - zleva jsou menší a jednodušší, doprava větší a těžší.</p>
+        <p>Vpravo dole vidíš, kolik řádků už máš správně. Mezery na konci řádků nevadí.</p>
+    </div>
+</div>
+<div id="patterns" style="display:none;">
+<div><pre>
+                              _
+                            .' `'.__
+                           /      \ `'"-,
+          .-''''--...__..-/ .     |      \
+        .'               ; :'     '.  a   |
+       /                 | :.       \     =\
+      ;                   \':.      /  ,-.__;.-;`
+     /|     .              '--._   /-.7`._..-;`
+    ; |       '                |`-'      \  =|
+    |/\        .   -' /     /  ;         |  =/
+    (( ;.       ,_  .:|     | /     /\   | =|
+     ) / `\     | `""`;     / |    | /   / =/
+       | ::|    |      \    \ \    \ `--' =/
+      /  '/\    /       )    |/     `-...-`
+     /    | |  `\    /-'    /;
+     \  ,,/ |    \   D    .'  \
+  jgs `""`   \  nnh  D_.-'L__nnh
+              `"""`
+</pre></div>
+<div><pre>
+         .-' '-.
+        /       \
+       |,-,-,-,-,|
+      ___   |
+     _)_(_  |
+     (/ \)  |
+     _\_/_  /)
+    / \_/ \//
+    |(   )\/
+    ||)_( 
+    |/   \
+    n|   |
+   / \   |
+   |_|___|
+      \|/
+ jgs _/L\_
+</pre></div>
+<div><pre>
+          _,           _,
+        .' (        .-' /
+      _/..._'.    .'   /
+  .-'`      ` '-./  _.'
+ ( o)           ;= <_
+  '-.,\\__ __.-;`\   '.
+       \) |`\ \)  '.   \
+          \_/   jgs '-._\
+</pre></div>
+<div><pre>
+ ___,,,___ _..............._
+ '-/~'~\-'` :::::'   .::    \
+   |a a |   ':::'     `::   || 
+   |   /::.  :::.  .:::.  ::||
+   (oo/::'  .::::..::::::.  /|
+    `` '._   /:::'''::::' <`\/
+          | /`--....-'`Y   \))
+          |||         //'. |((
+          |||        //   ||
+     jgs  //(        `    /(
+</pre></div>
+<div><pre>
+      .-"""""""-.             .-""``"""-.       
+     /  _____/\_ \           /  _______  \       
+    / /`__   __ \ \         / /`__   __`\ \      
+    |/  (a) (a)  \|         \/  (o) (o)  \/    
+   (_    (___)    _)       (_  _ (___) _  _)   
+     \  \_____/  /           \  \_   _/  /      
+      `-._   _.-'             `-._'-'_.-'       
+      __.-)_(-,__             __.-)_(-,__        
+   ./'/   |_|   \`\.       ./'/   |_|   \`\.   
+  /   `""""""""""`  \ jgs /   `""""""""""`  \  
+</pre></div>
+<div><pre>
+ _________________________________________
+|'|'|'|'|'|'|'|'|'|'|'|'|'|'|'|'|'|'|'|'|'|
+|___1___2___3___4___5___6___7___8___9__10_|
+
+jgs
+</pre></div>
+<div><pre>
+                          __________
+                     _.='"----.._   `""--.._
+                  _.'.-'\\      ()   \``""-.`"-.     __
+               _.'/ '--' '-----[] .-'.-' .-'    `'-'` /
+     _..--""```    _, _, _, _,     _    LI [__]       \
+   .'  .-'''-.    / // // // /    [_]   .-'''-.   #### '-.
+  /   /   _   \   '-, / '-, /  .----.  /   _   \ Valvoline\
+  |  |   (_)   |   /_/   /_/   '----'||   (_)   |   ____..'
+  '--'\       / '==================='  \       /'=='
+   jgs `-...-`                          `-...-'
+
+</pre></div>
+<div><pre>
+         __________
+       /`.---..----;\
+      / /____||_____\\__
+     | "~      7        `'.
+     (_ .--. ========.--. =| 
+ jgs `"( () )"""""""( () )"`
+        '--'         '--'
+</pre></div>
+<div><pre>
+          .\\\\\ _,        jgs
+        ,_\\\\\\//|,
+         \/\\\`') ////,
+         /  __   `\////,
+        |  /a/     `\////,
+       /   `         `\///,
+      /          /     \///,
+     /        __/       \///,
+    |O)   //` \          \//,
+    '.___;'   |           `//, 
+
+</pre></div>
+<div><pre>
+     .--.
+  __/ o  ".
+ `  ),    "-._
+    |;;,      "-._
+    ';;;,,    ",_ "=-._
+      ':;;;;,,..-``"-._`"-.
+         /`/`           `'"`
+  jgs  ///^\
+</pre></div>
+<div><pre>
+     )\-"```-,_
+    /.   _     `"-._
+   _`-c_/_'. `\   , `"-._
+  (_.--`  '-_;-'   \     `"-.
+          (_.-----'`-.._     `\._
+                        `\     `\'._
+                          `'.    '._'._
+                             `'---, `._'-._
+                             jgs   `-._/'--'
+</pre></div>
+<div><pre>
+     ,_         _,
+     |\\.-"""-.//|
+     \`         `/
+    /    _   _    \
+    |    a _ a    |
+    '.=    Y    =.'
+      >._  ^  _.<
+     /   `````   \
+     )           (
+    ,(           ),
+   / )   /   \   ( \
+   ) (   )   (   ) (
+   ( )   (   )   ( )
+   )_(   )   (   )_(-.._
+  (  )_  (._.)  _(  )_, `\
+   ``(   )   (   )`` .' .'
+jgs   ```     ```   ( (`
+                         '-'
+</pre></div>
+<div><pre>
+                       .   .      .   .     .   .
+           .-"""-.       \_/        \_/       \_/
+          /       \      / \        / \       ) (
+       .--'._____.'--.   \"/        \"/       \"/
+      ( o     _     o )  /|\__,   __/|\       /|\
+       '-..o_|_|_o..-'   \|      `   | \     / | \
+   jgs   /        \      `|\         |\ `   ` /|  `
+       ()          ()     | \        / |   __/ |
+                          | /       /  |  `    |
+                          ` `      `   `       `
+</pre></div>
+<div><pre>
+                ____
+               /\\  \
+            __// \\  \____
+          /\ //   \\ /\   \
+         //\\/ ' ' \//\\   \
+        // '\\ ' ' //  \\___\
+         | ' ' ' ' ' ' |. .|
+         | ' ' ' ' ' ' |. .|
+         | ' ' '_' ' ' |. .|
+         | ' ' / \ ' ' |. .|
+   jgs   |_'_'_|#|_'_'_|_.-'
+ 
+</pre></div>
+<div><pre>
+      __________________________
+     (_________________________@)
+     /  |  |  |  |  |  |  |  || `\
+     |__|__|__|__|__|__|__|__||___\
+     |===================  18 | : |`'-._
+    _|    .-.                 | : | ,===`\
+   '=|___/.-.\________________|_:_|_/.-.\|
+         \'-'/                      \'-'/
+    jgs   '-'                        '-'
+</pre></div>
+<div><pre>
+
+       _..._                    __O/
+     ."  :  ".                    M
+    /  '   '  \     _..._        <<
+   ;  '  .  \  ;  ."  :  ".
+   \._;_._._._./ /  '   '  \
+ jgs \   |   /  ;  '  .  \  ;
+      \  |  /   \._;_._._._./
+       \ | /      \   |   /
+        \O/        \  |  /
+        /H\         ; : ;
+         >>          \O/
+                      U
+                     <<
+
+</pre></div>
+<div><pre>
+       .----.
+      / .--. \
+     | (    ) |              ___...---.
+      \ '--'  '----._..---"""___...---'`
+       '-.--:------|_()---"""__ 
+      / .--.  .----'`''---...__"""---..
+     | (    ) |                """---''`
+ jgs  \ '--' /
+       '----'
+</pre></div>
+<div><pre>
+              .--.
+         .-._;.--.;_.-.
+        (_.'_..--.._'._)
+         /.' . 60 . '.\
+        // .      / . \\
+       |; .      /   . |;
+       ||45    ()    15||
+       |; .          . |;
+        \\ .        . //
+         \'._' 30 '_.'/
+     jgs  '-._'--'_.-'
+              `""` 
+
+</pre></div>
+<div><pre>
+                             _
+    _._ _..._ .-',     _.._(`))
+   '-. `     '  /-._.-'    ',/
+      )         \            '.
+     / _    _    |             \
+    |  a    a    /              |
+    \   .-.                     ;  
+     '-('' ).-'       ,'       ;
+        '-;           |      .'
+           \           \    /
+           | 7  .__  _.-\   \
+           | |  |  ``/  /`  /
+      jgs /,_|  |   /,_/   /
+             /,_/      '`-'
+
+</pre></div>
+<div><pre>
+
+     (.-/)      _.._
+     )..  '._.-'    '.
+    =\T =  /      .-  \
+      `-'6`      (     |
+       _.-\  ,_.-'   ; ;
+      (_.(_.-' (_.-:/ /
+    jgs         .--' /
+                 `""`
+</pre></div>
+<div><pre>
+                         _
+                       (` '.
+            _.--.     /   a '-.
+            '->  \ __/     __.'
+             <_   |.'  /`-._)`-
+               >--'    \      
+            .--;'       |--.
+    ,-     _\.'         |   \_
+   //     /-'    \     / `\__/
+  | |   .'       /_._  |
+  \  '-'   _/  --.  \  '-.
+   '.___.-' \____/jgs\___/
+</pre></div>
+<div><pre>
+           _.-"""-.
+         ." \      `".
+        /  .-"---._   \
+        |_/  _   _ `\_|
+        / |  o   o  | \
+        \/     7     \/
+         \   .___.   /
+          '._  _  _.'
+     jgs     )   ( 
+</pre></div>
+<div><pre>
+         _..._      _.._
+       .'     `'._.'    '.
+      /            __   .-'
+     |      :]___.'__'./______________._I_I_I.
+     |      :|========================I=_____(
+     |      :]"""'.__.;"""""""""""""""''I I I'
+ jgs  \          __   |
+       '._   _.-'  `'._\
+          ```
+</pre></div>
+<div><pre>
+                _
+      _..._   \':,
+     `._..-""` ) \\
+      ___/9    \ |/
+     P      9     |
+     \            |
+      '--.       _/
+          (`'---'_)
+         ()`---'` \
+          |        ',
+          |          `'.            ,
+          ;             '-._       /(
+           \            _   `'.    | \
+           | ,        .'       '.   \ `\
+           | |   ;   /           \   \  \
+           | |   |.  |            |  /  |
+           | |   | `-.\           |"`  /
+         .-;.|   |  _..;._       /-..-'
+        (( .-;.  | ((  _..`>    /
+         `((    _/  '-((  `  .__)
+    jgs    `"""`       `"--'`
+</pre></div>
+<div><pre>
+         _..,----,.._
+      .-;'-.,____,.-';
+     (( |            |
+      `))            ;
+       ` \          /
+  jgs .-' `,.____.,' '-.
+     (     '------'     )
+      `-=..________..--'
+</pre></div>
+<div><pre>
+               ,
+             .';
+         .-'` .'
+       ,`.-'-.`\
+      ; /     '-'
+      | \       ,-,
+      \  '-.__   )_`'._
+       '.     ```      ``'--._
+      .-' ,                   `'-.
+       '-'`-._           ((   o   )
+        jgs   `'--....(`- ,__..--'
+                       '-'`
+</pre></div>
+<div><pre>
+                  ,@;@,
+     ,@;@;@;@;@;@/ )@;@;
+   ,;@;@;@;@;@;@|_/@' e\
+  (|@;@:@\@;@;@;@:@(    \
+    '@;@;@|@;@;@;@;'`"--'
+     '@;@;/;@;/;@;' 
+      ) //   | ||
+      \ \\   | ||
+       \ \\  ) \\  jgs
+        `"`  `"``
+</pre></div>
+<div><pre>
+        .""-.
+       |a a  \
+       \   /  |
+        '-')  ;
+         _/  /_
+       .'/   ; '.
+      / /    |'. \
+     | |     '._\ |
+     | |        | |
+      \ \_    _.//
+   jgs '._`""`_.'
+          `""`
+</pre></div>
+<div><pre>
+                    .-""._."``".
+                   /`_-._.-_    `.
+                  >(/)--.(/)    |-._
+                .'.-="""=.      `   `'--
+             .-'               _
+ .-.--.   _.'           _      |
+ (O/ O) \-'     ,    |\.'\)-.__/ 
+  >      ,      )\_.-'`V   .-' _,/
+  \__..-/|-.__.-'V    __..'--;`
+   V-.__..-.\)..-'---'        `    jgs
+
+</pre></div>
+<div><pre>
+
+       _._            _____         _( )_        _....._
+    .-'---'-.       .'_____'.     .`_____`.    .`       `.
+   /___\_/___\     _|[_____]|_   (_________)  /   .-"-.   \
+  |   (.I.)   |   (_/ (.I.) \_)  |  ('I')  |  |  |(.I.)|  |
+   \   ___   /      \  ___  /     \   _   /    \  '._.'  /
+ .--'._____.'--.   .-'-...-'-.   .-'-----'-.   .'-.___.-'.
+(_\     :     /_) (_\       /_) (_\   :   /_) (_\       /_)
+  |_____:_____|     |-------|     |-------|     |_______|
+  (_____|_____)     (___|___)     (___|___)     (___|___) jgs
+
+
+</pre></div>
+<div><pre>
+                                                      _:_
+                                                     '-.-'
+                                            ()      __.'.__
+                                         .-:--:-.  |_______|
+                                  ()      \____/    \=====/
+                                  /\      {====}     )___(
+                       (\=,      //\\      )__(     /_____\
+       __    |'-'-'|  //  .\    (    )    /____\     |   |
+      /  \   |_____| (( \_  \    )__(      |  |      |   |
+      \__/    |===|   ))  `\_)  /____\     |  |      |   |
+     /____\   |   |  (/     \    |  |      |  |      |   |
+      |  |    |   |   | _.-'|    |  |      |  |      |   |
+      |__|    )___(    )___(    /____\    /____\    /_____\
+     (====)  (=====)  (=====)  (======)  (======)  (=======)
+     }===={  }====={  }====={  }======{  }======{  }======={
+ jgs(______)(_______)(_______)(________)(________)(_________)
+ 
+</pre></div>
+</div>
+
+        </div>
+
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPŠÍ</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box">
+                    <canvas id="lbl_fin_time" class="time"></canvas>
+                </div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRAČOVAT</button>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        /**
+ *  Etudy pro klávesnici a myš
+ *
+ *  UMĚNÍ ASCII II. - opis ručně kresleného ASCII artu
+ *  v 1.1
+ *
+ *  Nahoře se píše, dole je vzor. Posuvník listuje mezi obrázky
+ *  seřazenými od nejmenšího po největší. Velikost pracovní plochy je
+ *  pevná (podle největšího obrázku), aby obrazovka při listování neskákala.
+ */
+
+obtiznost_titles = [];
+
+let arts = [];
+let currentIndex = 0;
+let currentArt = null;
+let solved = false;
+let measureCtx = null;
+
+function trimBlankEdges(lines) {
+    lines = lines.map(function (line) {
+        return line.replace(/\s+$/, '');
+    });
+
+    while (lines.length && lines[0] === '') {
+        lines.shift();
+    }
+
+    while (lines.length && lines[lines.length - 1] === '') {
+        lines.pop();
+    }
+
+    return lines;
+}
+
+function loadArts() {
+    $('#patterns pre').each(function () {
+        const lines = trimBlankEdges(this.textContent.replace(/\r/g, '').split('\n'));
+
+        if (!lines.length) {
+            return;
+        }
+
+        arts.push({
+            lines: lines,
+            text: lines.join('\n'),
+            width: Math.max.apply(null, lines.map(function (l) { return l.length; })),
+            weight: lines.join('').replace(/\s/g, '').length
+        });
+    });
+
+    arts.sort(function (a, b) {
+        return a.weight - b.weight;
+    });
+}
+
+function checkSolution() {
+    return solved;
+}
+
+function charAdvanceAt(fontSizePx) {
+    if (!measureCtx) {
+        measureCtx = document.createElement('canvas').getContext('2d');
+    }
+
+    measureCtx.font = fontSizePx + 'px "Courier New", Consolas, monospace';
+    return measureCtx.measureText('0').width;
+}
+
+// -- jedna velikost písma i výška pro všechny obrázky - nic neskáče
+function layoutBoards() {
+    if (!arts.length) {
+        return;
+    }
+
+    const maxCols = Math.max.apply(null, arts.map(function (a) { return a.width; })) + 1;
+    const maxRows = Math.max.apply(null, arts.map(function (a) { return a.lines.length; })) + 1;
+    const refSize = 100;
+    const ratio = charAdvanceAt(refSize) / refSize;
+    const chrome = 220;
+    const boardPad = 40;
+    const lhRatio = 1.2;
+
+    const availW = Math.min($('.ascii2').width(), window.innerWidth * 0.96) - boardPad;
+    const availH = (window.innerHeight - chrome) / 2 - boardPad;
+
+    let fontSize = Math.min(availW / (maxCols * ratio), availH / (maxRows * lhRatio), 18);
+    fontSize = Math.max(6, fontSize);
+
+    const lineHeight = Math.round(fontSize * lhRatio);
+    const boardH = lineHeight * maxRows;
+
+    $('#asciiTarget, #asciiInput').css({
+        fontSize: fontSize + 'px',
+        lineHeight: lineHeight + 'px',
+        height: boardH + 'px',
+        width: Math.ceil(maxCols * ratio * fontSize) + 'px'
+    });
+}
+
+function updateLineProgress() {
+    if (!currentArt) {
+        return;
+    }
+
+    const typed = trimBlankEdges($('#asciiInput').val().replace(/\r/g, '').split('\n'));
+    let ok = 0;
+
+    currentArt.lines.forEach(function (line, i) {
+        if (typed[i] === line) {
+            ok++;
+        }
+    });
+
+    $('#lbl_lines').text('Řádků ' + ok + '/' + currentArt.lines.length);
+}
+
+function showArt(index) {
+    currentIndex = index;
+    currentArt = arts[index];
+    solved = false;
+
+    $('#asciiTarget').text(currentArt.text);
+    $('#asciiInput').prop('disabled', false).val('').trigger('focus');
+    $('#lbl_art').text((index + 1) + ' / ' + arts.length);
+    updateLineProgress();
+}
+
+function gameReload() {
+    GlobalTimer.reset();
+    showArt(currentIndex);
+}
+
+function showHelp() {
+    popupWindow($('#help').html(), 500, 320);
+}
+
+$(function () {
+    const asciiInput = $('#asciiInput');
+
+    loadArts();
+    layoutBoards();
+
+    $('#asciiTargetBoard').on('copy cut contextmenu selectstart dragstart', function (event) {
+        event.preventDefault();
+    });
+
+    $(window).on('resize', layoutBoards);
+
+    $('#slider_art').slider({
+        range: 'max',
+        min: 1,
+        max: arts.length,
+        step: 1,
+        value: 1,
+        slide: function (event, ui) {
+            GlobalTimer.reset();
+            showArt(ui.value - 1);
+        }
+    });
+
+    asciiInput.on('input', function () {
+        if (solved || !currentArt) {
+            return;
+        }
+
+        updateLineProgress();
+
+        const typed = trimBlankEdges($(this).val().replace(/\r/g, '').split('\n')).join('\n');
+
+        if (typed === currentArt.text) {
+            solved = true;
+            asciiInput.prop('disabled', true);
+            fin();
+        }
+    }).on('keydown', function () {
+        if (!solved && !GlobalTimer.isRunning()) {
+            GlobalTimer.start();
+        }
+    });
+
+    showArt(0);
+});
+    </script>
+
+<script src="js/kids.js?v=7"></script>
+</body>
+
+
+</html>
