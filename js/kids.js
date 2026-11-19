@@ -293,7 +293,7 @@
         const hz = document.createElement('div');
         hz.id = 'kid-teacher-hotzone';
         hz.style.cssText = 'position:fixed;top:0;right:0;width:60px;height:60px;z-index:99998;cursor:pointer;opacity:1;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,.25);user-select:none;';
-        hz.textContent = 'GEAR';
+        hz.textContent = '⚙';
         hz.title = 'Ucitel (klikni)';
         document.body.appendChild(hz);
 
