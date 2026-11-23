@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Vzor řady | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js?v=2"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+    <link rel="stylesheet" href="theme/kids.css?v=7">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <style>
+        /* ==========================================================
+           Vzor řady - doplň další číslo v řadě
+           ========================================================== */
+
+        .kid-wrap { max-width: 720px; margin: 0 auto; padding: 0 .6rem 1.2rem; }
+        .kid-hud { display: flex; align-items: center; justify-content: center; gap: .8rem; flex-wrap: wrap; margin: 0 auto .9rem; }
+        .kid-hud-bar { display: inline-flex; align-items: center; gap: .7rem; padding: .5rem 1.1rem; border-radius: 999px; background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface)); border: 1px solid var(--k-card-border); box-shadow: 0 10px 24px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.07); font-weight: 700; font-size: clamp(.95rem,2vw,1.12rem); letter-spacing:.015em; color: var(--k-text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .kid-hud-item b { font-size: 1.2em; font-weight: 900; }
+        #lbl_hits { color: var(--kid-secondary); }
+        #lbl_miss { color: var(--kid-danger); }
+        .kid-hud-total { opacity: .55; font-weight: 700; }
+        .kid-hud-sep { width: 1px; height: 1.35em; background: var(--k-card-border); }
+        .kid-hud-boxes { display: inline-flex; gap: .45rem; }
+        .kid-hud-box { min-width: 2.9rem; height: 2.6rem; padding: 0 .55rem; display: grid; place-items: center; border-radius: 13px; background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface)); border: 1px solid var(--k-card-border); box-shadow: 0 8px 18px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.07); font-weight: 900; font-size: 1.3rem; line-height: 1; font-variant-numeric: tabular-nums; }
+        .kid-hud-box.ok { color: var(--kid-secondary); }
+        .kid-hud-box.bad { color: var(--kid-danger); }
+
+        .kid-settings { display: flex; align-items: center; justify-content: center; gap: 1.2rem; flex-wrap: wrap; margin: 0 auto .9rem; padding: .6rem 1rem; border-radius: 18px; background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface)); border: 1px solid var(--k-card-border); box-shadow: 0 6px 16px rgba(0,0,0,.35); font-size: clamp(.85rem,1.8vw,1rem); }
+        .kid-setting { display: flex; flex-direction: column; align-items: center; gap: .35rem; min-width: 150px; flex: 1; max-width: 260px; }
+        .kid-settings-label { font-weight: 700; color: var(--k-text); }
+        .kid-settings-label b { color: var(--kid-primary); }
+        .kid-settings .slider { width: 100%; margin: .2rem 0; }
+
+        .pat-card { max-width: 560px; margin: .2rem auto .8rem; padding: 1.6rem 1.2rem; border-radius: 24px; border: 2px solid var(--k-card-border); background: linear-gradient(160deg, var(--k-card-2), var(--k-panel)); box-shadow: 0 22px 60px rgba(0,0,0,.6); text-align: center; }
+        .pat-seq { font-size: clamp(1.6rem,5vw,2.6rem); font-weight: 900; color: var(--k-text); letter-spacing: .12em; margin-bottom: 1rem; font-variant-numeric: tabular-nums; display: flex; align-items: center; justify-content: center; gap: .4rem; flex-wrap: wrap; }
+        .pat-blank { display: inline-block; min-width: 1.4ch; color: var(--kid-primary); border-bottom: .12em solid var(--kid-primary); }
+        .pat-choices { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+        .pat-choice { padding: .7rem .6rem; border-radius: 14px; border: 2px solid var(--k-card-border); background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface)); color: var(--k-text); font-size: clamp(1.4rem,4vw,2rem); font-weight: 900; cursor: pointer; font-family: inherit; transition: transform .1s, background .15s, border-color .15s; box-shadow: 0 6px 14px rgba(0,0,0,.4); font-variant-numeric: tabular-nums; }
+        .pat-choice:hover { border-color: var(--kid-primary); transform: translateY(-2px); }
+        .pat-choice:active { transform: scale(.94); }
+        .pat-choice.ok { border-color: var(--kid-secondary); background: rgba(46,230,176,.22); }
+        .pat-choice.bad { border-color: var(--kid-danger); background: rgba(255,107,107,.22); animation: pat-shake .3s; }
+        @keyframes pat-shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+        .pat-state { margin: .2rem 0 .6rem; text-align: center; font-weight: 800; font-size: clamp(1rem,2.2vw,1.25rem); color: var(--k-text); min-height: 1.6em; }
+        .pat-tip { margin: .6rem 0 .4rem; text-align: center; color: var(--k-muted); font-weight: 700; font-size: clamp(.9rem,1.9vw,1.05rem); }
+        #bottom_navi { margin-top: .3rem; gap: .8rem; flex-wrap: wrap; }
+        @media (max-width: 560px) { .kid-hud-bar { padding: .45rem .85rem; gap: .5rem; } .kid-hud-box { min-width: 2.5rem; height: 2.3rem; font-size: 1.15rem; } }
+    </style>
+</head>
+<body id="ns__41">
+    <header><a href="index.html"><strong>Malé etudy pro myš a klávesnici II.</strong></a></header>
+    <main>
+        <div class="whiteSpace" id="vzor rady">
+            <h1>41. Vzor řady <span id='h1_popis'></span></h1>
+            <div class="kid-wrap">
+                <div class="kid-hud">
+                    <div class="kid-hud-bar" aria-live="polite">
+                        <span class="kid-hud-item">Správně: <b id="lbl_hits">0</b> <span class="kid-hud-total" id="lbl_total">/ 10</span></span>
+                        <span class="kid-hud-sep" aria-hidden="true"></span>
+                        <span class="kid-hud-item">Chyby: <b id="lbl_miss">0</b></span>
+                    </div>
+                    <div class="kid-hud-boxes" aria-hidden="true">
+                        <div class="kid-hud-box ok"><span id="box_ok">0</span></div>
+                        <div class="kid-hud-box bad"><span id="box_bad">0</span></div>
+                    </div>
+                </div>
+                <div class="kid-settings">
+                    <div class="kid-setting">
+                        <span class="kid-settings-label">Cíl: <b id="lbl_target_val">10</b></span>
+                        <div class="slider" id="slider_target"></div>
+                    </div>
+                </div>
+                <div class="pat-card">
+                    <div class="pat-seq" id="pat_seq"></div>
+                    <div class="pat-choices" id="pat_choices"></div>
+                </div>
+                <div class="pat-state" id="lbl_state">Klikni na „Start“ a doplň číslo.</div>
+                <div style="text-align:center; margin:.2rem 0 .6rem;">
+                    <button class="button-19" type="button" id="btn_start" style="margin:0 auto;">START</button>
+                </div>
+                <p class="pat-tip" id="lbl_status">Najdi vzor a doplň chybějící číslo.</p>
+                <div class="flex flex-center align-center" id="bottom_navi">
+                    <div class="stars" data-pocet="5" data-continous="1"></div>
+                    <span class="stop_watch" id="lbl_time"></span>
+                </div>
+                <div id="help" style="display:none;">
+                    <div class="center">
+                        <h2>Nápověda</h2>
+                        <p>V řadě čísel chybí poslední.</p>
+                        <p>Najdi vzor (kolik se přičítá) a vyber správné číslo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPSI</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box"><canvas id="lbl_fin_time" class="time"></canvas></div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRACOVAT</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/kids.js?v=24"></script>
+    <script>
+    (function () {
+        "use strict";
+        var elHits = document.getElementById("lbl_hits");
+        var elMiss = document.getElementById("lbl_miss");
+        var elOk = document.getElementById("box_ok");
+        var elBad = document.getElementById("box_bad");
+        var elTotal = document.getElementById("lbl_total");
+        var elState = document.getElementById("lbl_state");
+        var elStatus = document.getElementById("lbl_status");
+        var elSeq = document.getElementById("pat_seq");
+        var elChoices = document.getElementById("pat_choices");
+
+        var TARGET = 10;
+        var score = 0, wrong = 0, won = false, started = false, lock = false, answer = null;
+
+        function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+        function newRound() {
+            lock = false;
+            var d = randInt(2, 6);
+            var start = randInt(1, 10);
+            var len = randInt(4, 5);
+            var seq = [];
+            for (var i = 0; i < len; i++) seq.push(start + i * d);
+            answer = start + len * d;
+            // render
+            elSeq.innerHTML = "";
+            seq.forEach(function (n) {
+                var span = document.createElement("span"); span.textContent = n; elSeq.appendChild(span);
+            });
+            var blank = document.createElement("span"); blank.className = "pat-blank"; blank.textContent = "?"; elSeq.appendChild(blank);
+
+            var opts = [answer];
+            var g = 0;
+            while (opts.length < 4 && g < 200) { g++; var n = randInt(1, 60); if (opts.indexOf(n) === -1) opts.push(n); }
+            for (var i = opts.length - 1; i > 0; i--) { var j = randInt(0, i); var t = opts[i]; opts[i] = opts[j]; opts[j] = t; }
+            elChoices.innerHTML = "";
+            opts.forEach(function (n) {
+                var b = document.createElement("button");
+                b.type = "button"; b.className = "pat-choice"; b.textContent = n;
+                b.addEventListener("click", function () { choose(b, n); });
+                elChoices.appendChild(b);
+            });
+            elState.textContent = "Doplň číslo.";
+        }
+
+        function choose(btn, n) {
+            if (!started || won || lock) return;
+            lock = true;
+            if (n === answer) {
+                btn.classList.add("ok"); score++; updateHud();
+                if (window.kidSound) window.kidSound.ok();
+                elState.textContent = "Správně! ✨";
+                if (score >= TARGET) { win(); return; }
+                setTimeout(function () { newRound(); }, 700);
+            } else {
+                btn.classList.add("bad"); wrong++; updateHud();
+                if (window.kidSound) window.kidSound.bad();
+                elState.textContent = "Špatně – správně je " + answer + ".";
+                setTimeout(function () { newRound(); }, 1000);
+            }
+        }
+
+        function updateHud() {
+            elHits.textContent = score; elMiss.textContent = wrong; elOk.textContent = score; elBad.textContent = wrong;
+            if (elTotal) elTotal.textContent = "/ " + TARGET;
+            window.MYSAK_WRONG = wrong;
+        }
+
+        function startGame() {
+            if (started) return;
+            started = true;
+            try { GlobalTimer.start(); } catch (e) {}
+            elStatus.textContent = "Najdi vzor a doplň číslo.";
+        }
+
+        document.getElementById("btn_start").addEventListener("click", function () {
+            startGame();
+            if (won) return;
+            if (answer !== null) return;
+            newRound();
+            elState.textContent = "Doplň číslo.";
+        });
+
+        function win() {
+            won = true; lock = true; updateHud();
+            elState.textContent = "Vyhrál jsi! 🎉";
+            if (window.kidSound) window.kidSound.win();
+            try { GlobalTimer.stop(); } catch (e) {}
+            if (typeof fin === "function") fin();
+        }
+
+        function checkSolution() { return score >= TARGET; }
+
+        function gameReload() {
+            score = 0; wrong = 0; won = false; started = false; lock = false; answer = null;
+            window.MYSAK_WRONG = 0; updateHud();
+            elSeq.innerHTML = ""; elChoices.innerHTML = "";
+            elState.textContent = "Klikni na „Start“ a doplň číslo.";
+            elStatus.textContent = "Najdi vzor a doplň číslo.";
+            try { GlobalTimer.reset(); } catch (e) {}
+        }
+
+        function showHelp() {
+            if (typeof popupWindow === "function") popupWindow(document.getElementById("help").innerHTML, 430, 300);
+        }
+
+        window.checkSolution = checkSolution;
+        window.gameReload = gameReload;
+        window.showHelp = showHelp;
+        window.__answer = function () { return answer; };
+        window.__choose = function (n) {
+            var btns = elChoices.querySelectorAll(".pat-choice");
+            for (var i = 0; i < btns.length; i++) if (parseInt(btns[i].textContent, 10) === n) { btns[i].click(); return true; }
+            return false;
+        };
+
+        $("#slider_target").slider({
+            range: "max", min: 5, max: 20, step: 1, value: TARGET,
+            slide: function (event, ui) {
+                TARGET = ui.value;
+                document.getElementById("lbl_target_val").textContent = ui.value;
+                document.getElementById("lbl_total").textContent = "/ " + ui.value;
+            },
+            stop: function () { gameReload(); }
+        });
+
+        updateHud();
+        elState.textContent = "Klikni na „Start“ a doplň číslo.";
+    })();
+    </script>
+</body>
+</html>
