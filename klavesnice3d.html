@@ -163,17 +163,12 @@
             raycaster.setFromCamera(mouse, camera);
             if (!root) return;
             const hits = raycaster.intersectObject(root, true);
+            const onKeyboard = hits.length > 0;
             let target = null;
-            if (hits.length > 0) {
-                let m = hits[0].object;
-                while (m && !baseY.has(m) && m.parent) m = m.parent;
-                if (m && baseY.has(m) && m.name !== 'Cube048_Mouse_0') target = m;
-            }
-            // fallback: nearest keycap on screen
-            if (!target) {
-                let best = null, bestDist = 70;
+            if (onKeyboard) {
+                // always pick the nearest keycap by screen projection (most reliable)
+                let best = null, bestDist = 46;
                 baseY.forEach((_, mesh) => {
-                    if (mesh.name === 'Cube048_Mouse_0') return;
                     if (!/keycap|space|mouse_click|mouse_wheel/i.test(mesh.name)) return;
                     const v = mesh.getWorldPosition(new THREE.Vector3());
                     v.project(camera);
