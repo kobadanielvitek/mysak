@@ -177,7 +177,7 @@
             let target = null;
             if (onKeyboard) {
                 // use screen-space bounding boxes: click must land inside a keycap's projected area
-                let best = null, bestArea = Infinity;
+                let best = null, bestDist = Infinity;
                 baseY.forEach((_, mesh) => {
                     if (!/keycap|space|mouse_click|mouse_wheel/i.test(mesh.name)) return;
                     const box = new THREE.Box3().setFromObject(mesh);
@@ -203,8 +203,12 @@
                     const pad = 4;
                     if (e.clientX >= minX - pad && e.clientX <= maxX + pad &&
                         e.clientY >= minY - pad && e.clientY <= maxY + pad) {
-                        const area = (maxX - minX) * (maxY - minY);
-                        if (area < bestArea) { bestArea = area; best = mesh; }
+                        const v = mesh.getWorldPosition(new THREE.Vector3());
+                        v.project(camera);
+                        const sx = (v.x * 0.5 + 0.5) * window.innerWidth;
+                        const sy = (-v.y * 0.5 + 0.5) * window.innerHeight;
+                        const d = Math.hypot(sx - e.clientX, sy - e.clientY);
+                        if (!best || d < bestDist) { bestDist = d; best = mesh; }
                     }
                 });
                 target = best;
