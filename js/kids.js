@@ -243,6 +243,10 @@
             const a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
             if (!a) return;
 
+            // povolené externí odkazy (např. dlaždice "Virtuální PC")
+            if (a.dataset && a.dataset.external === "1") return;
+            if (a.target === "_blank") return;
+
             const href = a.getAttribute("href");
             if (!href || href.charAt(0) === "#" || href.indexOf("javascript:") === 0) return;
 
