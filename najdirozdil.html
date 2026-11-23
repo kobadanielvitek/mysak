@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Najdi rozdíl | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js?v=2"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+    <link rel="stylesheet" href="theme/kids.css?v=7">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <style>
+        /* ==========================================================
+           Najdi rozdíl - najdi odlišné obrázky
+           ========================================================== */
+
+        .kid-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 .6rem 1.2rem;
+        }
+
+        .kid-hud {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .8rem;
+            flex-wrap: wrap;
+            margin: 0 auto .9rem;
+        }
+
+        .kid-hud-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: .7rem;
+            padding: .5rem 1.1rem;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .07);
+            font-weight: 700;
+            font-size: clamp(.95rem, 2vw, 1.12rem);
+            letter-spacing: .015em;
+            color: var(--k-text);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .kid-hud-item b { font-size: 1.2em; font-weight: 900; }
+        #lbl_hits { color: var(--kid-secondary); }
+        #lbl_miss { color: var(--kid-danger); }
+        .kid-hud-total { opacity: .55; font-weight: 700; }
+        .kid-hud-sep { width: 1px; height: 1.35em; background: var(--k-card-border); }
+
+        .kid-hud-boxes { display: inline-flex; gap: .45rem; }
+        .kid-hud-box {
+            min-width: 2.9rem; height: 2.6rem; padding: 0 .55rem;
+            display: grid; place-items: center; border-radius: 13px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255,255,255,.07);
+            font-weight: 900; font-size: 1.3rem; line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+        .kid-hud-box.ok { color: var(--kid-secondary); }
+        .kid-hud-box.bad { color: var(--kid-danger); }
+
+        .kid-settings {
+            display: flex; align-items: center; justify-content: center;
+            gap: 1.2rem; flex-wrap: wrap;
+            margin: 0 auto .9rem;
+            padding: .6rem 1rem; border-radius: 18px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 6px 16px rgba(0,0,0,.35);
+            font-size: clamp(.85rem, 1.8vw, 1rem);
+        }
+        .kid-setting { display: flex; flex-direction: column; align-items: center; gap: .35rem; min-width: 150px; flex: 1; max-width: 260px; }
+        .kid-settings-label { font-weight: 700; color: var(--k-text); }
+        .kid-settings-label b { color: var(--kid-primary); }
+        .kid-settings .slider { width: 100%; margin: .2rem 0; }
+
+        /* --- dvojice mřížek --- */
+        .diff-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .8rem;
+            max-width: 860px;
+            margin: .2rem auto .8rem;
+        }
+
+        .diff-panel {
+            padding: .55rem;
+            border-radius: 18px;
+            border: 2px solid var(--k-card-border);
+            background: linear-gradient(160deg, var(--k-card-2), var(--k-panel));
+            box-shadow: 0 16px 40px rgba(0, 0, 0, .5);
+        }
+
+        .diff-title {
+            text-align: center;
+            font-weight: 800;
+            font-size: .82rem;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--k-muted);
+            margin-bottom: .45rem;
+        }
+
+        .diff-grid {
+            display: grid;
+            gap: 3px;
+        }
+
+        .diff-cell {
+            aspect-ratio: 1 / 1;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .04);
+            font-size: clamp(.85rem, 2.3vw, 1.5rem);
+            line-height: 1;
+            user-select: none;
+        }
+
+        .diff-grid.right .diff-cell {
+            cursor: pointer;
+            transition: background .12s, transform .1s, box-shadow .12s;
+        }
+
+        .diff-grid.right .diff-cell:hover { background: rgba(139, 124, 255, .22); }
+        .diff-grid.right .diff-cell:active { transform: scale(.94); }
+
+        .diff-cell.found {
+            background: rgba(46, 230, 176, .22);
+            box-shadow: 0 0 0 2px var(--kid-secondary) inset;
+        }
+
+        .diff-cell.bad {
+            background: rgba(255, 107, 107, .28);
+            box-shadow: 0 0 0 2px var(--kid-danger) inset;
+        }
+
+        .diff-cell.reveal {
+            box-shadow: 0 0 0 2px var(--kid-primary) inset;
+        }
+
+        .diff-state {
+            margin: .2rem 0 .6rem;
+            text-align: center;
+            font-weight: 800;
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            color: var(--k-text);
+            min-height: 1.6em;
+        }
+
+        .diff-tip {
+            margin: .6rem 0 .4rem;
+            text-align: center;
+            color: var(--k-muted);
+            font-weight: 700;
+            font-size: clamp(.9rem, 1.9vw, 1.05rem);
+        }
+
+        #bottom_navi { margin-top: .3rem; gap: .8rem; flex-wrap: wrap; }
+
+        @media (max-width: 620px) {
+            .kid-hud-bar { padding: .45rem .85rem; gap: .5rem; }
+            .kid-hud-box { min-width: 2.5rem; height: 2.3rem; font-size: 1.15rem; }
+            .diff-pair { gap: .45rem; }
+            .diff-panel { padding: .35rem; border-radius: 14px; }
+            .diff-grid { gap: 2px; }
+        }
+    </style>
+</head>
+<body id="ns__26">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace" id="najdirozdil">
+            <h1>26. Najdi rozdíl <span id='h1_popis'></span></h1>
+
+            <div class="kid-wrap">
+
+                <div class="kid-hud">
+                    <div class="kid-hud-bar" aria-live="polite">
+                        <span class="kid-hud-item">Kolo: <b id="lbl_hits">0</b> <span class="kid-hud-total" id="lbl_total">/ 5</span></span>
+                        <span class="kid-hud-sep" aria-hidden="true"></span>
+                        <span class="kid-hud-item">Chyby: <b id="lbl_miss">0</b></span>
+                    </div>
+                    <div class="kid-hud-boxes" aria-hidden="true">
+                        <div class="kid-hud-box ok"><span id="box_ok">0</span></div>
+                        <div class="kid-hud-box bad"><span id="box_bad">0</span></div>
+                    </div>
+                </div>
+
+                <div class="kid-settings">
+                    <div class="kid-setting">
+                        <span class="kid-settings-label">Kol: <b id="lbl_target_val">5</b></span>
+                        <div class="slider" id="slider_target"></div>
+                    </div>
+                </div>
+
+                <div class="diff-pair">
+                    <div class="diff-panel">
+                        <div class="diff-title">Vzor</div>
+                        <div class="diff-grid left" id="grid_left"></div>
+                    </div>
+                    <div class="diff-panel">
+                        <div class="diff-title">Najdi rozdíly</div>
+                        <div class="diff-grid right" id="grid_right"></div>
+                    </div>
+                </div>
+
+                <div class="diff-state" id="lbl_state">Klikni na „Start“ a najdi rozdíly vpravo.</div>
+
+                <div style="text-align:center; margin:.2rem 0 .6rem;">
+                    <button class="button-19" type="button" id="btn_start" style="margin:0 auto;">START</button>
+                </div>
+
+                <p class="diff-tip" id="lbl_status">Klikni na obrázek vpravo, který se liší od vzoru.</p>
+
+                <div class="flex flex-center align-center" id="bottom_navi">
+                    <div class="stars" data-pocet="5" data-continous="1"></div>
+                    <span class="stop_watch" id="lbl_time"></span>
+                </div>
+
+                <div id="help" style="display:none;">
+                    <div class="center">
+                        <h2>Nápověda</h2>
+                        <p>Vlevo je <strong>vzor</strong>, vpravo stejný obrázek s <strong>rozdíly</strong>.</p>
+                        <p>Klikni na políčko vpravo, které se liší. Když klikneš vedle, přibude chyba.</p>
+                        <p>Cíl: najdi všechny rozdíly v zadaném počtu kol.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPSI</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box">
+                    <canvas id="lbl_fin_time" class="time"></canvas>
+                </div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRACOVAT</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/kids.js?v=22"></script>
+    <script>
+    (function () {
+        "use strict";
+
+        var elHits = document.getElementById("lbl_hits");
+        var elMiss = document.getElementById("lbl_miss");
+        var elOk = document.getElementById("box_ok");
+        var elBad = document.getElementById("box_bad");
+        var elTotal = document.getElementById("lbl_total");
+        var elState = document.getElementById("lbl_state");
+        var elStatus = document.getElementById("lbl_status");
+        var gridLeft = document.getElementById("grid_left");
+        var gridRight = document.getElementById("grid_right");
+
+        var TARGET = 5;       // počet kol
+        var round = 0;        // dokončená kola
+        var wrong = 0;
+        var won = false;
+        var started = false;
+
+        var COLS = 6, ROWS = 6;
+        var POOL = ["🍎","🍌","🍇","🍓","🍒","🍑","🍍","🥝","🍉","🍋","🥕","🌽","🍄","🌻","🌼","🐞","🐝","🦋","🐟","🐢","⭐","❤️","🔵","🟢"];
+        var left = [];        // emoji vlevo
+        var right = [];       // emoji vpravo
+        var diffs = [];       // indexy rozdílů
+        var found = {};       // nalezené indexy
+        var lock = false;
+
+        /* ---------- pomocné ---------- */
+        function randInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function diffCountForRound() {
+            return Math.min(6, 2 + Math.floor(round / 2));
+        }
+
+        /* ---------- generování kola ---------- */
+        function buildRound() {
+            gridLeft.innerHTML = "";
+            gridRight.innerHTML = "";
+            found = {};
+            lock = false;
+
+            left = [];
+            right = [];
+            diffs = [];
+
+            var n = COLS * ROWS;
+            for (var i = 0; i < n; i++) {
+                left.push(POOL[randInt(0, POOL.length - 1)]);
+            }
+            right = left.slice();
+
+            var diffCount = diffCountForRound();
+            var taken = {};
+            while (diffs.length < diffCount) {
+                var idx = randInt(0, n - 1);
+                if (taken[idx]) continue;
+                taken[idx] = true;
+                var old = left[idx];
+                var neu = old;
+                while (neu === old) neu = POOL[randInt(0, POOL.length - 1)];
+                right[idx] = neu;
+                diffs.push(idx);
+            }
+
+            gridLeft.style.gridTemplateColumns = "repeat(" + COLS + ", 1fr)";
+            gridRight.style.gridTemplateColumns = "repeat(" + COLS + ", 1fr)";
+
+            for (var c = 0; c < n; c++) {
+                var cl = document.createElement("div");
+                cl.className = "diff-cell";
+                cl.textContent = left[c];
+                gridLeft.appendChild(cl);
+
+                var cr = document.createElement("div");
+                cr.className = "diff-cell";
+                cr.textContent = right[c];
+                cr.dataset.index = c;
+                cr.addEventListener("click", onCellClick);
+                gridRight.appendChild(cr);
+            }
+
+            elStatus.textContent = "Najdi " + diffCount + " rozdílů vpravo.";
+        }
+
+        function onCellClick() {
+            if (!started || won || lock) return;
+            var idx = parseInt(this.dataset.index, 10);
+            if (found[idx]) return;
+
+            if (diffs.indexOf(idx) !== -1) {
+                found[idx] = true;
+                this.classList.add("found");
+                if (window.kidSound) window.kidSound.ok();
+                var left = 0;
+                for (var k in found) if (found.hasOwnProperty(k)) left++;
+                elState.textContent = "Správně! Zbývá " + (diffs.length - left) + ".";
+                if (left >= diffs.length) completeRound();
+            } else {
+                wrong++;
+                updateHud();
+                this.classList.add("bad");
+                if (window.kidSound) window.kidSound.bad();
+                elState.textContent = "Tady rozdíl není.";
+                var cell = this;
+                setTimeout(function () { cell.classList.remove("bad"); }, 500);
+            }
+        }
+
+        function completeRound() {
+            lock = true;
+            round++;
+            updateHud();
+            if (round >= TARGET) { win(); return; }
+            elState.textContent = "Kolo hotovo! Další…";
+            if (window.kidSound) window.kidSound.win();
+            setTimeout(function () {
+                buildRound();
+                elState.textContent = "Najdi rozdíly vpravo.";
+            }, 1100);
+        }
+
+        /* ---------- HUD ---------- */
+        function updateHud() {
+            elHits.textContent = round;
+            elMiss.textContent = wrong;
+            elOk.textContent = round;
+            elBad.textContent = wrong;
+            if (elTotal) elTotal.textContent = "/ " + TARGET;
+            window.MYSAK_WRONG = wrong;
+        }
+
+        /* ---------- start ---------- */
+        function startGame() {
+            if (started) return;
+            started = true;
+            try { GlobalTimer.start(); } catch (e) {}
+            elStatus.textContent = "Klikni na obrázek vpravo, který se liší od vzoru.";
+        }
+
+        document.getElementById("btn_start").addEventListener("click", function () {
+            startGame();
+            if (won) return;
+            if (lock) return;
+            if (round >= TARGET) return;
+            buildRound();
+            elState.textContent = "Najdi rozdíly vpravo.";
+        });
+
+        function win() {
+            won = true;
+            lock = true;
+            updateHud();
+            elState.textContent = "Vyhrál jsi! 🎉";
+            if (window.kidSound) window.kidSound.win();
+            if (typeof fin === "function") fin();
+        }
+
+        /* ---------- napojení ---------- */
+        function checkSolution() { return round >= TARGET; }
+
+        function gameReload() {
+            round = 0;
+            wrong = 0;
+            won = false;
+            started = false;
+            lock = false;
+            window.MYSAK_WRONG = 0;
+            buildRound();
+            updateHud();
+            elState.textContent = "Klikni na „Start“ a najdi rozdíly vpravo.";
+            elStatus.textContent = "Klikni na obrázek vpravo, který se liší od vzoru.";
+            try { GlobalTimer.reset(); } catch (e) {}
+        }
+
+        function showHelp() {
+            if (typeof popupWindow === "function") {
+                popupWindow(document.getElementById("help").innerHTML, 430, 320);
+            }
+        }
+
+        window.checkSolution = checkSolution;
+        window.gameReload = gameReload;
+        window.showHelp = showHelp;
+
+        /* ---------- pomocník pro test ---------- */
+        window.__diffs = function () { return diffs.slice(); };
+        window.__clickDiff = function (i) {
+            var cell = gridRight.querySelector('[data-index="' + i + '"]');
+            if (cell) cell.click();
+        };
+
+        /* ---------- nastavení ---------- */
+        $("#slider_target").slider({
+            range: "max",
+            min: 3,
+            max: 10,
+            step: 1,
+            value: TARGET,
+            slide: function (event, ui) {
+                TARGET = ui.value;
+                document.getElementById("lbl_target_val").textContent = ui.value;
+                document.getElementById("lbl_total").textContent = "/ " + ui.value;
+            },
+            stop: function () { gameReload(); }
+        });
+
+        /* ---------- start ---------- */
+        buildRound();
+        updateHud();
+        elState.textContent = "Klikni na „Start“ a najdi rozdíly vpravo.";
+    })();
+    </script>
+</body>
+</html>
