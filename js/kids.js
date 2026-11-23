@@ -118,7 +118,7 @@
         }
         let done = [];
         try { done = JSON.parse(localStorage.getItem("mysak_done") || "[]"); } catch (e) {}
-        badge.textContent = "⭐ " + done.length + " / 19";
+        badge.textContent = "⭐ " + done.length + " / 20";
 
         // kliknutím na odznak vymažeš postup (s potvrzením)
         if (!badge.dataset.resetBound) {
