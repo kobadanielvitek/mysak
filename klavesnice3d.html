@@ -152,8 +152,10 @@
                 const out = [];
                 baseY.forEach((_, mesh) => {
                     if (!/keycap|space|mouse_click|mouse_wheel/i.test(mesh.name)) return;
-                    const v = mesh.getWorldPosition(new THREE.Vector3());
-                    v.project(camera);
+                    const box = new THREE.Box3().setFromObject(mesh);
+                    const _tc = new THREE.Vector3((box.min.x+box.max.x)/2, box.max.y, (box.min.z+box.max.z)/2);
+                    _tc.applyMatrix4(mesh.matrixWorld);
+                    const v = _tc.clone().project(camera);
                     out.push({ name: mesh.name, x: (v.x*0.5+0.5)*window.innerWidth, y: (-v.y*0.5+0.5)*window.innerHeight });
                 });
                 return out;
@@ -179,8 +181,10 @@
             let target = null, bestDist = 60;
             baseY.forEach((_, mesh) => {
                 if (!/keycap|space|mouse_click|mouse_wheel/i.test(mesh.name)) return;
-                const v = mesh.getWorldPosition(new THREE.Vector3());
-                v.project(camera);
+                const box = new THREE.Box3().setFromObject(mesh);
+                const _tc = new THREE.Vector3((box.min.x+box.max.x)/2, box.max.y, (box.min.z+box.max.z)/2);
+                _tc.applyMatrix4(mesh.matrixWorld);
+                const v = _tc.clone().project(camera);
                 const sx = (v.x * 0.5 + 0.5) * window.innerWidth;
                 const sy = (-v.y * 0.5 + 0.5) * window.innerHeight;
                 const d = Math.hypot(sx - e.clientX, sy - e.clientY);
