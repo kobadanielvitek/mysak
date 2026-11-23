@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Poskládej slovo | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js?v=2"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+    <link rel="stylesheet" href="theme/kids.css?v=7">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <style>
+        /* ==========================================================
+           Poskládej slovo - seřaď písmena do slova
+           ========================================================== */
+
+        .kid-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 .6rem 1.2rem;
+        }
+
+        .kid-hud {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .8rem;
+            flex-wrap: wrap;
+            margin: 0 auto .9rem;
+        }
+
+        .kid-hud-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: .7rem;
+            padding: .5rem 1.1rem;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .07);
+            font-weight: 700;
+            font-size: clamp(.95rem, 2vw, 1.12rem);
+            letter-spacing: .015em;
+            color: var(--k-text);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .kid-hud-item b { font-size: 1.2em; font-weight: 900; }
+        #lbl_hits { color: var(--kid-secondary); }
+        #lbl_miss { color: var(--kid-danger); }
+        .kid-hud-total { opacity: .55; font-weight: 700; }
+        .kid-hud-sep { width: 1px; height: 1.35em; background: var(--k-card-border); }
+
+        .kid-hud-boxes { display: inline-flex; gap: .45rem; }
+        .kid-hud-box {
+            min-width: 2.9rem; height: 2.6rem; padding: 0 .55rem;
+            display: grid; place-items: center; border-radius: 13px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255,255,255,.07);
+            font-weight: 900; font-size: 1.3rem; line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+        .kid-hud-box.ok { color: var(--kid-secondary); }
+        .kid-hud-box.bad { color: var(--kid-danger); }
+
+        .kid-settings {
+            display: flex; align-items: center; justify-content: center;
+            gap: 1.2rem; flex-wrap: wrap;
+            margin: 0 auto .9rem;
+            padding: .6rem 1rem; border-radius: 18px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 6px 16px rgba(0,0,0,.35);
+            font-size: clamp(.85rem, 1.8vw, 1rem);
+        }
+        .kid-setting { display: flex; flex-direction: column; align-items: center; gap: .35rem; min-width: 150px; flex: 1; max-width: 260px; }
+        .kid-settings-label { font-weight: 700; color: var(--k-text); }
+        .kid-settings-label b { color: var(--kid-primary); }
+        .kid-settings .slider { width: 100%; margin: .2rem 0; }
+
+        /* --- karta --- */
+        .scram-card {
+            max-width: 520px;
+            margin: .2rem auto .8rem;
+            padding: 1.4rem 1.2rem;
+            border-radius: 24px;
+            border: 2px solid var(--k-card-border);
+            background: linear-gradient(160deg, var(--k-card-2), var(--k-panel));
+            box-shadow: 0 22px 60px rgba(0, 0, 0, .6);
+            text-align: center;
+        }
+
+        .scram-emoji {
+            font-size: clamp(3rem, 10vw, 5rem);
+            line-height: 1;
+            margin-bottom: .5rem;
+        }
+
+        .scram-result {
+            min-height: 2.4rem;
+            padding: .5rem .8rem;
+            border-radius: 14px;
+            border: 2px dashed var(--k-card-border);
+            background: var(--k-surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .2rem;
+            font-size: clamp(1.6rem, 5vw, 2.4rem);
+            font-weight: 900;
+            letter-spacing: .12em;
+            color: var(--k-text);
+            margin-bottom: .8rem;
+        }
+
+        .scram-result .slot { display: inline-block; min-width: 1em; }
+
+        .scram-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            justify-content: center;
+            margin-bottom: .6rem;
+        }
+
+        .scram-letter {
+            width: clamp(2.6rem, 8vw, 3.4rem);
+            height: clamp(2.6rem, 8vw, 3.4rem);
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            border: 2px solid var(--k-card-border);
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            color: var(--k-text);
+            font-size: clamp(1.3rem, 4vw, 1.9rem);
+            font-weight: 900;
+            text-transform: lowercase;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform .1s, opacity .15s, background .15s;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, .4);
+        }
+
+        .scram-letter:hover { transform: translateY(-2px); }
+        .scram-letter:active { transform: scale(.94); }
+        .scram-letter.used { opacity: .3; pointer-events: none; }
+        .scram-letter.bad { animation: scram-shake .3s; }
+
+        @keyframes scram-shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .scram-actions {
+            margin-top: .6rem;
+            display: flex;
+            gap: .6rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .scram-btn {
+            padding: .5rem 1.1rem;
+            border-radius: 999px;
+            border: 1px solid var(--k-card-border);
+            background: var(--k-surface);
+            color: var(--k-text);
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background .15s, transform .1s;
+        }
+        .scram-btn:hover { background: var(--k-surface-2); }
+        .scram-btn:active { transform: scale(.97); }
+
+        .scram-state {
+            margin: .2rem 0 .6rem;
+            text-align: center;
+            font-weight: 800;
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            color: var(--k-text);
+            min-height: 1.6em;
+        }
+
+        .scram-tip {
+            margin: .6rem 0 .4rem;
+            text-align: center;
+            color: var(--k-muted);
+            font-weight: 700;
+            font-size: clamp(.9rem, 1.9vw, 1.05rem);
+        }
+
+        #bottom_navi { margin-top: .3rem; gap: .8rem; flex-wrap: wrap; }
+
+        @media (max-width: 560px) {
+            .kid-hud-bar { padding: .45rem .85rem; gap: .5rem; }
+            .kid-hud-box { min-width: 2.5rem; height: 2.3rem; font-size: 1.15rem; }
+        }
+    </style>
+</head>
+<body id="ns__31">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace" id="skladacka">
+            <h1>31. Poskládej slovo <span id='h1_popis'></span></h1>
+
+            <div class="kid-wrap">
+
+                <div class="kid-hud">
+                    <div class="kid-hud-bar" aria-live="polite">
+                        <span class="kid-hud-item">Správně: <b id="lbl_hits">0</b> <span class="kid-hud-total" id="lbl_total">/ 8</span></span>
+                        <span class="kid-hud-sep" aria-hidden="true"></span>
+                        <span class="kid-hud-item">Chyby: <b id="lbl_miss">0</b></span>
+                    </div>
+                    <div class="kid-hud-boxes" aria-hidden="true">
+                        <div class="kid-hud-box ok"><span id="box_ok">0</span></div>
+                        <div class="kid-hud-box bad"><span id="box_bad">0</span></div>
+                    </div>
+                </div>
+
+                <div class="kid-settings">
+                    <div class="kid-setting">
+                        <span class="kid-settings-label">Slov: <b id="lbl_target_val">8</b></span>
+                        <div class="slider" id="slider_target"></div>
+                    </div>
+                </div>
+
+                <div class="scram-card">
+                    <div class="scram-emoji" id="scram_emoji">🐱</div>
+                    <div class="scram-result" id="scram_result"></div>
+                    <div class="scram-pool" id="scram_pool"></div>
+                    <div class="scram-actions">
+                        <button class="scram-btn" type="button" id="btn_undo">↩ Zpět</button>
+                        <button class="scram-btn" type="button" id="btn_clear">Smazat</button>
+                    </div>
+                </div>
+
+                <div class="scram-state" id="lbl_state">Klikni na „Start“ a poskládej slovo.</div>
+
+                <div style="text-align:center; margin:.2rem 0 .6rem;">
+                    <button class="button-19" type="button" id="btn_start" style="margin:0 auto;">START</button>
+                </div>
+
+                <p class="scram-tip" id="lbl_status">Klikej na písmena v pořadí, aby vzniklo slovo. Nápověda je obrázek.</p>
+
+                <div class="flex flex-center align-center" id="bottom_navi">
+                    <div class="stars" data-pocet="5" data-continous="1"></div>
+                    <span class="stop_watch" id="lbl_time"></span>
+                </div>
+
+                <div id="help" style="display:none;">
+                    <div class="center">
+                        <h2>Nápověda</h2>
+                        <p>Písmena slova jsou <strong>zamíchaná</strong>.</p>
+                        <p>Klikej na ně v takovém pořadí, aby vzniklo správné slovo (nápověda je obrázek).</p>
+                        <p>Cíl: poskládat zadaný počet slov.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPSI</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box">
+                    <canvas id="lbl_fin_time" class="time"></canvas>
+                </div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRACOVAT</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/kids.js?v=23"></script>
+    <script>
+    (function () {
+        "use strict";
+
+        var elHits = document.getElementById("lbl_hits");
+        var elMiss = document.getElementById("lbl_miss");
+        var elOk = document.getElementById("box_ok");
+        var elBad = document.getElementById("box_bad");
+        var elTotal = document.getElementById("lbl_total");
+        var elState = document.getElementById("lbl_state");
+        var elStatus = document.getElementById("lbl_status");
+        var elEmoji = document.getElementById("scram_emoji");
+        var elResult = document.getElementById("scram_result");
+        var elPool = document.getElementById("scram_pool");
+
+        var TARGET = 8;
+        var score = 0;
+        var wrong = 0;
+        var won = false;
+        var started = false;
+        var lock = false;
+
+        var WORDS = [
+            { w: "kočka", e: "🐱" },
+            { w: "pes", e: "🐶" },
+            { w: "slunce", e: "☀️" },
+            { w: "strom", e: "🌳" },
+            { w: "auto", e: "🚗" },
+            { w: "kniha", e: "📖" },
+            { w: "jablko", e: "🍎" },
+            { w: "ryba", e: "🐟" },
+            { w: "květina", e: "🌸" },
+            { w: "dům", e: "🏠" },
+            { w: "hvězda", e: "⭐" },
+            { w: "kolo", e: "🚲" },
+            { w: "pták", e: "🐦" },
+            { w: "sníh", e: "❄️" },
+            { w: "voda", e: "💧" }
+        ];
+
+        var current = null;
+        var used = [];
+        var placed = [];   // letters placed so far
+        var letters = [];  // shuffled pool
+        var buttons = [];
+
+        function randInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function pickWord() {
+            var pool = WORDS.filter(function (x) { return used.indexOf(x.w) === -1; });
+            if (pool.length === 0) { used = []; pool = WORDS.slice(); }
+            var item = pool[randInt(0, pool.length - 1)];
+            used.push(item.w);
+            return item;
+        }
+
+        function shuffle(arr) {
+            var a = arr.slice();
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = randInt(0, i);
+                var t = a[i]; a[i] = a[j]; a[j] = t;
+            }
+            return a;
+        }
+
+        function newRound() {
+            lock = false;
+            var item = pickWord();
+            current = item;
+            placed = [];
+            letters = shuffle(item.w.split(""));
+            elEmoji.textContent = item.e;
+            renderResult();
+            renderPool();
+            elState.textContent = "Poskládej slovo.";
+        }
+
+        function renderResult() {
+            elResult.innerHTML = "";
+            for (var i = 0; i < current.w.length; i++) {
+                var span = document.createElement("span");
+                span.className = "slot";
+                span.textContent = (i < placed.length) ? placed[i] : "";
+                elResult.appendChild(span);
+            }
+        }
+
+        function renderPool() {
+            elPool.innerHTML = "";
+            buttons = [];
+            letters.forEach(function (ch, idx) {
+                var b = document.createElement("button");
+                b.type = "button";
+                b.className = "scram-letter";
+                b.textContent = ch;
+                b.dataset.idx = idx;
+                b.addEventListener("click", function () { pick(idx); });
+                elPool.appendChild(b);
+                buttons.push(b);
+            });
+        }
+
+        function pick(idx) {
+            if (!started || won || lock) return;
+            if (buttons[idx].classList.contains("used")) return;
+            var ch = letters[idx];
+            var expected = current.w.charAt(placed.length);
+            buttons[idx].classList.add("used");
+            if (ch === expected) {
+                placed.push(ch);
+                renderResult();
+                if (window.kidSound) window.kidSound.ok();
+                if (placed.length === current.w.length) {
+                    score++;
+                    updateHud();
+                    elState.textContent = "Správně! ✨";
+                    if (window.kidSound) window.kidSound.win();
+                    if (score >= TARGET) { win(); return; }
+                    setTimeout(function () { newRound(); elState.textContent = "Poskládej slovo."; }, 900);
+                }
+            } else {
+                wrong++;
+                updateHud();
+                buttons[idx].classList.add("bad");
+                if (window.kidSound) window.kidSound.bad();
+                elState.textContent = "Špatné písmeno.";
+                setTimeout(function () { buttons[idx].classList.remove("bad"); }, 400);
+                // zruš poslední? necháme výběr; nic nepřidáme
+            }
+        }
+
+        /* ---------- HUD ---------- */
+        function updateHud() {
+            elHits.textContent = score;
+            elMiss.textContent = wrong;
+            elOk.textContent = score;
+            elBad.textContent = wrong;
+            if (elTotal) elTotal.textContent = "/ " + TARGET;
+            window.MYSAK_WRONG = wrong;
+        }
+
+        /* ---------- undo / clear ---------- */
+        document.getElementById("btn_undo").addEventListener("click", function () {
+            if (lock || placed.length === 0) return;
+            placed.pop();
+            // odkryj poslední použité tlačítko
+            var usedBtns = buttons.filter(function (b) { return b.classList.contains("used"); });
+            // znovu zpřístupníme poslední použité (od konce)
+            for (var i = buttons.length - 1; i >= 0; i--) {
+                if (buttons[i].classList.contains("used")) {
+                    buttons[i].classList.remove("used");
+                    break;
+                }
+            }
+            renderResult();
+        });
+
+        document.getElementById("btn_clear").addEventListener("click", function () {
+            if (lock) return;
+            placed = [];
+            buttons.forEach(function (b) { b.classList.remove("used", "bad"); });
+            renderResult();
+        });
+
+        /* ---------- start ---------- */
+        function startGame() {
+            if (started) return;
+            started = true;
+            try { GlobalTimer.start(); } catch (e) {}
+            elStatus.textContent = "Klikej na písmena v pořadí.";
+        }
+
+        document.getElementById("btn_start").addEventListener("click", function () {
+            startGame();
+            if (won) return;
+            if (current) return;
+            newRound();
+            elState.textContent = "Poskládej slovo.";
+        });
+
+        function win() {
+            won = true;
+            lock = true;
+            updateHud();
+            elState.textContent = "Vyhrál jsi! 🎉";
+            if (window.kidSound) window.kidSound.win();
+            try { GlobalTimer.stop(); } catch (e) {}
+            if (typeof fin === "function") fin();
+        }
+
+        /* ---------- napojení ---------- */
+        function checkSolution() { return score >= TARGET; }
+
+        function gameReload() {
+            score = 0;
+            wrong = 0;
+            won = false;
+            started = false;
+            lock = false;
+            current = null;
+            used = [];
+            placed = [];
+            letters = [];
+            window.MYSAK_WRONG = 0;
+            updateHud();
+            elEmoji.textContent = "🐱";
+            elResult.innerHTML = "";
+            elPool.innerHTML = "";
+            elState.textContent = "Klikni na „Start“ a poskládej slovo.";
+            elStatus.textContent = "Klikej na písmena v pořadí, aby vzniklo slovo. Nápověda je obrázek.";
+            try { GlobalTimer.reset(); } catch (e) {}
+        }
+
+        function showHelp() {
+            if (typeof popupWindow === "function") {
+                popupWindow(document.getElementById("help").innerHTML, 430, 300);
+            }
+        }
+
+        window.checkSolution = checkSolution;
+        window.gameReload = gameReload;
+        window.showHelp = showHelp;
+
+        /* ---------- pomocník pro test ---------- */
+        window.__clickLetter = function (ch) {
+            for (var i = 0; i < buttons.length; i++) {
+                if (buttons[i].textContent === ch && !buttons[i].classList.contains("used")) {
+                    buttons[i].click();
+                    return true;
+                }
+            }
+            return false;
+        };
+        window.__currentWord = function () { return current ? current.w : null; };
+
+        /* ---------- nastavení ---------- */
+        $("#slider_target").slider({
+            range: "max",
+            min: 4,
+            max: 15,
+            step: 1,
+            value: TARGET,
+            slide: function (event, ui) {
+                TARGET = ui.value;
+                document.getElementById("lbl_target_val").textContent = ui.value;
+                document.getElementById("lbl_total").textContent = "/ " + ui.value;
+            },
+            stop: function () { gameReload(); }
+        });
+
+        /* ---------- start ---------- */
+        updateHud();
+        elState.textContent = "Klikni na „Start“ a poskládej slovo.";
+    })();
+    </script>
+</body>
+</html>
