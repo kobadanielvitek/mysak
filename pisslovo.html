@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Piš slovo | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js?v=2"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+    <link rel="stylesheet" href="theme/kids.css?v=7">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <style>
+        /* ==========================================================
+           Piš slovo - napiš slovo podle obrázku
+           ========================================================== */
+
+        .kid-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 .6rem 1.2rem;
+        }
+
+        .kid-hud {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .8rem;
+            flex-wrap: wrap;
+            margin: 0 auto .9rem;
+        }
+
+        .kid-hud-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: .7rem;
+            padding: .5rem 1.1rem;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .07);
+            font-weight: 700;
+            font-size: clamp(.95rem, 2vw, 1.12rem);
+            letter-spacing: .015em;
+            color: var(--k-text);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .kid-hud-item b { font-size: 1.2em; font-weight: 900; }
+        #lbl_hits { color: var(--kid-secondary); }
+        #lbl_miss { color: var(--kid-danger); }
+        .kid-hud-total { opacity: .55; font-weight: 700; }
+        .kid-hud-sep { width: 1px; height: 1.35em; background: var(--k-card-border); }
+
+        .kid-hud-boxes { display: inline-flex; gap: .45rem; }
+        .kid-hud-box {
+            min-width: 2.9rem; height: 2.6rem; padding: 0 .55rem;
+            display: grid; place-items: center; border-radius: 13px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255,255,255,.07);
+            font-weight: 900; font-size: 1.3rem; line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+        .kid-hud-box.ok { color: var(--kid-secondary); }
+        .kid-hud-box.bad { color: var(--kid-danger); }
+
+        .kid-settings {
+            display: flex; align-items: center; justify-content: center;
+            gap: 1.2rem; flex-wrap: wrap;
+            margin: 0 auto .9rem;
+            padding: .6rem 1rem; border-radius: 18px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 6px 16px rgba(0,0,0,.35);
+            font-size: clamp(.85rem, 1.8vw, 1rem);
+        }
+        .kid-setting { display: flex; flex-direction: column; align-items: center; gap: .35rem; min-width: 150px; flex: 1; max-width: 260px; }
+        .kid-settings-label { font-weight: 700; color: var(--k-text); }
+        .kid-settings-label b { color: var(--kid-primary); }
+        .kid-settings .slider { width: 100%; margin: .2rem 0; }
+
+        /* --- karta slova --- */
+        .word-card {
+            max-width: 460px;
+            margin: .2rem auto .8rem;
+            padding: 1.6rem 1.2rem;
+            border-radius: 24px;
+            border: 2px solid var(--k-card-border);
+            background: linear-gradient(160deg, var(--k-card-2), var(--k-panel));
+            box-shadow: 0 22px 60px rgba(0, 0, 0, .6);
+            text-align: center;
+        }
+
+        .word-emoji {
+            font-size: clamp(4rem, 12vw, 7rem);
+            line-height: 1;
+            margin-bottom: .4rem;
+        }
+
+        .word-hint {
+            color: var(--k-muted);
+            font-weight: 700;
+            font-size: clamp(.9rem, 1.9vw, 1.05rem);
+            margin-bottom: .9rem;
+        }
+
+        .word-input {
+            width: 100%;
+            max-width: 320px;
+            padding: .7rem 1rem;
+            border-radius: 14px;
+            border: 2px solid var(--k-card-border);
+            background: var(--k-surface);
+            color: var(--k-text);
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 800;
+            text-align: center;
+            font-family: inherit;
+            outline: none;
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        .word-input:focus {
+            border-color: var(--kid-primary);
+            box-shadow: 0 0 0 4px rgba(139, 124, 255, .25);
+        }
+
+        .word-input.ok { border-color: var(--kid-secondary); }
+        .word-input.bad { border-color: var(--kid-danger); }
+
+        .word-actions {
+            margin-top: .8rem;
+            display: flex;
+            gap: .6rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .word-btn {
+            padding: .5rem 1.1rem;
+            border-radius: 999px;
+            border: 1px solid var(--k-card-border);
+            background: var(--k-surface);
+            color: var(--k-text);
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background .15s, transform .1s;
+        }
+
+        .word-btn:hover { background: var(--k-surface-2); }
+        .word-btn:active { transform: scale(.97); }
+        .word-btn.primary { background: var(--kid-primary); border-color: var(--kid-primary); color: #fff; }
+
+        .word-state {
+            margin: .6rem 0 .4rem;
+            text-align: center;
+            font-weight: 800;
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            color: var(--k-text);
+            min-height: 1.6em;
+        }
+
+        .word-tip {
+            margin: .6rem 0 .4rem;
+            text-align: center;
+            color: var(--k-muted);
+            font-weight: 700;
+            font-size: clamp(.9rem, 1.9vw, 1.05rem);
+        }
+
+        #bottom_navi { margin-top: .3rem; gap: .8rem; flex-wrap: wrap; }
+
+        @media (max-width: 560px) {
+            .kid-hud-bar { padding: .45rem .85rem; gap: .5rem; }
+            .kid-hud-box { min-width: 2.5rem; height: 2.3rem; font-size: 1.15rem; }
+        }
+    </style>
+</head>
+<body id="ns__25">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace" id="pisslovo">
+            <h1>24. Piš slovo <span id='h1_popis'></span></h1>
+
+            <div class="kid-wrap">
+
+                <div class="kid-hud">
+                    <div class="kid-hud-bar" aria-live="polite">
+                        <span class="kid-hud-item">Správně: <b id="lbl_hits">0</b> <span class="kid-hud-total" id="lbl_total">/ 10</span></span>
+                        <span class="kid-hud-sep" aria-hidden="true"></span>
+                        <span class="kid-hud-item">Chyby: <b id="lbl_miss">0</b></span>
+                    </div>
+                    <div class="kid-hud-boxes" aria-hidden="true">
+                        <div class="kid-hud-box ok"><span id="box_ok">0</span></div>
+                        <div class="kid-hud-box bad"><span id="box_bad">0</span></div>
+                    </div>
+                </div>
+
+                <div class="word-card">
+                    <div class="word-emoji" id="word_emoji">🐱</div>
+                    <div class="word-hint" id="word_hint">Napiš slovo</div>
+                    <input class="word-input" id="word_input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="slovo…">
+                    <div class="word-actions">
+                        <button class="word-btn primary" type="button" id="btn_check">Zkontrolovat</button>
+                        <button class="word-btn" type="button" id="btn_skip">Přeskočit</button>
+                    </div>
+                </div>
+
+                <div class="word-state" id="lbl_state">Klikni na „Start“ a napiš slovo.</div>
+
+                <div style="text-align:center; margin:.2rem 0 .6rem;">
+                    <button class="button-19" type="button" id="btn_start" style="margin:0 auto;">START</button>
+                </div>
+
+                <p class="word-tip" id="lbl_status">Napiš slovo podle obrázku a zmáčkni Enter nebo „Zkontrolovat“.</p>
+
+                <div class="flex flex-center align-center" id="bottom_navi">
+                    <div class="stars" data-pocet="5" data-continous="1"></div>
+                    <span class="stop_watch" id="lbl_time"></span>
+                </div>
+
+                <div id="help" style="display:none;">
+                    <div class="center">
+                        <h2>Nápověda</h2>
+                        <p>Uprostřed se objeví <strong>obrázek</strong> a jeho název.</p>
+                        <p>Napiš slovo do pole a potvrď. Pozor na <strong>diakritiku</strong> (á, č, ě…).</p>
+                        <p>Cíl: <strong>10 správných slov</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPSI</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box">
+                    <canvas id="lbl_fin_time" class="time"></canvas>
+                </div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRACOVAT</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/kids.js?v=19"></script>
+    <script>
+    (function () {
+        "use strict";
+
+        var elHits = document.getElementById("lbl_hits");
+        var elMiss = document.getElementById("lbl_miss");
+        var elOk = document.getElementById("box_ok");
+        var elBad = document.getElementById("box_bad");
+        var elTotal = document.getElementById("lbl_total");
+        var elState = document.getElementById("lbl_state");
+        var elStatus = document.getElementById("lbl_status");
+        var elEmoji = document.getElementById("word_emoji");
+        var elHint = document.getElementById("word_hint");
+        var elInput = document.getElementById("word_input");
+
+        var TARGET = 10;
+        var score = 0;
+        var wrong = 0;
+        var won = false;
+        var started = false;
+        var current = null;
+        var words = [
+            { w: "kočka", e: "🐱", h: "zvíře, které mňouká" },
+            { w: "pes", e: "🐶", h: "nejlepší přítel člověka" },
+            { w: "slunce", e: "☀️", h: "svítí na obloze" },
+            { w: "strom", e: "🌳", h: "roste v lese" },
+            { w: "auto", e: "🚗", h: "jezdí po silnici" },
+            { w: "kniha", e: "📖", h: "čteme ji" },
+            { w: "jablko", e: "🍎", h: "červené ovoce" },
+            { w: "ryba", e: "🐟", h: "plave ve vodě" },
+            { w: "květina", e: "🌸", h: "roste v zahradě" },
+            { w: "dům", e: "🏠", h: "bydlíme v něm" },
+            { w: "hvězda", e: "⭐", h: "svítí v noci na nebi" },
+            { w: "kolo", e: "🚲", h: "jezdíme na něm" },
+            { w: "pták", e: "🐦", h: "létá ve vzduchu" },
+            { w: "sníh", e: "❄️", h: "padá v zimě" },
+            { w: "voda", e: "💧", h: "pijeme ji" }
+        ];
+        var used = [];
+
+        /* ---------- výběr slova ---------- */
+        function pickWord() {
+            var pool = words.filter(function (w) { return used.indexOf(w.w) === -1; });
+            if (pool.length === 0) { used = []; pool = words.slice(); }
+            var w = pool[Math.floor(Math.random() * pool.length)];
+            used.push(w.w);
+            return w;
+        }
+
+        function showWord() {
+            current = pickWord();
+            elEmoji.textContent = current.e;
+            elHint.textContent = current.h;
+            elInput.value = "";
+            elInput.className = "word-input";
+            elInput.focus();
+        }
+
+        /* ---------- HUD ---------- */
+        function updateHud() {
+            elHits.textContent = score;
+            elMiss.textContent = wrong;
+            elOk.textContent = score;
+            elBad.textContent = wrong;
+            if (elTotal) elTotal.textContent = "/ " + TARGET;
+            window.MYSAK_WRONG = wrong;
+        }
+
+        /* ---------- kontrola ---------- */
+        function check() {
+            if (!started || won || !current) return;
+            var val = elInput.value.trim().toLowerCase();
+            var ok = (val === current.w.toLowerCase());
+            if (ok) {
+                score++;
+                updateHud();
+                elInput.className = "word-input ok";
+                elState.textContent = "Správně! ✨";
+                if (window.kidSound) window.kidSound.ok();
+                if (score >= TARGET) { win(); return; }
+                setTimeout(function () {
+                    showWord();
+                    elState.textContent = "Napiš další slovo.";
+                }, 900);
+            } else {
+                wrong++;
+                updateHud();
+                elInput.className = "word-input bad";
+                elState.textContent = "Špatně – správně je „" + current.w + "“.";
+                if (window.kidSound) window.kidSound.bad();
+                setTimeout(function () {
+                    showWord();
+                    elState.textContent = "Napiš další slovo.";
+                }, 1300);
+            }
+        }
+
+        function win() {
+            won = true;
+            updateHud();
+            elState.textContent = "Vyhrál jsi! 🎉";
+            if (window.kidSound) window.kidSound.win();
+            if (typeof fin === "function") fin();
+        }
+
+        /* ---------- start ---------- */
+        function startGame() {
+            if (started) return;
+            started = true;
+            try { GlobalTimer.start(); } catch (e) {}
+            elStatus.textContent = "Napiš slovo podle obrázku a potvrď.";
+        }
+
+        document.getElementById("btn_start").addEventListener("click", function () {
+            startGame();
+            if (won) return;
+            if (current) return;
+            showWord();
+            elState.textContent = "Napiš slovo.";
+        });
+
+        document.getElementById("btn_check").addEventListener("click", function () {
+            startGame();
+            check();
+        });
+
+        document.getElementById("btn_skip").addEventListener("click", function () {
+            startGame();
+            if (won || !current) return;
+            wrong++;
+            updateHud();
+            if (window.kidSound) window.kidSound.bad();
+            elState.textContent = "Přeskočeno – správně bylo „" + current.w + "“.";
+            setTimeout(function () { showWord(); elState.textContent = "Napiš další slovo."; }, 1000);
+        });
+
+        elInput.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                startGame();
+                check();
+            }
+        });
+
+        /* ---------- napojení ---------- */
+        function checkSolution() { return score >= TARGET; }
+
+        function gameReload() {
+            score = 0;
+            wrong = 0;
+            won = false;
+            started = false;
+            current = null;
+            used = [];
+            window.MYSAK_WRONG = 0;
+            updateHud();
+            elEmoji.textContent = "🐱";
+            elHint.textContent = "Napiš slovo";
+            elInput.value = "";
+            elInput.className = "word-input";
+            elState.textContent = "Klikni na „Start“ a napiš slovo.";
+            elStatus.textContent = "Napiš slovo podle obrázku a potvrď.";
+            try { GlobalTimer.reset(); } catch (e) {}
+        }
+
+        function showHelp() {
+            if (typeof popupWindow === "function") {
+                popupWindow(document.getElementById("help").innerHTML, 430, 320);
+            }
+        }
+
+        window.checkSolution = checkSolution;
+        window.gameReload = gameReload;
+        window.showHelp = showHelp;
+
+        /* ---------- pomocník pro test ---------- */
+        window.__current = function () { return current ? current.w : null; };
+        window.__typeWord = function (w) {
+            elInput.value = w;
+            check();
+        };
+
+        updateHud();
+        elState.textContent = "Klikni na „Start“ a napiš slovo.";
+    })();
+    </script>
+</body>
+</html>
