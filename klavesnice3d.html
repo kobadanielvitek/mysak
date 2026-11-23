@@ -60,7 +60,7 @@
         scene.fog = new THREE.Fog(0x1a1a2e, 6, 12);
 
         const camera = new THREE.PerspectiveCamera(42, window.innerWidth/window.innerHeight, 0.01, 100);
-        camera.position.set(0, 1.6, 2.6);
+        camera.position.set(0, 2.4, 1.0);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -168,70 +168,23 @@
         }
 
         renderer.domElement.addEventListener('click', (e) => {
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-            raycaster.setFromCamera(mouse, camera);
             if (!root) return;
-            const hits = raycaster.intersectObject(root, true);
-            const onKeyboard = hits.length > 0;
-            let target = null;
-            if (onKeyboard) {
-                // use screen-space bounding boxes: click must land inside a keycap's projected area
-                let best = null, bestDist = Infinity;
-                baseY.forEach((_, mesh) => {
-                    if (!/keycap|space|mouse_click|mouse_wheel/i.test(mesh.name)) return;
-                    const box = new THREE.Box3().setFromObject(mesh);
-                    const corners = [
-                        new THREE.Vector3(box.min.x, box.min.y, box.min.z),
-                        new THREE.Vector3(box.max.x, box.min.y, box.min.z),
-                        new THREE.Vector3(box.min.x, box.max.y, box.min.z),
-                        new THREE.Vector3(box.max.x, box.max.y, box.min.z),
-                        new THREE.Vector3(box.min.x, box.min.y, box.max.z),
-                        new THREE.Vector3(box.max.x, box.min.y, box.max.z),
-                        new THREE.Vector3(box.min.x, box.max.y, box.max.z),
-                        new THREE.Vector3(box.max.x, box.max.y, box.max.z),
-                    ];
-                    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-                    for (const cr of corners) {
-                        cr.project(camera);
-                        const sx = (cr.x * 0.5 + 0.5) * window.innerWidth;
-                        const sy = (-cr.y * 0.5 + 0.5) * window.innerHeight;
-                        minX = Math.min(minX, sx); maxX = Math.max(maxX, sx);
-                        minY = Math.min(minY, sy); maxY = Math.max(maxY, sy);
-                    }
-                    // inflate slightly
-                    const pad = 4;
-                    if (e.clientX >= minX - pad && e.clientX <= maxX + pad &&
-                        e.clientY >= minY - pad && e.clientY <= maxY + pad) {
-                        const v = mesh.getWorldPosition(new THREE.Vector3());
-                        v.project(camera);
-                        const sx = (v.x * 0.5 + 0.5) * window.innerWidth;
-                        const sy = (-v.y * 0.5 + 0.5) * window.innerHeight;
-                        const d = Math.hypot(sx - e.clientX, sy - e.clientY);
-                        if (!best || d < bestDist) { bestDist = d; best = mesh; }
-                    }
-                });
-                target = best;
-                // fallback: nearest center if no bbox hit
-                if (!target) {
-                    let best2 = null, bestDist = 60;
-                    baseY.forEach((_, mesh) => {
-                        if (!/keycap|space|mouse_click|mouse_wheel/i.test(mesh.name)) return;
-                        const v = mesh.getWorldPosition(new THREE.Vector3());
-                        v.project(camera);
-                        const sx = (v.x * 0.5 + 0.5) * window.innerWidth;
-                        const sy = (-v.y * 0.5 + 0.5) * window.innerHeight;
-                        const d = Math.hypot(sx - e.clientX, sy - e.clientY);
-                        if (d < bestDist) { bestDist = d; best2 = mesh; }
-                    });
-                    target = best2;
-                }
-            }
+            let target = null, bestDist = 60;
+            baseY.forEach((_, mesh) => {
+                if (!/keycap|space|mouse_click|mouse_wheel/i.test(mesh.name)) return;
+                const v = mesh.getWorldPosition(new THREE.Vector3());
+                v.project(camera);
+                const sx = (v.x * 0.5 + 0.5) * window.innerWidth;
+                const sy = (-v.y * 0.5 + 0.5) * window.innerHeight;
+                const d = Math.hypot(sx - e.clientX, sy - e.clientY);
+                if (d < bestDist) { bestDist = d; target = mesh; }
+            });
             if (target) pressMesh(target);
+        });
         });
 
         document.getElementById('resetCam').addEventListener('click', () => {
-            camera.position.set(0, 1.6, 2.6);
+            camera.position.set(0, 2.4, 1.0);
             controls.target.set(0, 0.2, 0);
             controls.update();
         });
