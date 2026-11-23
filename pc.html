@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PC | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+    </style>
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+    <link rel="stylesheet" href="theme/kids.css?v=7">
+    <style>
+        /* ==========================================================
+           PC - jen plocha s virtuálními Windows, bez horní lišty
+           ========================================================== */
+
+        html, body { min-height: 100%; }
+
+        .pc-wrap {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 .8rem 1.4rem;
+        }
+
+        .pc-screen {
+            position: relative;
+            width: 100%;
+            height: clamp(420px, calc(100vh - 230px), 900px);
+            border-radius: 16px;
+            border: 1px solid var(--k-card-border);
+            background: #14141f;
+            box-shadow: 0 22px 60px rgba(0, 0, 0, .6), inset 0 0 0 1px rgba(255, 255, 255, .03);
+            overflow: hidden;
+        }
+
+        .pc-screen iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #14141f;
+        }
+
+        /* plocha, když se rám nenačte */
+        .pc-desktop {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            text-align: center;
+            padding: 2rem 1.2rem;
+            background:
+                radial-gradient(circle at 50% 0%, #1d1d30 0%, #0d0d16 70%),
+                #0d0d16;
+            color: var(--k-text);
+        }
+
+        .pc-desktop.on { display: flex; }
+
+        .pc-desktop h2 {
+            margin: 0;
+            font-size: clamp(1.1rem, 3vw, 1.6rem);
+            font-weight: 800;
+        }
+
+        .pc-desktop p {
+            margin: 0;
+            max-width: 52ch;
+            color: var(--k-muted);
+            line-height: 1.5;
+        }
+
+        .pc-win-icon {
+            width: 60px;
+            height: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+
+        .pc-win-icon span {
+            background: #4aa3ff;
+            border-radius: 2px;
+        }
+
+        .pc-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            padding: .5rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--kid-primary);
+            background: var(--kid-primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: .95rem;
+            text-decoration: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: filter .15s, transform .1s;
+        }
+
+        .pc-btn:hover { filter: brightness(1.08); }
+        .pc-btn:active { transform: scale(.97); }
+    </style>
+</head>
+<body id="ns__19">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace">
+            <h1>PC <span id='h1_popis'></span></h1>
+
+            <div class="pc-wrap">
+                <div class="pc-screen" id="screen">
+                    <iframe id="pc_frame"
+                            src="https://app.apponfly.com/trial"
+                            title="Virtuální Windows – AppOnFly"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allow="clipboard-read; clipboard-write; fullscreen"></iframe>
+
+                    <div class="pc-desktop" id="desktop">
+                        <div class="pc-win-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+                        <h2>Virtuální Windows</h2>
+                        <p>AppOnFly nejde zobrazit přímo ve stránce. Otevři ho prosím v novém okně.</p>
+                        <a class="pc-btn" href="https://app.apponfly.com/trial" target="_blank" rel="noopener noreferrer">↗ Otevřít Windows</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    (function () {
+        "use strict";
+
+        var frame = document.getElementById("pc_frame");
+        var desktop = document.getElementById("desktop");
+
+        // když se obsah nenačte do 9 s, nabídneme otevření v novém okně
+        var timer = setTimeout(function () {
+            if (!frame.dataset.loaded) desktop.classList.add("on");
+        }, 9000);
+
+        frame.addEventListener("load", function () {
+            frame.dataset.loaded = "1";
+            clearTimeout(timer);
+            desktop.classList.remove("on");
+        });
+    })();
+    </script>
+
+    <script src="js/kids.js?v=17"></script>
+</body>
+</html>
