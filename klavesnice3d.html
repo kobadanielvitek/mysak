@@ -141,6 +141,16 @@
             });
             scene.add(root);
             statusEl.textContent = 'Model načten. Klikni na klávesu nebo tlačítko myši.';
+            window.__keyPositions = function () {
+                const out = [];
+                baseY.forEach((_, mesh) => {
+                    if (!/keycap|space|mouse_click|mouse_wheel/i.test(mesh.name)) return;
+                    const v = mesh.getWorldPosition(new THREE.Vector3());
+                    v.project(camera);
+                    out.push({ name: mesh.name, x: (v.x*0.5+0.5)*window.innerWidth, y: (-v.y*0.5+0.5)*window.innerHeight });
+                });
+                return out;
+            };
         }, (xhr) => {
             if (xhr.lengthComputable) {
                 statusEl.textContent = 'Načítám model… ' + Math.round(xhr.loaded / xhr.total * 100) + '%';
