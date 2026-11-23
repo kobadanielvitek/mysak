@@ -163,13 +163,27 @@
             raycaster.setFromCamera(mouse, camera);
             if (!root) return;
             const hits = raycaster.intersectObject(root, true);
+            let target = null;
             if (hits.length > 0) {
-                // find the mesh (first hit)
                 let m = hits[0].object;
-                // walk up to a mesh with baseY
                 while (m && !baseY.has(m) && m.parent) m = m.parent;
-                if (m && baseY.has(m)) pressMesh(m);
+                if (m && baseY.has(m) && m.name !== 'Cube048_Mouse_0') target = m;
             }
+            // fallback: nearest keycap on screen
+            if (!target) {
+                let best = null, bestDist = 70;
+                baseY.forEach((_, mesh) => {
+                    if (mesh.name === 'Cube048_Mouse_0') return;
+                    const v = mesh.getWorldPosition(new THREE.Vector3());
+                    v.project(camera);
+                    const sx = (v.x * 0.5 + 0.5) * window.innerWidth;
+                    const sy = (-v.y * 0.5 + 0.5) * window.innerHeight;
+                    const d = Math.hypot(sx - e.clientX, sy - e.clientY);
+                    if (d < bestDist) { bestDist = d; best = mesh; }
+                });
+                target = best;
+            }
+            if (target) pressMesh(target);
         });
 
         document.getElementById('resetCam').addEventListener('click', () => {
