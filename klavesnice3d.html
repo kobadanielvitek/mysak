@@ -167,7 +167,7 @@
             let target = null;
             if (onKeyboard) {
                 // always pick the nearest keycap by screen projection (most reliable)
-                let best = null, bestDist = 46;
+                let best = null, bestDist = 90;
                 baseY.forEach((_, mesh) => {
                     if (!/keycap|space|mouse_click|mouse_wheel/i.test(mesh.name)) return;
                     const v = mesh.getWorldPosition(new THREE.Vector3());
