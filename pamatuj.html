@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Pamatuj si barvy | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js?v=2"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+    <link rel="stylesheet" href="theme/kids.css?v=7">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <style>
+        /* ==========================================================
+           Pamatuj si barvy - Simon
+           ========================================================== */
+
+        .kid-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 .6rem 1.2rem;
+        }
+
+        .kid-hud {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .8rem;
+            flex-wrap: wrap;
+            margin: 0 auto .9rem;
+        }
+
+        .kid-hud-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: .7rem;
+            padding: .5rem 1.1rem;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .07);
+            font-weight: 700;
+            font-size: clamp(.95rem, 2vw, 1.12rem);
+            letter-spacing: .015em;
+            color: var(--k-text);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .kid-hud-item b { font-size: 1.2em; font-weight: 900; }
+        #lbl_hits { color: var(--kid-secondary); }
+        #lbl_miss { color: var(--kid-danger); }
+        .kid-hud-total { opacity: .55; font-weight: 700; }
+        .kid-hud-sep { width: 1px; height: 1.35em; background: var(--k-card-border); }
+
+        .kid-hud-boxes { display: inline-flex; gap: .45rem; }
+        .kid-hud-box {
+            min-width: 2.9rem; height: 2.6rem; padding: 0 .55rem;
+            display: grid; place-items: center; border-radius: 13px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255,255,255,.07);
+            font-weight: 900; font-size: 1.3rem; line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+        .kid-hud-box.ok { color: var(--kid-secondary); }
+        .kid-hud-box.bad { color: var(--kid-danger); }
+
+        /* --- simon mřížka --- */
+        .sim-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .8rem;
+            max-width: 420px;
+            margin: .2rem auto .8rem;
+            aspect-ratio: 1 / 1;
+        }
+
+        .sim-btn {
+            border: 0;
+            border-radius: 22px;
+            cursor: pointer;
+            box-shadow: 0 14px 34px rgba(0,0,0,.5), inset 0 3px 0 rgba(255,255,255,.18);
+            transition: transform .1s, filter .12s, box-shadow .12s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .sim-btn:active { transform: scale(.96); }
+        .sim-btn.flash { filter: brightness(1.7); transform: scale(1.03); }
+
+        .sim-btn.red { background: linear-gradient(160deg, #ff6b6b, #e01313); }
+        .sim-btn.blue { background: linear-gradient(160deg, #74b9ff, #0984e3); }
+        .sim-btn.green { background: linear-gradient(160deg, #55efc4, #00b894); }
+        .sim-btn.yellow { background: linear-gradient(160deg, #ffeaa7, #fdcb6e); }
+
+        .sim-state {
+            margin: .2rem 0 .6rem;
+            text-align: center;
+            font-weight: 800;
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            color: var(--k-text);
+            min-height: 1.6em;
+        }
+
+        .sim-tip {
+            margin: .6rem 0 .4rem;
+            text-align: center;
+            color: var(--k-muted);
+            font-weight: 700;
+            font-size: clamp(.9rem, 1.9vw, 1.05rem);
+        }
+
+        #bottom_navi { margin-top: .3rem; gap: .8rem; flex-wrap: wrap; }
+
+        @media (max-width: 560px) {
+            .kid-hud-bar { padding: .45rem .85rem; gap: .5rem; }
+            .kid-hud-box { min-width: 2.5rem; height: 2.3rem; font-size: 1.15rem; }
+        }
+    </style>
+</head>
+<body id="ns__22">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace" id="pamatuj">
+            <h1>21. Pamatuj si barvy <span id='h1_popis'></span></h1>
+
+            <div class="kid-wrap">
+
+                <div class="kid-hud">
+                    <div class="kid-hud-bar" aria-live="polite">
+                        <span class="kid-hud-item">Úroveň: <b id="lbl_hits">0</b> <span class="kid-hud-total" id="lbl_total">/ 10</span></span>
+                        <span class="kid-hud-sep" aria-hidden="true"></span>
+                        <span class="kid-hud-item">Chyby: <b id="lbl_miss">0</b></span>
+                    </div>
+                    <div class="kid-hud-boxes" aria-hidden="true">
+                        <div class="kid-hud-box ok"><span id="box_ok">0</span></div>
+                        <div class="kid-hud-box bad"><span id="box_bad">0</span></div>
+                    </div>
+                </div>
+
+                <div class="sim-grid" id="grid">
+                    <button class="sim-btn red" data-color="0" aria-label="Červená"></button>
+                    <button class="sim-btn blue" data-color="1" aria-label="Modrá"></button>
+                    <button class="sim-btn green" data-color="2" aria-label="Zelená"></button>
+                    <button class="sim-btn yellow" data-color="3" aria-label="Žlutá"></button>
+                </div>
+
+                <div class="sim-state" id="lbl_state">Klikni na „Start“ a opakuj posloupnost barev.</div>
+
+                <div style="text-align:center; margin:.4rem 0 .6rem;">
+                    <button class="button-19" type="button" id="btn_start" style="margin:0 auto;">START</button>
+                </div>
+
+                <p class="sim-tip" id="lbl_status">Zapamatuj si pořadí barev a klikni na ně ve stejném pořadí.</p>
+
+                <div class="flex flex-center align-center" id="bottom_navi">
+                    <div class="stars" data-pocet="5" data-continous="1"></div>
+                    <span class="stop_watch" id="lbl_time"></span>
+                </div>
+
+                <div id="help" style="display:none;">
+                    <div class="center">
+                        <h2>Nápověda</h2>
+                        <p>Na obrazovce problikne <strong>posloupnost barev</strong>.</p>
+                        <p>Pak na ně klikni ve stejném pořadí.</p>
+                        <p>Každé kolo přibude jedna barva. Cíl: <strong>10 úrovní</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPSI</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box">
+                    <canvas id="lbl_fin_time" class="time"></canvas>
+                </div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRACOVAT</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/kids.js?v=17"></script>
+    <script>
+    (function () {
+        "use strict";
+
+        var elHits = document.getElementById("lbl_hits");
+        var elMiss = document.getElementById("lbl_miss");
+        var elOk = document.getElementById("box_ok");
+        var elBad = document.getElementById("box_bad");
+        var elTotal = document.getElementById("lbl_total");
+        var elState = document.getElementById("lbl_state");
+        var elStatus = document.getElementById("lbl_status");
+
+        var TARGET = 10;
+        var level = 0;     // dokončené úrovně
+        var wrong = 0;
+        var won = false;
+        var started = false;
+
+        var seq = [];
+        var inputIdx = 0;
+        var playing = false;   // přehrává se posloupnost
+        var accepting = false; // přijímáme kliky
+
+        var buttons = Array.prototype.slice.call(document.querySelectorAll(".sim-btn"));
+
+        /* ---------- obtiznost ---------- */
+        function difficulty() {
+            try {
+                if (typeof STARS === "object" && STARS && STARS.stars) {
+                    return Math.max(1, STARS.stars("max"));
+                }
+            } catch (e) {}
+            return 1;
+        }
+
+        /* ---------- HUD ---------- */
+        function updateHud() {
+            elHits.textContent = level;
+            elMiss.textContent = wrong;
+            elOk.textContent = level;
+            elBad.textContent = wrong;
+            if (elTotal) elTotal.textContent = "/ " + TARGET;
+            window.MYSAK_WRONG = wrong;
+        }
+
+        function setState(cls, text) {
+            elState.textContent = text;
+        }
+
+        /* ---------- přehrávání posloupnosti ---------- */
+        function flashColor(idx, cb) {
+            var btn = buttons[idx];
+            btn.classList.add("flash");
+            if (window.kidSound) {
+                var freqs = [523, 659, 784, 880];
+                window.kidSound.click && window.kidSound.click();
+            }
+            setTimeout(function () {
+                btn.classList.remove("flash");
+                if (cb) setTimeout(cb, 220);
+            }, 380);
+        }
+
+        function playSequence(cb) {
+            playing = true;
+            accepting = false;
+            setState("", "Dívej se…");
+            var i = 0;
+            function step() {
+                if (i >= seq.length) {
+                    playing = false;
+                    accepting = true;
+                    setState("", "Teď opakuj!");
+                    if (cb) cb();
+                    return;
+                }
+                flashColor(seq[i], function () { i++; step(); });
+            }
+            step();
+        }
+
+        function nextLevel() {
+            if (won) return;
+            // přidej jednu barvu
+            seq.push(Math.floor(Math.random() * 4));
+            inputIdx = 0;
+            playSequence();
+        }
+
+        /* ---------- kliky ---------- */
+        buttons.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                if (!started) return;
+                if (won) return;
+                if (playing || !accepting) return;
+
+                var color = parseInt(btn.getAttribute("data-color"), 10);
+                btn.classList.add("flash");
+                setTimeout(function () { btn.classList.remove("flash"); }, 200);
+
+                if (color === seq[inputIdx]) {
+                    inputIdx++;
+                    if (window.kidSound) window.kidSound.ok();
+                    if (inputIdx >= seq.length) {
+                        // úroveň dokončena
+                        accepting = false;
+                        level++;
+                        updateHud();
+                        if (level >= TARGET) { win(); return; }
+                        setState("", "Správně! Další úroveň…");
+                        setTimeout(nextLevel, 900);
+                    }
+                } else {
+                    // chyba
+                    wrong++;
+                    updateHud();
+                    if (window.kidSound) window.kidSound.bad();
+                    setState("", "Špatně – zkuste znovu od začátku.");
+                    // opakuj stejnou úroveň
+                    accepting = false;
+                    setTimeout(function () {
+                        inputIdx = 0;
+                        playSequence();
+                    }, 900);
+                }
+            });
+        });
+
+        function startGame() {
+            if (started) return;
+            started = true;
+            try { GlobalTimer.start(); } catch (e) {}
+            elStatus.textContent = "Zapamatuj si pořadí barev a klikni na ně ve stejném pořadí.";
+        }
+
+        function win() {
+            won = true;
+            accepting = false;
+            playing = false;
+            updateHud();
+            setState("", "Vyhrál jsi! 🎉");
+            if (window.kidSound) window.kidSound.win();
+            if (typeof fin === "function") fin();
+        }
+
+        /* ---------- start ---------- */
+        document.getElementById("btn_start").addEventListener("click", function () {
+            startGame();
+            if (won) return;
+            if (playing || accepting) return;
+            // nová hra
+            seq = [];
+            level = 0;
+            wrong = 0;
+            won = false;
+            inputIdx = 0;
+            updateHud();
+            try { GlobalTimer.reset(); GlobalTimer.start(); } catch (e) {}
+            nextLevel();
+        });
+
+        /* ---------- napojení ---------- */
+        function checkSolution() { return level >= TARGET; }
+
+        function gameReload() {
+            seq = [];
+            level = 0;
+            wrong = 0;
+            won = false;
+            started = false;
+            playing = false;
+            accepting = false;
+            inputIdx = 0;
+            window.MYSAK_WRONG = 0;
+            updateHud();
+            setState("", "Klikni na „Start“ a opakuj posloupnost barev.");
+            elStatus.textContent = "Zapamatuj si pořadí barev a klikni na ně ve stejném pořadí.";
+            try { GlobalTimer.reset(); } catch (e) {}
+        }
+
+        function showHelp() {
+            if (typeof popupWindow === "function") {
+                popupWindow(document.getElementById("help").innerHTML, 430, 320);
+            }
+        }
+
+        window.checkSolution = checkSolution;
+        window.gameReload = gameReload;
+        window.showHelp = showHelp;
+
+        /* ---------- pomocník pro test ---------- */
+        window.__seq = function () { return seq.slice(); };
+        window.__pressColor = function (c) {
+            var btn = buttons[c];
+            btn.click();
+        };
+
+        updateHud();
+        setState("", "Klikni na „Start“ a opakuj posloupnost barev.");
+    })();
+    </script>
+</body>
+</html>
