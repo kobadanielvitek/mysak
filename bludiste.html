@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bludiště myší | MYŠÁK na Vltavě</title>
+    <meta name="description" content="">
+
+    <script src="jquery/jquery-4.0.0.min.js"></script>
+    <script src="jquery/jquery-ui.min.js"></script>
+
+    <script src="js/timer-1.0.js"></script>
+    <script src="js/keyboard-1.0.js"></script>
+    <script src="js/fonts-1.0.js"></script>
+    <script src="js/stars-1.0.js"></script>
+
+    <script src="js/lib-2.0.js"></script>
+    <script src="js/lib-3.0.js?v=2"></script>
+
+    <style>
+        /* latin-ext */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2sACIlsw.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(theme/fonts/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2vgCI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+    </style>
+    <link rel="stylesheet" href="jquery/jquery-ui.min.css">
+    <link rel="stylesheet" href="theme/slider.css">
+    <link rel="stylesheet" href="theme/style.css">
+    <link rel="stylesheet" href="theme/theme.css">
+    <link rel="stylesheet" href="theme/kids.css?v=7">
+
+    <script>
+        var STARS;
+        var obtiznost_titles = ["Trochu těžší", "Středně těžké", "Náročnější", "Těžké", "Extrémně těžké"];
+    </script>
+
+    <style>
+        /* ==========================================================
+           Bludiště myší - projdi myší bez dotyku zdí
+           ========================================================== */
+
+        .kid-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 .6rem 1.2rem;
+        }
+
+        .kid-hud {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .8rem;
+            flex-wrap: wrap;
+            margin: 0 auto .9rem;
+        }
+
+        .kid-hud-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: .7rem;
+            padding: .5rem 1.1rem;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .07);
+            font-weight: 700;
+            font-size: clamp(.95rem, 2vw, 1.12rem);
+            letter-spacing: .015em;
+            color: var(--k-text);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .kid-hud-item b { font-size: 1.2em; font-weight: 900; }
+        #lbl_hits { color: var(--kid-secondary); }
+        #lbl_miss { color: var(--kid-danger); }
+        .kid-hud-total { opacity: .55; font-weight: 700; }
+        .kid-hud-sep { width: 1px; height: 1.35em; background: var(--k-card-border); }
+
+        .kid-hud-boxes { display: inline-flex; gap: .45rem; }
+        .kid-hud-box {
+            min-width: 2.9rem; height: 2.6rem; padding: 0 .55rem;
+            display: grid; place-items: center; border-radius: 13px;
+            background: linear-gradient(180deg, var(--k-surface-2), var(--k-surface));
+            border: 1px solid var(--k-card-border);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255,255,255,.07);
+            font-weight: 900; font-size: 1.3rem; line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+        .kid-hud-box.ok { color: var(--kid-secondary); }
+        .kid-hud-box.bad { color: var(--kid-danger); }
+
+        .kid-board {
+            width: 100%;
+            max-width: min(96vw, max(320px, calc(100vh - 200px)), 920px);
+            margin: 0 auto;
+            aspect-ratio: 1 / 1;
+        }
+
+        .kid-board canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 22px;
+            background: #0b0b14;
+            box-shadow: 0 20px 55px rgba(0, 0, 0, .62), 0 0 0 1px var(--k-card-border);
+            cursor: crosshair;
+            outline: none;
+            touch-action: none;
+        }
+
+        .kid-tip {
+            margin: .6rem 0 .4rem;
+            text-align: center;
+            color: var(--k-muted);
+            font-weight: 700;
+            font-size: clamp(.9rem, 1.9vw, 1.05rem);
+        }
+
+        #bottom_navi { margin-top: .3rem; gap: .8rem; flex-wrap: wrap; }
+
+        @media (max-width: 620px) {
+            .kid-hud-bar { padding: .45rem .85rem; gap: .5rem; }
+            .kid-hud-box { min-width: 2.5rem; height: 2.3rem; font-size: 1.15rem; }
+            .kid-board canvas { border-radius: 18px; }
+        }
+    </style>
+</head>
+<body id="ns__23">
+    <header>
+        <a href="index.html">
+            <strong>Malé etudy pro myš a klávesnici II.</strong>
+        </a>
+    </header>
+    <main>
+        <div class="whiteSpace" id="bludiste">
+            <h1>22. Bludiště myší <span id='h1_popis'></span></h1>
+
+            <div class="kid-wrap">
+
+                <div class="kid-hud">
+                    <div class="kid-hud-bar" aria-live="polite">
+                        <span class="kid-hud-item">Chyby: <b id="lbl_miss">0</b></span>
+                        <span class="kid-hud-sep" aria-hidden="true"></span>
+                        <span class="kid-hud-item">Čas: <b id="lbl_time2">0.0</b> s</span>
+                    </div>
+                    <div class="kid-hud-boxes" aria-hidden="true">
+                        <div class="kid-hud-box bad"><span id="box_bad">0</span></div>
+                    </div>
+                </div>
+
+                <div class="kid-board" id="board">
+                    <canvas id="game" width="600" height="600" tabindex="0" aria-label="Bludiště – dojeď myší do cíle"></canvas>
+                </div>
+
+                <p class="kid-tip" id="lbl_status">Vedej myší od STARTU k CÍLI, aniž bys narazil do zdi.</p>
+
+                <div class="flex flex-center align-center" id="bottom_navi">
+                    <div class="stars" data-pocet="5" data-continous="1"></div>
+                    <span class="stop_watch" id="lbl_time"></span>
+                </div>
+
+                <div id="help" style="display:none;">
+                    <div class="center">
+                        <h2>Nápověda</h2>
+                        <p>Projdi myší od <strong>STARTU</strong> (vlevo nahoře) k <strong>CÍLI</strong> (vpravo dole).</p>
+                        <p>Nesmíš se dotknout <strong>zdi</strong> – jinak se vrátíš na start a přibude chyba.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="final">
+            <div id="finalContent">
+                <h1 id="lbl_fin_title">JSI NEJLEPSI</h1>
+                <div id="fin_stars"></div>
+                <div id="lbl_fin_box">
+                    <canvas id="lbl_fin_time" class="time"></canvas>
+                </div>
+                <div id="fin_score" class="score-board" hidden>
+                    <div class="score-right"><canvas id="fin_right"></canvas></div>
+                    <div class="score-wrong"><canvas id="fin_wrong"></canvas></div>
+                </div>
+                <button class="button-19" type="button" id="btn_fin_restart">POKRACOVAT</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/kids.js?v=19"></script>
+    <script>
+    (function () {
+        "use strict";
+
+        var board = document.getElementById("board");
+        var canvas = document.getElementById("game");
+        var ctx = canvas.getContext("2d");
+
+        var elMiss = document.getElementById("lbl_miss");
+        var elBad = document.getElementById("box_bad");
+        var elTime2 = document.getElementById("lbl_time2");
+        var elStatus = document.getElementById("lbl_status");
+
+        var wrong = 0;
+        var won = false;
+        var started = false;
+        var W = 600, H = 600, DPR = 1;
+
+        // bludiště
+        var CELL = 0;
+        var COLS = 0, ROWS = 0;
+        var grid = [];   // grid[r][c] = {top,right,bottom,left}
+        var startX = 0, startY = 0;
+        var finishX = 0, finishY = 0;
+        var player = { x: 0, y: 0 };
+        var wallColor = "#1a1a2e";
+        var pathColor = "#2a2a40";
+
+        /* ---------- generování bludiště (recursive backtracking) ---------- */
+        function generateMaze() {
+            COLS = 15;
+            ROWS = 15;
+            CELL = Math.floor(Math.min(W, H) / (COLS + 1));
+            var offX = (W - COLS * CELL) / 2;
+            var offY = (H - ROWS * CELL) / 2;
+
+            grid = [];
+            for (var r = 0; r < ROWS; r++) {
+                grid[r] = [];
+                for (var c = 0; c < COLS; c++) {
+                    grid[r][c] = { top: true, right: true, bottom: true, left: true, visited: false };
+                }
+            }
+
+            // DFS
+            var stack = [];
+            var cur = { r: 0, c: 0 };
+            grid[0][0].visited = true;
+            stack.push(cur);
+            while (stack.length > 0) {
+                var last = stack[stack.length - 1];
+                var nbrs = [];
+                var dirs = [
+                    { dr: -1, dc: 0, wall: "top", opp: "bottom" },
+                    { dr: 1, dc: 0, wall: "bottom", opp: "top" },
+                    { dr: 0, dc: -1, wall: "left", opp: "right" },
+                    { dr: 0, dc: 1, wall: "right", opp: "left" }
+                ];
+                for (var i = 0; i < dirs.length; i++) {
+                    var d = dirs[i];
+                    var nr = last.r + d.dr, nc = last.c + d.dc;
+                    if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && !grid[nr][nc].visited) {
+                        nbrs.push({ dir: d, r: nr, c: nc });
+                    }
+                }
+                if (nbrs.length === 0) {
+                    stack.pop();
+                } else {
+                    var pick = nbrs[Math.floor(Math.random() * nbrs.length)];
+                    grid[last.r][last.c][pick.dir.wall] = false;
+                    grid[pick.r][pick.c][pick.dir.opp] = false;
+                    grid[pick.r][pick.c].visited = true;
+                    stack.push({ r: pick.r, c: pick.c });
+                }
+            }
+
+            startX = offX + CELL / 2;
+            startY = offY + CELL / 2;
+            finishX = offX + (COLS - 0.5) * CELL;
+            finishY = offY + (ROWS - 0.5) * CELL;
+            player.x = startX;
+            player.y = startY;
+            window.__maze = { grid: grid, COLS: COLS, ROWS: ROWS, CELL: CELL, offX: offX, offY: offY };
+        }
+
+        /* ---------- kreslení ---------- */
+        function draw() {
+            ctx.fillStyle = "#0b0b14";
+            ctx.fillRect(0, 0, W, H);
+
+            var m = window.__maze;
+            var cell = m.CELL, offX = m.offX, offY = m.offY;
+
+            // cesty (světlejší)
+            ctx.fillStyle = "#1a1a2e";
+            for (var r = 0; r < m.ROWS; r++) {
+                for (var c = 0; c < m.COLS; c++) {
+                    ctx.fillRect(offX + c * cell + 2, offY + r * cell + 2, cell - 4, cell - 4);
+                }
+            }
+
+            // zdi
+            ctx.strokeStyle = "#4a4a6a";
+            ctx.lineWidth = 4;
+            ctx.lineCap = "square";
+            for (var r = 0; r < m.ROWS; r++) {
+                for (var c = 0; c < m.COLS; c++) {
+                    var g = m.grid[r][c];
+                    var x = offX + c * cell;
+                    var y = offY + r * cell;
+                    if (g.top) { ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + cell, y); ctx.stroke(); }
+                    if (g.right) { ctx.beginPath(); ctx.moveTo(x + cell, y); ctx.lineTo(x + cell, y + cell); ctx.stroke(); }
+                    if (g.bottom) { ctx.beginPath(); ctx.moveTo(x, y + cell); ctx.lineTo(x + cell, y + cell); ctx.stroke(); }
+                    if (g.left) { ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + cell); ctx.stroke(); }
+                }
+            }
+
+            // start
+            ctx.fillStyle = "rgba(46,230,176,.25)";
+            ctx.fillRect(offX + 4, offY + 4, cell - 8, cell - 8);
+            ctx.fillStyle = "#2ee6b0";
+            ctx.font = "bold 11px Google Sans, sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("START", offX + cell / 2, offY + cell / 2);
+
+            // cíl
+            ctx.fillStyle = "rgba(139,124,255,.25)";
+            ctx.fillRect(offX + (m.COLS - 1) * cell + 4, offY + (m.ROWS - 1) * cell + 4, cell - 8, cell - 8);
+            ctx.fillStyle = "#8b7cff";
+            ctx.fillText("CÍL", offX + (m.COLS - 0.5) * cell, offY + (m.ROWS - 0.5) * cell);
+
+            // hráč
+            if (!won) {
+                ctx.fillStyle = "#ffd166";
+                ctx.beginPath();
+                ctx.arc(player.x, player.y, 7, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = "#fff";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        /* ---------- rozměry ---------- */
+        function resize() {
+            var rect = board.getBoundingClientRect();
+            var cssW = Math.round(rect.width) || 600;
+            var cssH = Math.round(rect.height) || cssW;
+            W = Math.max(260, cssW);
+            H = Math.max(260, cssH);
+            DPR = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = Math.round(W * DPR);
+            canvas.height = Math.round(H * DPR);
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+            generateMaze();
+            draw();
+        }
+
+        /* ---------- kolize se zdí (vzorkování pixelů) ---------- */
+        function isWall(x, y) {
+            var m = window.__maze;
+            var cell = m.CELL, offX = m.offX, offY = m.offY;
+            // hráč musí být uvnitř herní plochy
+            if (x < offX || y < offY || x > offX + m.COLS * cell || y > offY + m.ROWS * cell) return true;
+            var c = Math.floor((x - offX) / cell);
+            var r = Math.floor((y - offY) / cell);
+            if (c < 0 || c >= m.COLS || r < 0 || r >= m.ROWS) return true;
+            var g = m.grid[r][c];
+            var lx = x - (offX + c * cell);
+            var ly = y - (offY + r * cell);
+            var margin = 3;
+            if (g.top && ly < margin) return true;
+            if (g.bottom && ly > cell - margin) return true;
+            if (g.left && lx < margin) return true;
+            if (g.right && lx > cell - margin) return true;
+            return false;
+        }
+
+        function resetPlayer() {
+            var m = window.__maze;
+            player.x = m.offX + m.CELL / 2;
+            player.y = m.offY + m.CELL / 2;
+            wrong++;
+            elBad.textContent = wrong;
+            elMiss.textContent = wrong;
+            window.MYSAK_WRONG = wrong;
+            if (window.kidSound) window.kidSound.bad();
+            elStatus.textContent = "Narazil jsi do zdi – zpátky na start. Chyby: " + wrong;
+        }
+
+        /* ---------- pohyb myši ---------- */
+        canvas.addEventListener("mousemove", function (e) {
+            if (won) return;
+            if (!started) {
+                started = true;
+                try { GlobalTimer.start(); } catch (err) {}
+            }
+            var rect = canvas.getBoundingClientRect();
+            if (!rect.width) return;
+            var x = (e.clientX - rect.left) * (W / rect.width);
+            var y = (e.clientY - rect.top) * (H / rect.height);
+
+            // zkontroluj kolizi v několika bodech kolem hráče
+            var r = 6;
+            var pts = [[0,0],[r,0],[-r,0],[0,r],[0,-r],[r*0.7,r*0.7],[-r*0.7,r*0.7],[r*0.7,-r*0.7],[-r*0.7,-r*0.7]];
+            var hit = false;
+            for (var i = 0; i < pts.length; i++) {
+                if (isWall(x + pts[i][0], y + pts[i][1])) { hit = true; break; }
+            }
+            if (hit) {
+                resetPlayer();
+                draw();
+                return;
+            }
+            player.x = x;
+            player.y = y;
+
+            // cíl?
+            var m = window.__maze;
+            var dx = player.x - (m.offX + (m.COLS - 0.5) * m.CELL);
+            var dy = player.y - (m.offY + (m.ROWS - 0.5) * m.CELL);
+            if (Math.sqrt(dx * dx + dy * dy) < m.CELL * 0.45) {
+                win();
+            }
+            draw();
+        });
+
+        function win() {
+            won = true;
+            elStatus.textContent = "Vyhrál jsi! 🎉";
+            if (window.kidSound) window.kidSound.win();
+            try { GlobalTimer.stop(); } catch (e) {}
+            if (typeof fin === "function") fin();
+        }
+
+        /* ---------- HUD ---------- */
+        function updateHud() {
+            elMiss.textContent = wrong;
+            elBad.textContent = wrong;
+            window.MYSAK_WRONG = wrong;
+        }
+
+        /* ---------- napojení ---------- */
+        function checkSolution() { return won; }
+
+        function gameReload() {
+            wrong = 0;
+            won = false;
+            started = false;
+            window.MYSAK_WRONG = 0;
+            resize();
+            elMiss.textContent = 0;
+            elBad.textContent = 0;
+            elStatus.textContent = "Vedej myší od STARTU k CÍLI, aniž bys narazil do zdi.";
+            try { GlobalTimer.reset(); } catch (e) {}
+        }
+
+        function showHelp() {
+            if (typeof popupWindow === "function") {
+                popupWindow(document.getElementById("help").innerHTML, 430, 300);
+            }
+        }
+
+        window.checkSolution = checkSolution;
+        window.gameReload = gameReload;
+        window.showHelp = showHelp;
+
+        /* ---------- start ---------- */
+        resize();
+        updateHud();
+        draw();
+
+        window.addEventListener("resize", function () { resize(); });
+        window.addEventListener("orientationchange", function () {
+            setTimeout(function () { resize(); }, 150);
+        });
+
+        if (window.ResizeObserver) {
+            try { new ResizeObserver(function () { resize(); }).observe(board); } catch (e) {}
+        }
+    })();
+    </script>
+</body>
+</html>
